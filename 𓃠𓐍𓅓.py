@@ -97,6 +97,10 @@ class 𓉔:
     𓃥𓎿 = 2
     # 🐦🏆  bonus  (🐈🕊️😋 → +🏆)
     𓅯 = 7
+    # 🧶  distract ⏳ turns  (🐕💨🎾 not 🐈)
+    𓋬 = 3
+    # 🧶  🐕👀🎾 sight 📐 (chebyshev) range
+    𓋫 = 4
 
     def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
                  𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True):
@@ -128,6 +132,9 @@ class 𓉔:
         self.𓅮 = 0                             # 🐦😋 (birds caught)
         self.𓄊 = False                         # 🎯😻
         self.𓊍 = 1                             # 🎚️ 🌊 level
+        self.𓋭: tuple[int, int] | None = None  # 🧶🎾 yarn
+        self.𓋮 = 0                             # ⏳ 🧶 distract countdown
+        self.𓋯 = False                         # 🧶×1 thrown flag
 
     # ─────────── 🧱🗺️ ───────────
     def 𓆵(self, 𓈖: int) -> None:
@@ -227,14 +234,23 @@ class 𓉔:
         return 𓆓
 
     def 𓂷(self, 𓊍: str) -> bool:
-        # 🐈 🐾  →  🐭💨  →  🎯❓
+        # 🐈 🐾 (or 🧶 throw) →  🐭💨  →  🎯❓
+        𓋢 = 𓊍 == "🧶"                    # 🧶 throw intent → 🐾 stay
+        if 𓋢:
+            𓊍 = "🐾"
         if 𓊍 not in 𓂃:
             return False
         self.𓏰 += 1
         if self.𓊰 > 0:                   # ⚡⏳ tick
             self.𓊰 -= 1
+        if self.𓋮 > 0:                   # 🧶⏳ tick → 💨 gone
+            self.𓋮 -= 1
+            if self.𓋮 == 0:
+                self.𓋭 = None
         𓋉 = self.𓃠                       # 📍 prev
         self.𓃠 = self.𓎚(self.𓎗(self.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 + 🕳️➡️🕳️
+        if 𓋢:                            # 🧶 throw 🎾 📍🐈  (after 🐾 stay)
+            self.𓋰()
         if self.𓃠 == self.𓁉:            # 😻🎯
             self.𓄊 = True
             return True
@@ -267,10 +283,21 @@ class 𓉔:
             self.𓄊 = True
         return self.𓄊
 
+    def 𓋰(self) -> None:
+        # 🧶 throw :  🎾 📍🐈  (×1 / 🎮 , 🚫🧱)  → 🐕 distract ⏳
+        if self.𓋯 or self.𓃠 in self.𓊵:
+            return
+        self.𓋭 = self.𓃠
+        self.𓋮 = self.𓋬                 # ⏳ armed
+        self.𓋯 = True                    # ×1 spent
+
     def 𓃥𓎗(self) -> None:
         # 🐕🧠 :  BFS 1️⃣🐾 →🐈 .  🐕👉🐈 → 😿 :  🐈🌀 safe restart , 🐕🎲 far
         if self.𓃥 is None:
             return
+        if self.𓋭 is not None and 𓎉(self.𓃥, self.𓋭) <= self.𓋫:
+            self.𓃥 = self.𓊐(self.𓃥, self.𓋭)   # 🧶 distract : 💨🎾 , 🚫💨🐈
+            return                        # 🚫 bonk while 🧶
         self.𓃥 = self.𓊐(self.𓃥, self.𓃠)
         if self.𓃥 == self.𓃠:            # 😿  bonk!
             self.𓊟 += 1
@@ -337,6 +364,8 @@ class 𓉔:
                     𓂐.append("🐕")
                 elif 𓅘 == self.𓅱:
                     𓂐.append("🐦")
+                elif 𓅘 == self.𓋭:
+                    𓂐.append("🎾")
                 elif 𓅘 == self.𓇬:
                     𓂐.append("🧀")
                 elif 𓅘 == self.𓆛:
@@ -380,6 +409,22 @@ def 𓎎(𓉔𓏤: 𓉔) -> dict:
     }
 
 
+# ─────────── 🌈 🎨📺 ───────────
+𓋊𓊞 = {   # 🀄 → ANSI 🎨  (🟩🌿 , 🟥🐕 , 🟦🥛 , 🟨🧀 …)
+    "🐈": "35", "🐭": "37", "🐕": "31", "🐦": "36", "🎾": "95",
+    "🧀": "33", "🐟": "94", "🥛": "34", "🕳️": "95", "🧱": "90", "🟩": "32",
+}
+
+
+def 𓋊(𓊞: str, 𓋉: bool = False) -> str:
+    # 🌈  🀄 → ANSI wrap  (🚫⚑ → 📺 ↔️ plain , 🚫💥 🖼️👴)
+    if not 𓋉:
+        return 𓊞
+    for 𓅕, 𓂭 in 𓋊𓊞.items():
+        𓊞 = 𓊞.replace(𓅕, f"\033[{𓂭}m{𓅕}\033[0m")
+    return 𓊞
+
+
 # ─────────── 🎚️ 🌊 difficulty ───────────
 𓊆𓈖 = 9   # 🌊 max 🎚️  (levels 1️⃣..9️⃣)
 
@@ -402,17 +447,17 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None) -> 𓉔:
     return 𓉔𓏤
 
 
-def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1) -> 𓉔:
-    # 🤖🎬  🐈💨🐭  (auto)  @ 🎚️ 🌊
+def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False) -> 𓉔:
+    # 🤖🎬  🐈💨🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional
     𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤))
     print(f"😺🎬  🎚️{𓉔𓏤.𓊍}")
-    print(𓉔𓏤.𓁐())
+    print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     for _ in range(𓏲):
         𓆳 = 𓊄(𓉔𓏤)
         if 𓉔𓏤.𓂷(𓆳):
             break
     print("┈┈┈┈┈┈┈┈┈┈┈")
-    print(𓉔𓏤.𓁐())
+    print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
         print("┈┈┈┈┈┈┈┈┈┈┈")
@@ -422,13 +467,14 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1) -> 𓉔:
     return 𓉔𓏤
 
 
-def 𓊪𓏰(𓊍: int = 1):
-    # 🕹️  🐈  ⬆️⬇️⬅️➡️🐾   🙀=🚪   @ 🎚️ 🌊
+def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False):
+    # 🕹️  🐈  ⬆️⬇️⬅️➡️🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 optional
     𓉔𓏤 = 𓊆(𓊍)
-    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⬆️⬇️⬅️➡️🐾   🙀=🚪")
+    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓄊:
-        print(𓉔𓏤.𓁐())
-        print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉} 🐕{𓉔𓏤.𓃥} 🐦{𓉔𓏤.𓅱}  ⚡{𓉔𓏤.𓊰}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}")
+        print(𓋊(𓉔𓏤.𓁐(), 𓋉))
+        𓋛 = "🚧" if 𓉔𓏤.𓋯 else "🎾"
+        print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉} 🐕{𓉔𓏤.𓃥} 🐦{𓉔𓏤.𓅱}  ⚡{𓉔𓏤.𓊰}  🧶{𓋛}{𓉔𓏤.𓋮}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}")
         try:
             𓊍 = input("🐾❓ ").strip()
         except (EOFError, KeyboardInterrupt):
@@ -437,11 +483,11 @@ def 𓊪𓏰(𓊍: int = 1):
         if 𓊍 in ("🙀", "🚪", "q"):
             print("👋😼")
             return
-        if 𓊍 not in 𓂃:
+        if 𓊍 not in 𓂃 and 𓊍 != "🧶":
             print("🤔❓")
             continue
         𓉔𓏤.𓂷(𓊍)
-    print(𓉔𓏤.𓁐())
+    print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
     print("┈┈┈┈┈┈┈┈┈┈┈")
     print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
@@ -460,8 +506,10 @@ def 𓊆𓂺(𓊾: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    𓊍𓏤 = 𓊆𓂺(sys.argv[1:])
-    if len(sys.argv) > 1 and sys.argv[1] in ("🤖", "🎬", "--🤖"):
-        𓆲(𓊍=𓊍𓏤)
+    𓊾 = sys.argv[1:]
+    𓊍𓏤 = 𓊆𓂺(𓊾)
+    𓋉𓏤 = "🌈" in 𓊾                                    # ⚑🌈
+    if any(𓅕 in ("🤖", "🎬", "--🤖") for 𓅕 in 𓊾):
+        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤)
     else:
-        𓊪𓏰(𓊍𓏤)
+        𓊪𓏰(𓊍𓏤, 𓋉𓏤)
