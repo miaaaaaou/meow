@@ -1,7 +1,7 @@
-# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾
-# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🧱 … 🎯 → 😻😹😼
+# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾 + 🐦🕊️
+# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🐦💨 … 🧱 … 🎯 → 😻😹😼
 #
-# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓇬🧀  𓊵🧱  𓊟😿
+# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅢🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅨🐦😋
 from __future__ import annotations
 import sys
 import random
@@ -48,8 +48,12 @@ class 𓉔:
     𓃥𓊞 = 5
     # 🐕💨  half-speed  (🐈🏃 head-start)  →  moves every 2️⃣ turns
     𓃥𓎿 = 2
+    # 🐦👀  skittish sense 📏  (flees early)
+    𓅢𓋴 = 4
+    # 🐦🏆  bonus per 😋
+    𓅢𓊙 = 8
 
-    def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9, 𓃥𓁋: bool = True):
+    def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9, 𓃥𓁋: bool = True, 𓅢𓁋: bool = True):
         self.𓊃 = 𓊃 or random.Random()
         self.𓃠 = (0, 0)                        # 🐈
         self.𓁉 = (𓈖𓊪 - 1, 𓈖𓏏 - 1)          # 🐭
@@ -61,6 +65,10 @@ class 𓉔:
         self.𓃥: tuple[int, int] | None = None  # 🐕
         if 𓃥𓁋:
             self.𓃥 = self.𓃥𓆙()               # 🐕🎲 far
+        self.𓅢: tuple[int, int] | None = None  # 🐦
+        if 𓅢𓁋:
+            self.𓅢 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥))  # 🐦🎲
+        self.𓅨 = 0                             # 🐦😋 (birds caught)
         self.𓏰 = 0                             # ⏱️
         self.𓊚 = 0                             # 😮‍💨 (🐭 fatigue)
         self.𓊛 = 0                             # 🐟😋 (fish eaten)
@@ -168,14 +176,17 @@ class 𓉔:
             self.𓄊 = True
             return True
         if self.𓃠 == self.𓇬:            # 🧀😋
-            self.𓇬 = self.𓆙((self.𓆛, self.𓊮, self.𓃥))
+            self.𓇬 = self.𓆙((self.𓆛, self.𓊮, self.𓃥, self.𓅢))
         if self.𓃠 == self.𓆛:            # 🐟😋
             self.𓊛 += 1
-            self.𓆛 = self.𓆙((self.𓇬, self.𓊮, self.𓃥))
+            self.𓆛 = self.𓆙((self.𓇬, self.𓊮, self.𓃥, self.𓅢))
         if self.𓃠 == self.𓊮:            # 🥛😋 → ⚡
             self.𓊳 += 1
             self.𓊰 = self.𓋨
-            self.𓊮 = self.𓆙((self.𓇬, self.𓆛, self.𓃥))
+            self.𓊮 = self.𓆙((self.𓇬, self.𓆛, self.𓃥, self.𓅢))
+        if self.𓃠 == self.𓅢:            # 🐦😋 → 🏆
+            self.𓅨 += 1
+            self.𓅢 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥))
         if self.𓊰 > 0:                   # 🥛⚡  🐈🎯🐭 from afar
             𓂭 = self.𓃰(self.𓃠)
             if 𓂭.get(self.𓁉, 999) <= self.𓋩:
@@ -187,9 +198,28 @@ class 𓉔:
             return self.𓄊
         if self.𓃥 is not None and self.𓏰 % self.𓃥𓎿 == 0:
             self.𓃥𓎗()                   # 🐕💨🐈  (half-speed)
+        if self.𓅢 is not None:
+            self.𓅢𓎗()                   # 🐦💨  (every turn)
         if self.𓃠 == self.𓁉:            # 😹  (🐕 nudge → 🐭?)
             self.𓄊 = True
         return self.𓄊
+
+    def 𓅢𓎗(self) -> None:
+        # 🐦🧠 :  🐈 near (📏≤𓅢𓋴) → 😱💨 max 📏🐈 (greedy, 🧱 can corner) ; else 😌 wander
+        if self.𓅢 is None:
+            return
+        𓊾 = sorted(self.𓊇𓈎(self.𓅢))
+        if 𓐍(self.𓃠, self.𓅢) <= self.𓅢𓋴:
+            𓅑 = self.𓅢
+            𓅒 = 𓐍(self.𓃠, self.𓅢)
+            for 𓆓 in 𓊾:                   # 😱  flee → 📏🐈 max
+                𓊈 = 𓐍(self.𓃠, 𓆓)
+                if 𓊈 > 𓅒:
+                    𓅒 = 𓊈
+                    𓅑 = 𓆓
+            self.𓅢 = 𓅑
+            return
+        self.𓅢 = self.𓊃.choice([self.𓅢] + 𓊾)  # 😌  wander (🚫 predictable)
 
     def 𓃥𓎗(self) -> None:
         # 🐕🧠 :  BFS 1️⃣🐾 →🐈 .  🐕👉🐈 → 😿 :  🐈🌀 safe restart , 🐕🎲 far
@@ -224,8 +254,9 @@ class 𓉔:
         return self.𓊐(𓅐, self.𓇬)
 
     def 𓊙(self) -> int:
-        # 🏆  ⚡fast + 🐟bonus + 🥛bonus − 😿penalty  (🐕 bonks hurt)
-        return max(0, 100 - self.𓏰 - 10 * self.𓊟) + 5 * self.𓊛 + 3 * self.𓊳
+        # 🏆  ⚡fast + 🐟 + 🥛 + 🐦 − 😿  (🐕 bonks hurt)
+        return (max(0, 100 - self.𓏰 - 10 * self.𓊟)
+                + 5 * self.𓊛 + 3 * self.𓊳 + self.𓅢𓊙 * self.𓅨)
 
     def 𓁐(self) -> str:
         # 🖼️  🗺️
@@ -240,6 +271,8 @@ class 𓉔:
                     𓂐.append("🐭")
                 elif 𓅘 == self.𓃥:
                     𓂐.append("🐕")
+                elif 𓅘 == self.𓅢:
+                    𓂐.append("🐦")
                 elif 𓅘 == self.𓇬:
                     𓂐.append("🧀")
                 elif 𓅘 == self.𓆛:
@@ -282,7 +315,7 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200) -> 𓉔:
     print("┈┈┈┈┈┈┈┈┈┈┈")
     print(𓉔𓏤.𓁐())
     if 𓉔𓏤.𓄊:
-        print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
+        print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅨}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
     else:
         print("🙀💨  meow…")
     return 𓉔𓏤
@@ -294,7 +327,7 @@ def 𓊪𓏰():
     print("😺🕹️  ⬆️⬇️⬅️➡️🐾   🙀=🚪")
     while not 𓉔𓏤.𓄊:
         print(𓉔𓏤.𓁐())
-        print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉} 🐕{𓉔𓏤.𓃥}  ⚡{𓉔𓏤.𓊰}  😿×{𓉔𓏤.𓊟}")
+        print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉} 🐕{𓉔𓏤.𓃥} 🐦{𓉔𓏤.𓅢}  ⚡{𓉔𓏤.𓊰}  🐦×{𓉔𓏤.𓅨} 😿×{𓉔𓏤.𓊟}")
         try:
             𓊍 = input("🐾❓ ").strip()
         except (EOFError, KeyboardInterrupt):
@@ -308,7 +341,7 @@ def 𓊪𓏰():
             continue
         𓉔𓏤.𓂷(𓊍)
     print(𓉔𓏤.𓁐())
-    print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
+    print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅨}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
 
 
 if __name__ == "__main__":

@@ -100,11 +100,14 @@ def 𓊪𓊙():
     𓋁.𓊛 = 3
     𓋁.𓊳 = 2
     𓋁.𓊟 = 0
-    assert 𓋁.𓊙() == 90 + 15 + 6   # (100-10) + 5×3 + 3×2
-    𓋁.𓊟 = 2                        # 😿×2 → −20
-    assert 𓋁.𓊙() == 70 + 15 + 6   # (100-10-20) + 15 + 6
+    𓋁.𓅨 = 0
+    assert 𓋁.𓊙() == 90 + 15 + 6        # (100-10) + 5×3 + 3×2
+    𓋁.𓅨 = 2                             # 🐦×2 → +16
+    assert 𓋁.𓊙() == 90 + 15 + 6 + 16
+    𓋁.𓊟 = 2                             # 😿×2 → −20
+    assert 𓋁.𓊙() == 70 + 15 + 6 + 16   # (100-10-20) + 15 + 6 + 16
     𓋁.𓏰 = 250
-    assert 𓋁.𓊙() == 0 + 15 + 6    # 🚧 ≥0
+    assert 𓋁.𓊙() == 0 + 15 + 6 + 16    # 🚧 ≥0
 
 
 def 𓊪𓃥():
@@ -169,6 +172,51 @@ def 𓊪𓁋():
     assert 𓋁.𓊟 == 0
 
 
+def 𓊪𓅢():
+    # 🐦🎲  spawn : 🔗🟩 , ≠ 🐈🐭🧀🐟🥛🐕
+    for 𓊃 in range(30):
+        𓋁 = 𓅓.𓉔(random.Random(𓊃))
+        assert 𓋁.𓅢 is not None
+        assert 𓋁.𓅢 in 𓋁.𓃰(𓋁.𓃠)              # 🔗🟩
+        assert 𓋁.𓅢 not in (𓋁.𓃠, 𓋁.𓁉, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥)
+
+
+def 𓊪𓅢𓎗():
+    # 🐦😱  flee : 🐈 near (📏≤𓅢𓋴) → 📏🐈 grows
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓅢 = (5, 6)                              # 📏=1 ≤ 𓅢𓋴
+    𓋁.𓅢𓎗()
+    assert 𓋁.𓅢 != (5, 6)                      # 💨 moved
+    assert 𓅓.𓐍(𓋁.𓃠, 𓋁.𓅢) >= 2              # 🔼 farther
+
+
+def 𓊪𓅨():
+    # 🐦😋  → 𓅨+1 + 🎲 respawn  (+🏆)
+    𓋁 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False)
+    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓃠 = (2, 2)
+    𓋁.𓇬 = (9, 0)
+    𓋁.𓆛 = (9, 1)
+    𓋁.𓊮 = (9, 2)
+    𓋁.𓅢 = (3, 2)         # 🐦 →➡️
+    𓋁.𓂷("➡️")
+    assert 𓋁.𓅨 == 1                # 😋+1
+    assert 𓋁.𓅢 is not None         # 🎲 respawn
+
+
+def 𓊪𓅢𓁋():
+    # 🚫🐦  off : 𓅢=None , 🚫 render , 🐈 still 😻
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓅢𓁋=False)
+    assert 𓋁.𓅢 is None
+    assert "🐦" not in 𓋁.𓁐()
+    for _ in range(500):
+        if 𓋁.𓂷(𓅓.𓊄(𓋁)):
+            break
+    assert 𓋁.𓄊 is True
+    assert 𓋁.𓅨 == 0
+
+
 def 𓊪𓁐():
     # 🖼️  🗺️ 📐
     𓋁 = 𓅓.𓉔(random.Random(0))
@@ -180,6 +228,7 @@ def 𓊪𓁐():
     assert "🐟" in 𓋁.𓁐()      # 🐟 drawn
     assert "🥛" in 𓋁.𓁐()      # 🥛 drawn
     assert "🐕" in 𓋁.𓁐()      # 🐕 drawn
+    assert "🐦" in 𓋁.𓁐()      # 🐦 drawn
 
 
 def 𓊪𓋴():
@@ -231,7 +280,8 @@ def 𓊪𓊰():
 
 
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
-     𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋]
+     𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
+     𓊪𓅢, 𓊪𓅢𓎗, 𓊪𓅨, 𓊪𓅢𓁋]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
