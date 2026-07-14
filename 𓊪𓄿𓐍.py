@@ -1,9 +1,11 @@
-# 🐈✅🐭 — 𓊪𓄿  ✨  🧱 + 🧭 BFS + 🪝😾
+# 🐈✅🐭 — 𓊪𓄿  ✨  🧱 + 🧭 BFS + 🪝😾 + 💾🏆
 import importlib.util as 𓇓
 import json
+import os
 import random
 import subprocess
 import sys
+import tempfile
 
 𓊒 = 𓇓.spec_from_file_location("𓅓", "𓃠𓐍𓅓.py")
 𓅓 = 𓇓.module_from_spec(𓊒)
@@ -343,6 +345,67 @@ def 𓊪𓎛𓁋():
     assert 𓋁.𓄊 is True
 
 
+def 𓊪𓎋():
+    # 💾📥  missing 🛤️ → 📜🕳️  ; 🙀💔 json → 📜🕳️
+    𓊪𓉏 = os.path.join(tempfile.gettempdir(), "🚫👻.json")
+    if os.path.exists(𓊪𓉏):
+        os.remove(𓊪𓉏)
+    assert 𓅓.𓎋(𓊪𓉏) == []
+    with open(𓊪𓉏, "w", encoding="utf-8") as 𓆑:
+        𓆑.write("🙀🚫json")
+    assert 𓅓.𓎋(𓊪𓉏) == []          # 💔 → 📜🕳️
+    os.remove(𓊪𓉏)
+
+
+def 𓊪𓎌():
+    # 💾📤  add → sort 🔽🏆 → ✂️ top-N → 💾 persist
+    with tempfile.TemporaryDirectory() as 𓊭:
+        𓊪𓉏 = os.path.join(𓊭, "🏆.json")
+        𓅓.𓎌({"🏆": 50, "⏱️": 20}, 𓊪𓉏)
+        𓅓.𓎌({"🏆": 90, "⏱️": 10}, 𓊪𓉏)
+        𓂏 = 𓅓.𓎌({"🏆": 70, "⏱️": 30}, 𓊪𓉏)
+        assert [𓅘["🏆"] for 𓅘 in 𓂏] == [90, 70, 50]   # 🔽🏆
+        # 💾 persist ↔️ reload
+        assert [𓅘["🏆"] for 𓅘 in 𓅓.𓎋(𓊪𓉏)] == [90, 70, 50]
+        # ✂️ top-N
+        for 𓇋 in range(20):
+            𓅓.𓎌({"🏆": 𓇋, "⏱️": 0}, 𓊪𓉏, 𓈖=3)
+        𓂐 = 𓅓.𓎋(𓊪𓉏)
+        assert len(𓂐) == 3
+        assert [𓅘["🏆"] for 𓅘 in 𓂐] == [90, 70, 50]
+        # tie 🏆 → 🔼⏱️ first
+        𓅓.𓎌({"🏆": 90, "⏱️": 5}, 𓊪𓉏, 𓈖=5)
+        𓂑 = 𓅓.𓎋(𓊪𓉏)
+        assert 𓂑[0] == {"🏆": 90, "⏱️": 5}     # ⏱️5 < ⏱️10
+
+
+def 𓊪𓎍():
+    # 🖼️  📜🔝 render  : 🕳️ → 📜🕳️ ; 🎁 → rank + 🏆
+    assert 𓅓.𓎍([]) == "📜🕳️"
+    𓊮 = 𓅓.𓎍([{"🏆": 88, "⏱️": 12, "🐟": 2, "🥛": 1, "🐦": 3, "😿": 0}])
+    assert "🏆📜🔝" in 𓊮
+    assert "1." in 𓊮
+    assert "🏆88" in 𓊮
+    assert "🐦3" in 𓊮
+
+
+def 𓊪𓎎():
+    # 📇  🎮 → 📜 record  (🏆⏱️🐟🥛🐦😿)
+    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓋁.𓏰 = 12
+    𓋁.𓊛 = 3
+    𓋁.𓊳 = 1
+    𓋁.𓅮 = 2
+    𓋁.𓊟 = 1
+    𓆳 = 𓅓.𓎎(𓋁)
+    assert 𓆳["🏆"] == 𓋁.𓊙()
+    assert 𓆳["⏱️"] == 12
+    assert 𓆳["🐟"] == 3
+    assert 𓆳["🥛"] == 1
+    assert 𓆳["🐦"] == 2
+    assert 𓆳["😿"] == 1
+
+
 def 𓊪𓆓():
     # 🪝😾  🗣️🔤👀 → 📜 ↔️ + 🏷️   (🚫🎭📜)
     assert 𓆦.𓁐("meow mrrr prrr hisss nya") == "meow mrrr prrr hisss nya"
@@ -395,6 +458,7 @@ def 𓊪𓆓𓂭():
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
+     𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓆓, 𓊪𓆓𓂭]
 
 if __name__ == "__main__":
