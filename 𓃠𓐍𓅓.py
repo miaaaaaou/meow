@@ -48,8 +48,10 @@ class 𓉔:
         self.𓊵: set[tuple[int, int]] = set()   # 🧱
         self.𓆵(𓊵𓈖)                            # 🧱🎲
         self.𓇬 = self.𓆙()                     # 🧀
+        self.𓆛 = self.𓆙((self.𓇬,))            # 🐟
         self.𓏰 = 0                             # ⏱️
         self.𓊚 = 0                             # 😮‍💨 (🐭 fatigue)
+        self.𓊛 = 0                             # 🐟😋 (fish eaten)
         self.𓄊 = False                         # 🎯😻
 
     # ─────────── 🧱🗺️ ───────────
@@ -112,10 +114,11 @@ class 𓉔:
         return 𓂊𓈎.get((𓃀[0] - 𓄿[0], 𓃀[1] - 𓄿[1]), "🐾")
 
     # ─────────── 📍🎲 ───────────
-    def 𓆙(self) -> tuple[int, int]:
-        # 🎲 📍  🟩  🔗  ≠🐈🐭
+    def 𓆙(self, 𓊫: tuple[tuple[int, int], ...] = ()) -> tuple[int, int]:
+        # 🎲 📍  🟩  🔗  ≠🐈🐭  ≠𓊫
         𓂭 = self.𓃰(self.𓃠)
-        𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in (self.𓃠, self.𓁉))
+        𓆊 = {self.𓃠, self.𓁉, *𓊫}
+        𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in 𓆊)
         if not 𓊾:
             return self.𓁉
         return self.𓊃.choice(𓊾)
@@ -137,7 +140,10 @@ class 𓉔:
             self.𓄊 = True
             return True
         if self.𓃠 == self.𓇬:            # 🧀😋
-            self.𓇬 = self.𓆙()
+            self.𓇬 = self.𓆙((self.𓆛,))
+        if self.𓃠 == self.𓆛:            # 🐟😋
+            self.𓊛 += 1
+            self.𓆛 = self.𓆙((self.𓇬,))
         self.𓁉 = self.𓅓𓎗()             # 🐭💨
         if self.𓃠 == self.𓁉:            # 😹
             self.𓄊 = True
@@ -165,6 +171,10 @@ class 𓉔:
         self.𓊚 = 0
         return self.𓊐(𓅐, self.𓇬)
 
+    def 𓊙(self) -> int:
+        # 🏆  ⚡fast + 🐟bonus
+        return max(0, 100 - self.𓏰) + 5 * self.𓊛
+
     def 𓁐(self) -> str:
         # 🖼️  🗺️
         𓂏 = []
@@ -178,6 +188,8 @@ class 𓉔:
                     𓂐.append("🐭")
                 elif 𓅘 == self.𓇬:
                     𓂐.append("🧀")
+                elif 𓅘 == self.𓆛:
+                    𓂐.append("🐟")
                 elif 𓅘 in self.𓊵:
                     𓂐.append("🧱")
                 else:
@@ -204,7 +216,7 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200) -> 𓉔:
     print("┈┈┈┈┈┈┈┈┈┈┈")
     print(𓉔𓏤.𓁐())
     if 𓉔𓏤.𓄊:
-        print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  prrr~")
+        print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🏆={𓉔𓏤.𓊙()}  prrr~")
     else:
         print("🙀💨  meow…")
     return 𓉔𓏤
@@ -230,7 +242,7 @@ def 𓊪𓏰():
             continue
         𓉔𓏤.𓂷(𓊍)
     print(𓉔𓏤.𓁐())
-    print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  prrr~")
+    print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🏆={𓉔𓏤.𓊙()}  prrr~")
 
 
 if __name__ == "__main__":
