@@ -1,10 +1,11 @@
-# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨
-# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🎯 → 😻😹😼
+# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS
+# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🧱 … 🎯 → 😻😹😼
 #
-# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓇬🧀
+# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓇬🧀  𓊵🧱
 from __future__ import annotations
 import sys
 import random
+from collections import deque
 
 # 🗺️ 📐
 𓈖𓊪 = 11   # ↔️
@@ -19,6 +20,9 @@ import random
     "🐾": (0, 0),
 }
 
+# 🔄  Δ → 🧭
+𓂊𓈎 = {(0, -1): "⬆️", (0, +1): "⬇️", (-1, 0): "⬅️", (+1, 0): "➡️", (0, 0): "🐾"}
+
 
 def 𓎘(𓆼: int, 𓊝: int) -> int:
     # 🚧  0 … 𓊝-1
@@ -26,28 +30,102 @@ def 𓎘(𓆼: int, 𓊝: int) -> int:
 
 
 def 𓐍(𓄿: tuple[int, int], 𓃀: tuple[int, int]) -> int:
-    # 📏  (|Δ↔️| + |Δ↕️|)
+    # 📏  (|Δ↔️| + |Δ↕️|)   (manhattan)
     return abs(𓄿[0] - 𓃀[0]) + abs(𓄿[1] - 𓃀[1])
 
 
 class 𓉔:
-    # 🏠🎮  🐈💨🐭
-    def __init__(self, 𓊃: random.Random | None = None):
+    # 🏠🎮  🐈💨🐭  🧱
+    # 👀  🐈 near → 🐭😱
+    𓋴 = 3
+    # 💨💨💨 → 💤  (🐭 stamina)
+    𓎿 = 4
+
+    def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9):
         self.𓊃 = 𓊃 or random.Random()
         self.𓃠 = (0, 0)                        # 🐈
         self.𓁉 = (𓈖𓊪 - 1, 𓈖𓏏 - 1)          # 🐭
+        self.𓊵: set[tuple[int, int]] = set()   # 🧱
+        self.𓆵(𓊵𓈖)                            # 🧱🎲
         self.𓇬 = self.𓆙()                     # 🧀
         self.𓏰 = 0                             # ⏱️
         self.𓊚 = 0                             # 😮‍💨 (🐭 fatigue)
         self.𓄊 = False                         # 🎯😻
 
+    # ─────────── 🧱🗺️ ───────────
+    def 𓆵(self, 𓈖: int) -> None:
+        # 🧱🎲  …  🐈↔️🐭 must stay 🔗  (connected)
+        𓆖 = [(𓊪, 𓏏) for 𓊪 in range(𓈖𓊪) for 𓏏 in range(𓈖𓏏)]
+        for _ in range(60):
+            𓆗 = list(𓆖)
+            self.𓊃.shuffle(𓆗)
+            𓆘: set[tuple[int, int]] = set()
+            for 𓅘 in 𓆗:
+                if len(𓆘) >= 𓈖:
+                    break
+                if 𓅘 in (self.𓃠, self.𓁉):
+                    continue
+                𓆘.add(𓅘)
+            self.𓊵 = 𓆘
+            if self.𓁉 in self.𓃰(self.𓃠):     # 🔗❓
+                return
+        self.𓊵 = set()                         # 🏳️  fallback
+
+    def 𓊇𓈎(self, 𓅘: tuple[int, int]) -> list[tuple[int, int]]:
+        # 🟩 neighbors  (skip 🧱 & 🧱edge)
+        𓊾 = []
+        for 𓊍, 𓂄 in 𓂃.items():
+            if 𓊍 == "🐾":
+                continue
+            𓆓 = (𓎘(𓅘[0] + 𓂄[0], 𓈖𓊪), 𓎘(𓅘[1] + 𓂄[1], 𓈖𓏏))
+            if 𓆓 == 𓅘 or 𓆓 in self.𓊵:
+                continue
+            𓊾.append(𓆓)
+        return 𓊾
+
+    def 𓃰(self, 𓄿: tuple[int, int]) -> dict[tuple[int, int], int]:
+        # 🧭  BFS 📏 map  from 𓄿  over 🟩
+        𓂭 = {𓄿: 0}
+        𓆱 = deque([𓄿])
+        while 𓆱:
+            𓂚 = 𓆱.popleft()
+            for 𓆓 in self.𓊇𓈎(𓂚):
+                if 𓆓 not in 𓂭:
+                    𓂭[𓆓] = 𓂭[𓂚] + 1
+                    𓆱.append(𓆓)
+        return 𓂭
+
+    def 𓊐(self, 𓅘: tuple[int, int], 𓄿: tuple[int, int]) -> tuple[int, int]:
+        # ➡️🎯  next 🟩 from 𓅘 toward 𓄿  (min BFS 📏)
+        𓂭 = self.𓃰(𓄿)
+        𓅒 = 𓂭.get(𓅘, 10 ** 9)
+        𓅑 = 𓅘
+        for 𓆓 in sorted(self.𓊇𓈎(𓅘)):
+            𓊈 = 𓂭.get(𓆓, 10 ** 9)
+            if 𓊈 < 𓅒:
+                𓅒 = 𓊈
+                𓅑 = 𓆓
+        return 𓅑
+
+    def 𓂊(self, 𓄿: tuple[int, int], 𓃀: tuple[int, int]) -> str:
+        # Δ 🔄 🧭
+        return 𓂊𓈎.get((𓃀[0] - 𓄿[0], 𓃀[1] - 𓄿[1]), "🐾")
+
+    # ─────────── 📍🎲 ───────────
     def 𓆙(self) -> tuple[int, int]:
-        # 🎲 📍
-        return (self.𓊃.randrange(𓈖𓊪), self.𓊃.randrange(𓈖𓏏))
+        # 🎲 📍  🟩  🔗  ≠🐈🐭
+        𓂭 = self.𓃰(self.𓃠)
+        𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in (self.𓃠, self.𓁉))
+        if not 𓊾:
+            return self.𓁉
+        return self.𓊃.choice(𓊾)
 
     def 𓎗(self, 𓄿: tuple[int, int], 𓂄: tuple[int, int]) -> tuple[int, int]:
-        # 🐾 → 📍′  🚧
-        return (𓎘(𓄿[0] + 𓂄[0], 𓈖𓊪), 𓎘(𓄿[1] + 𓂄[1], 𓈖𓏏))
+        # 🐾 → 📍′  🚧  🧱🚫
+        𓆓 = (𓎘(𓄿[0] + 𓂄[0], 𓈖𓊪), 𓎘(𓄿[1] + 𓂄[1], 𓈖𓏏))
+        if 𓆓 in self.𓊵:
+            return 𓄿                           # 🧱 blocked
+        return 𓆓
 
     def 𓂷(self, 𓊍: str) -> bool:
         # 🐈 🐾  →  🐭💨  →  🎯❓
@@ -65,43 +143,27 @@ class 𓉔:
             self.𓄊 = True
         return self.𓄊
 
-    # 👀  🐈 near → 🐭😱
-    𓋴 = 3
-    # 💨💨💨 → 💤  (🐭 stamina)
-    𓎿 = 4
-
     def 𓅓𓎗(self) -> tuple[int, int]:
-        # 🐭🧠 :  🐈👀 near → 💨(max 📏🐈) ; 😮‍💨💤 rest ; else → 🧀😋(min 📏🧀)
+        # 🐭🧠 :  🐈👀 near → 💨(max BFS📏🐈) ; 😮‍💨💤 rest ; else → 🧀😋(min BFS📏🧀)
         𓅐 = self.𓁉
-        𓅑 = 𓅐
-        if 𓐍(𓅐, self.𓃠) <= self.𓋴:
+        𓂭 = self.𓃰(self.𓃠)             # 📏→🐈
+        if 𓂭.get(𓅐, 999) <= self.𓋴:
             # 😱💨  …  😮‍💨💤❓
             if self.𓊚 >= self.𓎿:
                 self.𓊚 = 0
-                return 𓅐            # 💤
+                return 𓅐                 # 💤
             self.𓊚 += 1
-            𓅒 = 𓐍(𓅐, self.𓃠)
-            for 𓊍, 𓂄 in 𓂃.items():
-                if 𓊍 == "🐾":
-                    continue
-                𓊇 = self.𓎗(𓅐, 𓂄)
-                𓊈 = 𓐍(𓊇, self.𓃠)
+            𓅑 = 𓅐
+            𓅒 = 𓂭.get(𓅐, 0)
+            for 𓆓 in sorted(self.𓊇𓈎(𓅐)):
+                𓊈 = 𓂭.get(𓆓, 0)
                 if 𓊈 > 𓅒:
                     𓅒 = 𓊈
-                    𓅑 = 𓊇
-        else:
-            # 🧀😋
-            self.𓊚 = 0
-            𓅒 = 𓐍(𓅐, self.𓇬)
-            for 𓊍, 𓂄 in 𓂃.items():
-                if 𓊍 == "🐾":
-                    continue
-                𓊇 = self.𓎗(𓅐, 𓂄)
-                𓊈 = 𓐍(𓊇, self.𓇬)
-                if 𓊈 < 𓅒:
-                    𓅒 = 𓊈
-                    𓅑 = 𓊇
-        return 𓅑
+                    𓅑 = 𓆓
+            return 𓅑
+        # 🧀😋
+        self.𓊚 = 0
+        return self.𓊐(𓅐, self.𓇬)
 
     def 𓁐(self) -> str:
         # 🖼️  🗺️
@@ -116,6 +178,8 @@ class 𓉔:
                     𓂐.append("🐭")
                 elif 𓅘 == self.𓇬:
                     𓂐.append("🧀")
+                elif 𓅘 in self.𓊵:
+                    𓂐.append("🧱")
                 else:
                     𓂐.append("🟩")
             𓂏.append("".join(𓂐))
@@ -123,20 +187,12 @@ class 𓉔:
 
 
 def 𓊄(𓉔𓏤: 𓉔) -> str:
-    # 🐈🧠  💨→🐭  (min 📏)  → 🧭
-    𓅐 = 𓉔𓏤.𓃠
-    𓆳 = "🐾"
-    𓅒 = 𓐍(𓅐, 𓉔𓏤.𓁉)
-    for 𓊍, 𓂄 in 𓂃.items():
-        𓊇 = 𓉔𓏤.𓎗(𓅐, 𓂄)
-        𓊈 = 𓐍(𓊇, 𓉔𓏤.𓁉)
-        if 𓊈 < 𓅒:
-            𓅒 = 𓊈
-            𓆳 = 𓊍
-    return 𓆳
+    # 🐈🧠  🧭 BFS 💨→🐭  → 🧭 key
+    𓅑 = 𓉔𓏤.𓊐(𓉔𓏤.𓃠, 𓉔𓏤.𓁉)
+    return 𓉔𓏤.𓂊(𓉔𓏤.𓃠, 𓅑)
 
 
-def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 80) -> 𓉔:
+def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200) -> 𓉔:
     # 🤖🎬  🐈💨🐭  (auto)
     𓉔𓏤 = 𓉔(random.Random(𓊃𓏤))
     print("😺🎬")
