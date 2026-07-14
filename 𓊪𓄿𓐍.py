@@ -1,4 +1,4 @@
-# 🐈✅🐭 — 𓊪𓄿  (tests for 𓃠𓐍𓅓)  ✨
+# 🐈✅🐭 — 𓊪𓄿  (tests for 𓃠𓐍𓅓)  ✨  🧱 + 🧭 BFS
 import importlib.util as 𓇓
 import random
 
@@ -21,18 +21,39 @@ def 𓊪𓐍():
 
 
 def 𓊪𓎗():
-    # 🐾  🚧 edges
-    𓋁 = 𓅓.𓉔(random.Random(0))
+    # 🐾  🚧 edges  (🚫🧱)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (0, 0)
-    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬅️"]) == (0, 0)     # 🧱
-    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬆️"]) == (0, 0)     # 🧱
+    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬅️"]) == (0, 0)     # 🧱edge
+    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬆️"]) == (0, 0)     # 🧱edge
     assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["➡️"]) == (1, 0)
     assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬇️"]) == (0, 1)
 
 
+def 𓊪𓊵():
+    # 🧱  block  →  stay
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓊵 = {(3, 3)}
+    assert 𓋁.𓎗((2, 3), 𓅓.𓂃["➡️"]) == (2, 3)     # 🧱 → 🚫
+    assert 𓋁.𓎗((2, 3), 𓅓.𓂃["⬅️"]) == (1, 3)     # 🟩 → ✅
+    # 🧭 neighbors skip 🧱
+    assert (3, 3) not in 𓋁.𓊇𓈎((2, 3))
+    # 🔗  BFS connected  (no 🧱)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓂭 = 𓋂.𓃰((0, 0))
+    assert len(𓂭) == 𓅓.𓈖𓊪 * 𓅓.𓈖𓏏
+
+
+def 𓊪𓎘𓁉():
+    # 🔗  🐈 ↔️ 🐭 always reachable  (🧱🎲)
+    for 𓊃 in range(50):
+        𓋁 = 𓅓.𓉔(random.Random(𓊃))
+        assert 𓋁.𓁉 in 𓋁.𓃰(𓋁.𓃠), f"🙀🔗 seed={𓊃}"
+
+
 def 𓊪𓂷():
     # 🐈👉🐭  adjacent → 😻
-    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 5)
     𓋁.𓁉 = (6, 5)
     assert 𓋁.𓂷("➡️") is True
@@ -42,7 +63,7 @@ def 𓊪𓂷():
 
 def 𓊪𓇬():
     # 🧀😋  → 🎲 new 🧀
-    𓋁 = 𓅓.𓉔(random.Random(3))
+    𓋁 = 𓅓.𓉔(random.Random(3), 𓊵𓈖=0)
     𓋁.𓁉 = (0, 7)         # 🐭 far
     𓋁.𓃠 = (2, 2)
     𓋁.𓇬 = (3, 2)         # 🧀 →➡️
@@ -51,10 +72,10 @@ def 𓊪𓇬():
 
 
 def 𓊪𓄊():
-    # 🤖  🐈 always 😻  (many 🎲)
-    for 𓊃 in range(40):
+    # 🤖  🐈 always 😻  (many 🎲 + 🧱)
+    for 𓊃 in range(60):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
-        for _ in range(300):
+        for _ in range(500):
             if 𓋁.𓂷(𓅓.𓊄(𓋁)):
                 break
         assert 𓋁.𓄊 is True, f"🙀 seed={𓊃}"
@@ -67,11 +88,12 @@ def 𓊪𓁐():
     assert len(𓋀) == 𓅓.𓈖𓏏
     assert "🐈" in 𓋁.𓁐()
     assert "🐭" in 𓋁.𓁐()
+    assert "🧱" in 𓋁.𓁐()      # 🧱 drawn
 
 
 def 𓊪𓋴():
     # 😮‍💨  🐭 tires → 💤 (stay) → 🐈 gains
-    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 4)
     𓋁.𓁉 = (5, 6)        # 📏=2 ≤ 𓋴
     𓋁.𓊚 = 𓅓.𓉔.𓎿      # 😵 spent
@@ -80,7 +102,7 @@ def 𓊪𓋴():
     assert 𓋁.𓊚 == 0     # 🔄
 
 
-𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓂷, 𓊪𓇬, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴]
+𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
