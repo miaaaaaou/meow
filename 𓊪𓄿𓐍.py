@@ -1,10 +1,17 @@
-# 🐈✅🐭 — 𓊪𓄿  (tests for 𓃠𓐍𓅓)  ✨  🧱 + 🧭 BFS
+# 🐈✅🐭 — 𓊪𓄿  ✨  🧱 + 🧭 BFS + 🪝😾
 import importlib.util as 𓇓
+import json
 import random
+import subprocess
+import sys
 
 𓊒 = 𓇓.spec_from_file_location("𓅓", "𓃠𓐍𓅓.py")
 𓅓 = 𓇓.module_from_spec(𓊒)
 𓊒.loader.exec_module(𓅓)
+
+𓊓 = 𓇓.spec_from_file_location("𓆓𓁐", ".claude/𓆓𓁐.py")
+𓆦 = 𓇓.module_from_spec(𓊓)
+𓊓.loader.exec_module(𓆦)
 
 
 def 𓊪𓎘():
@@ -164,7 +171,55 @@ def 𓊪𓊰():
     assert 𓋂.𓄊 is False
 
 
-𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰]
+def 𓊪𓆓():
+    # 🪝😾  🗣️🔤👀 → 📜 ↔️ + 🏷️   (🚫🎭📜)
+    assert 𓆦.𓁐("meow mrrr prrr hisss nya") == "meow mrrr prrr hisss nya"
+    assert 𓆦.𓁐("Meow… purr! grrr nyan mew miaou") == "Meow… purr! grrr nyan mew miaou"
+    assert 𓆦.𓁐("😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42") == "😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42"
+    assert 𓆦.𓁐("") == ""
+    # 🗣️👀 → 📜 ↔️ + 🏷️ 📄🔚
+    assert 𓆦.𓁐("Here is the plan:\n") == "Here is the plan:  😾hisss!\n"
+    # 🔗 ✅ 🚫💥
+    assert 𓆦.𓁐("📚 https://code.claude.com/docs/en/hooks") == "📚 https://code.claude.com/docs/en/hooks"
+    # ⌨️ `…` ✅
+    assert 𓆦.𓁐("`displayContent` 📤 ✅") == "`displayContent` 📤 ✅"
+    # 📁 ✅
+    assert 𓆦.𓁐(".claude/𓆓𓁐.py 🐾") == ".claude/𓆓𓁐.py 🐾"
+    # 📄📄📄 → 1️⃣🏷️
+    𓆼 = 𓆦.𓁐("🐈 meow\nSTOP the cat\nprrr~ 𓃠\n")
+    assert 𓆼 == "🐈 meow\nSTOP the cat  😾hisss!\nprrr~ 𓃠\n"
+    assert 𓆦.𓁐("café ☕") == "café ☕  😾hisss!"          # À-ž 👀
+    assert 𓆦.𓁐("his mr pur hi") == "his mr pur hi  😾hisss!"   # 🎭🐈 🚫
+
+
+def 𓊪𓆓𓂭():
+    # 🪝 ⛓️  📥 stdin json → 📤 displayContent
+    𓂺 = json.dumps({
+        "hook_event_name": "MessageDisplay",
+        "turn_id": "𓏤",
+        "message_id": "𓏥",
+        "index": 0,
+        "final": True,
+        "delta": "Let me meow, nya!\n🐈 prrr~\n",
+    })
+    𓊾 = subprocess.run(
+        [sys.executable, ".claude/𓆓𓁐.py"],
+        input=𓂺, capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊾.returncode == 0
+    𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+    assert 𓂭["hookEventName"] == "MessageDisplay"
+    assert 𓂭["displayContent"] == "Let me meow, nya!  😾hisss!\n🐈 prrr~\n"
+    # 🙀 📥💔 → 🤫 (📺 🅾️)
+    𓊿 = subprocess.run(
+        [sys.executable, ".claude/𓆓𓁐.py"],
+        input="🙀🚫json", capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊿.returncode == 0
+    assert 𓊿.stdout == ""
+
+
+𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰, 𓊪𓆓, 𓊪𓆓𓂭]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
