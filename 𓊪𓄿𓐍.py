@@ -94,14 +94,79 @@ def 𓊪𓆛():
 
 
 def 𓊪𓊙():
-    # 🏆  ⚡fast + 🐟 + 🥛
+    # 🏆  ⚡fast + 🐟 + 🥛 − 😿
     𓋁 = 𓅓.𓉔(random.Random(0))
     𓋁.𓏰 = 10
     𓋁.𓊛 = 3
     𓋁.𓊳 = 2
+    𓋁.𓊟 = 0
     assert 𓋁.𓊙() == 90 + 15 + 6   # (100-10) + 5×3 + 3×2
+    𓋁.𓊟 = 2                        # 😿×2 → −20
+    assert 𓋁.𓊙() == 70 + 15 + 6   # (100-10-20) + 15 + 6
     𓋁.𓏰 = 250
     assert 𓋁.𓊙() == 0 + 15 + 6    # 🚧 ≥0
+
+
+def 𓊪𓃥():
+    # 🐕🎲  spawn : 🔗 , ≠🐈🐭🧀🐟🥛 , 📏🐈 ≥ 𓃥𓊞  (🚫🧱 map)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋂.𓃥 is not None
+    assert 𓋂.𓃰(𓋂.𓃠)[𓋂.𓃥] >= 𓅓.𓉔.𓃥𓊞      # 📏 far
+    for 𓊃 in range(30):
+        𓋁 = 𓅓.𓉔(random.Random(𓊃))
+        assert 𓋁.𓃥 is not None
+        assert 𓋁.𓃥 in 𓋁.𓃰(𓋁.𓃠)              # 🔗
+        assert 𓋁.𓃥 not in (𓋁.𓃠, 𓋁.𓁉, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮)
+
+
+def 𓊪𓃥𓎗():
+    # 🐕💨🐈  : BFS 1️⃣🐾 → 📏 shrinks
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (5, 4)
+    𓋁.𓃥 = (5, 7)                              # 📏=3
+    𓅐 = 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥]
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] < 𓅐              # 🔽 closer
+
+
+def 𓊪𓊟():
+    # 😿  bonk : 🐕👉🐈 → 𓊟+1 , 🐈🌀 relocate , 🐕🎲 respawn
+    𓋁 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓃥 = (5, 6)                              # adjacent → catches
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓊟 == 1                           # 😿+1
+    assert 𓋁.𓃥 is not None
+    assert 𓋁.𓃠 != 𓋁.𓃥                        # 🐈≠🐕 after 🌀
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞     # 🐕🎲 far again
+
+
+def 𓊪𓃥𓎿():
+    # 🐕💨  half-speed : 🐾 odd → 💤 , even → 💨
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (0, 0)
+    𓋁.𓁉 = (10, 7)                             # 🐭 far
+    𓋁.𓇬 = (0, 5)
+    𓋁.𓆛 = (1, 5)
+    𓋁.𓊮 = (2, 5)
+    𓋁.𓃥 = (10, 0)                             # 🐕 far
+    𓅐 = 𓋁.𓃥
+    𓋁.𓂷("🐾")                                # 𓏰=1 odd → 🐕💤
+    assert 𓋁.𓃥 == 𓅐
+    𓋁.𓂷("🐾")                                # 𓏰=2 even → 🐕💨
+    assert 𓋁.𓃥 != 𓅐
+
+
+def 𓊪𓁋():
+    # 🚫🐕  off : 𓃥=None , 🚫 render , 🐈 still 😻
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓃥𓁋=False)
+    assert 𓋁.𓃥 is None
+    assert "🐕" not in 𓋁.𓁐()
+    for _ in range(500):
+        if 𓋁.𓂷(𓅓.𓊄(𓋁)):
+            break
+    assert 𓋁.𓄊 is True
+    assert 𓋁.𓊟 == 0
 
 
 def 𓊪𓁐():
@@ -114,6 +179,7 @@ def 𓊪𓁐():
     assert "🧱" in 𓋁.𓁐()      # 🧱 drawn
     assert "🐟" in 𓋁.𓁐()      # 🐟 drawn
     assert "🥛" in 𓋁.𓁐()      # 🥛 drawn
+    assert "🐕" in 𓋁.𓁐()      # 🐕 drawn
 
 
 def 𓊪𓋴():
@@ -164,7 +230,8 @@ def 𓊪𓊰():
     assert 𓋂.𓄊 is False
 
 
-𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰]
+𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
+     𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
