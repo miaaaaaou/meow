@@ -345,6 +345,99 @@ def 𓊪𓎛𓁋():
     assert 𓋁.𓄊 is True
 
 
+def 𓊪𓋭():
+    # 🧶🎾  throw : 🎾 📍🐈 , 🐾 stay , ⏳ armed , ×1 flag , 🖼️ render
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
+    𓋁.𓁉 = (0, 7)          # 🐭 far
+    𓋁.𓇬 = (9, 0)
+    𓋁.𓆛 = (9, 1)
+    𓋁.𓊮 = (9, 2)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓂷("🧶")
+    assert 𓋁.𓋭 == (5, 5)              # 🎾 📍🐈
+    assert 𓋁.𓋯 is True                # ×1 spent
+    assert 𓋁.𓋮 == 𓅓.𓉔.𓋬             # ⏳ armed (🚫 tick on throw turn)
+    assert 𓋁.𓃠 == (5, 5)              # 🐾 stay
+    𓋁.𓃠 = (6, 5)                      # 🐈 step off
+    assert "🎾" in 𓋁.𓁐()              # 🖼️ 🎾 drawn
+
+
+def 𓊪𓋮():
+    # 🧶🐕🌀  distract : 🐕👀🎾 📐≤𓋫 → 💨🎾 (🚫💨🐈)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (0, 5)          # 🐈 far left
+    𓋁.𓋭 = (10, 5)         # 🎾 far right
+    𓋁.𓋮 = 3
+    𓋁.𓃥 = (6, 5)          # 🐕 : 📐→🎾=4≤4 , 📐→🐈=6
+    𓅐 = 𓋁.𓃰(𓋁.𓋭)[𓋁.𓃥]   # 📏 🐕→🎾
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓃰(𓋁.𓋭)[𓋁.𓃥] < 𓅐     # 🔽 💨🎾 not 🐈
+    assert 𓋁.𓊟 == 0                  # 🚫 bonk while 🧶
+
+
+def 𓊪𓋯():
+    # 🧶⏳0😾  resume : ⏳ expire → 🎾💨 → 🐕😾 chase 🐈 again
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓁉 = (0, 7)          # 🐭 far
+    𓋁.𓅱 = None
+    # 🧶 active , 🐕 near 🎾 → distract , 🚫 bonk
+    𓋁.𓋭 = (5, 6)
+    𓋁.𓋮 = 1
+    𓋁.𓃥 = (5, 7)          # 📐→🎾=1
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓊟 == 0                  # 🚫 bonk while 🧶
+    # ⏳ expire (🧶⏳ tick via 𓂷) → 🎾💨
+    𓋁.𓋮 = 1
+    𓋁.𓋭 = (9, 9)          # dummy , will 💨
+    𓋁.𓃥 = (9, 9)
+    𓋁.𓂷("🐾")
+    assert 𓋁.𓋭 is None               # 🎾💨 gone
+    # 🐕😾 resume : adjacent → bonk
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓃥 = (5, 6)
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓊟 == 1                  # 😾 bonk resumes
+
+
+def 𓊪𓋰():
+    # 🧶×1🚧  limit : 2nd throw → 🚫 new 🎾
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
+    𓋁.𓁉 = (0, 7)
+    𓋁.𓇬 = (9, 0)
+    𓋁.𓆛 = (9, 1)
+    𓋁.𓊮 = (9, 2)
+    𓋁.𓃠 = (3, 3)
+    𓋁.𓂷("🧶")
+    assert 𓋁.𓋭 == (3, 3)              # 1st 🎾
+    𓋁.𓃠 = (6, 6)
+    𓋁.𓂷("🧶")                         # 2nd → 🚧
+    assert 𓋁.𓋭 != (6, 6)              # 🚫 new 🎾
+    assert 𓋁.𓋯 is True                # still spent
+
+
+def 𓊪𓋊():
+    # 🌈  colorize : ⚑ → ANSI wrap , 🚫⚑ → 📺 ↔️ plain
+    𓊞 = "🐈🟩🧱\n🐭🐕🥛"
+    𓂭 = 𓅓.𓋊(𓊞, True)
+    assert "\033[" in 𓂭               # 🎨 ANSI present
+    assert "\033[0m" in 𓂭             # 🔚 reset
+    assert "🐈" in 𓂭 and "🐕" in 𓂭    # 🀄 kept
+    assert 𓅓.𓋊(𓊞, False) == 𓊞        # 🚫⚑ → ↔️
+    assert 𓅓.𓋊(𓊞) == 𓊞               # default plain
+
+
+def 𓊪𓋋():
+    # 🌈🤖  : color 🗺️ strips → plain 🗺️  (🎨 reversible , 🀄 ↔️)
+    import re as 𓂯
+    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓊞 = 𓋁.𓁐()
+    𓂮 = 𓅓.𓋊(𓊞, True)
+    𓂰 = 𓂯.sub(r"\033\[[0-9;]*m", "", 𓂮)
+    assert 𓂰 == 𓊞                     # 🎨 reversible → 📺 ↔️
+    assert 𓂮.count("\033[0m") > 0     # 🌈 wrapped 🀄
+
+
 def 𓊪𓎋():
     # 💾📥  missing 🛤️ → 📜🕳️  ; 🙀💔 json → 📜🕳️
     𓊪𓉏 = os.path.join(tempfile.gettempdir(), "🚫👻.json")
@@ -503,6 +596,8 @@ def 𓊪𓆓𓂭():
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
+     𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
+     𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
      𓊪𓆓, 𓊪𓆓𓂭]
