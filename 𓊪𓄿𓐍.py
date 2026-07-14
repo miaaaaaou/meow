@@ -81,6 +81,28 @@ def 𓊪𓄊():
         assert 𓋁.𓄊 is True, f"🙀 seed={𓊃}"
 
 
+def 𓊪𓆛():
+    # 🐟😋  → 🎲 new 🐟  + 🏆 bonus
+    𓋁 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
+    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓃠 = (2, 2)
+    𓋁.𓇬 = (9, 0)         # 🧀 elsewhere
+    𓋁.𓆛 = (3, 2)         # 🐟 →➡️
+    𓋁.𓂷("➡️")
+    assert 𓋁.𓊛 == 1          # 😋+1
+    assert 𓋁.𓆛 != (3, 2)     # 🎲 respawn
+
+
+def 𓊪𓊙():
+    # 🏆  ⚡fast + 🐟
+    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓋁.𓏰 = 10
+    𓋁.𓊛 = 3
+    assert 𓋁.𓊙() == 90 + 15   # (100-10) + 5×3
+    𓋁.𓏰 = 250
+    assert 𓋁.𓊙() == 0 + 15    # 🚧 ≥0
+
+
 def 𓊪𓁐():
     # 🖼️  🗺️ 📐
     𓋁 = 𓅓.𓉔(random.Random(0))
@@ -89,6 +111,7 @@ def 𓊪𓁐():
     assert "🐈" in 𓋁.𓁐()
     assert "🐭" in 𓋁.𓁐()
     assert "🧱" in 𓋁.𓁐()      # 🧱 drawn
+    assert "🐟" in 𓋁.𓁐()      # 🐟 drawn
 
 
 def 𓊪𓋴():
@@ -102,7 +125,7 @@ def 𓊪𓋴():
     assert 𓋁.𓊚 == 0     # 🔄
 
 
-𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴]
+𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
