@@ -172,19 +172,24 @@ def 𓊪𓊰():
 
 
 def 𓊪𓆓():
-    # 🪝😾  🗣️🔤 → hisss   (🐈✅ ↔️)
+    # 🪝😾  🗣️🔤👀 → 📜 ↔️ + 🏷️   (🚫🎭📜)
     assert 𓆦.𓁐("meow mrrr prrr hisss nya") == "meow mrrr prrr hisss nya"
     assert 𓆦.𓁐("Meow… purr! grrr nyan mew miaou") == "Meow… purr! grrr nyan mew miaou"
-    assert 𓆦.𓁐("🐈🎉 𓃠 → ✅ ⚡ 42") == "🐈🎉 𓃠 → ✅ ⚡ 42"
+    assert 𓆦.𓁐("😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42") == "😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42"
     assert 𓆦.𓁐("") == ""
-    𓆼 = 𓆦.𓁐("Let me check the branch")
-    assert 𓆼 == "Hiss hiss hisss hiss hissss"       # 📏 ↔️, Aa ↔️
-    for 𓊍 in 𓆼.split():
-        assert 𓆦.𓃠𓊍.match(𓊍), f"🙀 {𓊍}"
-    assert 𓆦.𓁐("prrr~ version 𓃠") == "prrr~ hisssss 𓃠"
-    assert 𓆦.𓁐("STOP") == "HISS"                    # 😾‼️
-    assert 𓆦.𓁐("café") == "hiss"                    # À-ž
-    assert 𓆦.𓁐("his mr pur hi") == "hiss hiss hiss hiss"   # 🎭🐈 🚫
+    # 🗣️👀 → 📜 ↔️ + 🏷️ 📄🔚
+    assert 𓆦.𓁐("Here is the plan:\n") == "Here is the plan:  😾hisss!\n"
+    # 🔗 ✅ 🚫💥
+    assert 𓆦.𓁐("📚 https://code.claude.com/docs/en/hooks") == "📚 https://code.claude.com/docs/en/hooks"
+    # ⌨️ `…` ✅
+    assert 𓆦.𓁐("`displayContent` 📤 ✅") == "`displayContent` 📤 ✅"
+    # 📁 ✅
+    assert 𓆦.𓁐(".claude/𓆓𓁐.py 🐾") == ".claude/𓆓𓁐.py 🐾"
+    # 📄📄📄 → 1️⃣🏷️
+    𓆼 = 𓆦.𓁐("🐈 meow\nSTOP the cat\nprrr~ 𓃠\n")
+    assert 𓆼 == "🐈 meow\nSTOP the cat  😾hisss!\nprrr~ 𓃠\n"
+    assert 𓆦.𓁐("café ☕") == "café ☕  😾hisss!"          # À-ž 👀
+    assert 𓆦.𓁐("his mr pur hi") == "his mr pur hi  😾hisss!"   # 🎭🐈 🚫
 
 
 def 𓊪𓆓𓂭():
@@ -195,7 +200,7 @@ def 𓊪𓆓𓂭():
         "message_id": "𓏥",
         "index": 0,
         "final": True,
-        "delta": "Let me meow, nya!\n",
+        "delta": "Let me meow, nya!\n🐈 prrr~\n",
     })
     𓊾 = subprocess.run(
         [sys.executable, ".claude/𓆓𓁐.py"],
@@ -204,7 +209,7 @@ def 𓊪𓆓𓂭():
     assert 𓊾.returncode == 0
     𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
     assert 𓂭["hookEventName"] == "MessageDisplay"
-    assert 𓂭["displayContent"] == "Hiss hiss meow, nya!\n"
+    assert 𓂭["displayContent"] == "Let me meow, nya!  😾hisss!\n🐈 prrr~\n"
     # 🙀 📥💔 → 🤫 (📺 🅾️)
     𓊿 = subprocess.run(
         [sys.executable, ".claude/𓆓𓁐.py"],

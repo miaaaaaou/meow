@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-# 🪝 MessageDisplay — 🗣️🔤 → 😾 hisss   (📺🎭 ; 📜 + 🤖👀 🚫🎭)
+# 🪝 MessageDisplay — 🗣️🔤👀 → 📜 ↔️ + 😾hisss! 🏷️   (🚫🎭📜 ; 🔗✅ ; 📺-🪞 ; 📜+🤖👀 🚫🎭)
 # 📚 https://code.claude.com/docs/en/hooks
 # 📥 stdin  {"delta": "…"}  →  📤 stdout  {"hookSpecificOutput": {"hookEventName", "displayContent"}}
 import json
 import re
 import sys
+
+# 🙈  `⌨️` , 🔗 , 📁/
+𓁹𓅂 = re.compile(
+    r"`[^`\n]*`|(?i:\b[a-z][a-z0-9+.\-]*://\S+)|(?i:\bwww\.\S+)|\S*/\S*"
+)
 
 # 🗣️🔤  (A-z + À-ž)
 𓊖 = re.compile(r"[A-Za-zÀ-ÖØ-öø-ɏ]+")
@@ -14,23 +19,22 @@ import sys
     r"(?i)^(?:m+e+o+w+|m+e+w+|m+i+a+(?:[ou]+w*|w+)|m+r{2,}|p+u*r{2,}|h+i+s{2,}|n+y+a+n*|g*r{2,})$"
 )
 
+# 🏷️  📄🔚
+𓅱 = "  😾hisss!"
 
-def 𓆓(𓊍: str) -> str:
-    # 🗣️ → hisss   (📏 ↔️, Aa ↔️)
-    if 𓃠𓊍.match(𓊍):
-        return 𓊍                       # 🐈✅ prrr
-    𓈖 = max(4, len(𓊍))
-    𓉻 = "hi" + "s" * (𓈖 - 2)
-    if 𓊍.isupper() and len(𓊍) > 1:
-        return 𓉻.upper()               # 😾‼️
-    if 𓊍[:1].isupper():
-        return 𓉻.capitalize()
-    return 𓉻
+
+def 𓁹(𓋍: str) -> bool:
+    # 🗣️❓   (🙈 → 🔍)
+    𓋎 = 𓁹𓅂.sub(" ", 𓋍)
+    return any(not 𓃠𓊍.match(𓊍) for 𓊍 in 𓊖.findall(𓋎))
 
 
 def 𓁐(𓆼: str) -> str:
-    # 📜 → 📜😾   (🔤→hisss ; 🐾🖼️𓂀🔢 ↔️)
-    return 𓊖.sub(lambda 𓅘: 𓆓(𓅘.group(0)), 𓆼)
+    # 📜 → 📜🏷️   (📄-wise ; 📜 ↔️ ; 🔗✅)
+    return "\n".join(
+        𓋍 + 𓅱 if 𓁹(𓋍) else 𓋍
+        for 𓋍 in 𓆼.split("\n")
+    )
 
 
 def 𓋹() -> None:
