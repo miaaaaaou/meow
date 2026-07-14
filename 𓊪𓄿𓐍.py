@@ -103,8 +103,10 @@ def 𓊪𓊙():
     assert 𓋁.𓊙() == 90 + 15 + 6   # (100-10) + 5×3 + 3×2
     𓋁.𓊟 = 2                        # 😿×2 → −20
     assert 𓋁.𓊙() == 70 + 15 + 6   # (100-10-20) + 15 + 6
+    𓋁.𓅮 = 2                        # 🐦×2 → +14
+    assert 𓋁.𓊙() == 70 + 15 + 6 + 14
     𓋁.𓏰 = 250
-    assert 𓋁.𓊙() == 0 + 15 + 6    # 🚧 ≥0
+    assert 𓋁.𓊙() == 0 + 15 + 6 + 14   # 🚧 ≥0 (base) , 🎁 stay
 
 
 def 𓊪𓃥():
@@ -180,6 +182,7 @@ def 𓊪𓁐():
     assert "🐟" in 𓋁.𓁐()      # 🐟 drawn
     assert "🥛" in 𓋁.𓁐()      # 🥛 drawn
     assert "🐕" in 𓋁.𓁐()      # 🐕 drawn
+    assert "🐦" in 𓋁.𓁐()      # 🐦 drawn
 
 
 def 𓊪𓋴():
@@ -230,8 +233,85 @@ def 𓊪𓊰():
     assert 𓋂.𓄊 is False
 
 
-𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
-     𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋]
+def 𓊪𓅱():
+    # 🐦🎲  spawn : 🔗 , ≠🐈🐭🧀🐟🥛🐕  (🚫🧱 map)
+    for 𓊃 in range(30):
+        𓋁 = 𓅓.𓉔(random.Random(𓊃))
+        assert 𓋁.𓅱 is not None
+        assert 𓋁.𓅱 in 𓋁.𓃰(𓋁.𓃠)              # 🔗 green
+        assert 𓋁.𓅱 not in (𓋁.𓃠, 𓋁.𓁉, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥)
+
+
+def 𓊪𓎉():
+    # 📐  chebyshev
+    assert 𓅓.𓎉((0, 0), (3, 4)) == 4
+    assert 𓅓.𓎉((2, 2), (2, 2)) == 0
+    assert 𓅓.𓎉((1, 1), (2, 3)) == 2
+
+
+def 𓊪𓅱𓎗():
+    # 🐦🕊️  flee : 8🧭 → 📐→🐈 grows  (🚫🧱 perch)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓅱 = (5, 6)                              # 📐=1
+    𓋁.𓁉 = (0, 0)                              # 🐭 elsewhere
+    𓋁.𓃥 = (10, 0)                             # 🐕 elsewhere
+    𓋁.𓇬 = (0, 7)
+    𓋁.𓆛 = (1, 7)
+    𓋁.𓊮 = (2, 7)
+    𓅐 = 𓅓.𓎉(𓋁.𓅱, 𓋁.𓃠)
+    𓋁.𓅱𓎗()
+    assert 𓅓.𓎉(𓋁.𓅱, 𓋁.𓃠) > 𓅐             # 🔼 farther
+    assert 𓋁.𓅱 not in 𓋁.𓊵                    # 🚫🧱 perch
+
+
+def 𓊪𓅱𓎗𓊵():
+    # 🐦  🚫🧱 :  🕊️ never lands on 🧱
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓊵 = {(5, 7), (6, 6), (6, 7), (4, 7), (4, 6)}   # 🧱 ring far side
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓅱 = (5, 6)
+    𓋁.𓁉 = (0, 0)
+    𓋁.𓃥 = (10, 0)
+    𓋁.𓇬 = (0, 7)
+    𓋁.𓆛 = (1, 7)
+    𓋁.𓊮 = (2, 7)
+    for _ in range(6):
+        𓋁.𓅱𓎗()
+        assert 𓋁.𓅱 not in 𓋁.𓊵
+
+
+def 𓊪𓅲():
+    # 🐦😋  → 𓅮+1 , 🎲 respawn , 🏆 bonus
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓃥 = (10, 0)        # 🐕 far
+    𓋁.𓇬 = (9, 0)
+    𓋁.𓆛 = (9, 1)
+    𓋁.𓊮 = (9, 2)
+    𓋁.𓃠 = (2, 2)
+    𓋁.𓅱 = (3, 2)         # 🐦 →➡️
+    𓋁.𓂷("➡️")
+    assert 𓋁.𓅮 == 1          # 😋+1
+    assert 𓋁.𓅱 != (3, 2)     # 🎲 respawn
+    assert 𓋁.𓄊 is False      # 🚫🎯 (🐭 far)
+
+
+def 𓊪𓅱𓁋():
+    # 🚫🐦  off : 𓅱=None , 🚫 render , 🐈 still 😻
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓅱𓁋=False)
+    assert 𓋁.𓅱 is None
+    assert "🐦" not in 𓋁.𓁐()
+    for _ in range(500):
+        if 𓋁.𓂷(𓅓.𓊄(𓋁)):
+            break
+    assert 𓋁.𓄊 is True
+    assert 𓋁.𓅮 == 0
+
+
+𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
+     𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
+     𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
