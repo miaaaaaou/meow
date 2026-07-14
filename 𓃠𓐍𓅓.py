@@ -4,8 +4,50 @@
 # 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️  𓎛🕳️
 from __future__ import annotations
 import sys
+import json
 import random
 from collections import deque
+
+# ─────────── 💾🏆 📜🔝 ───────────
+𓎋𓊪 = "🏆📜.json"   # 💾 default 🛤️
+𓎋𓈖 = 10            # 📜🔝 keep top-N
+
+
+def 𓎋(𓊪𓉏: str = 𓎋𓊪) -> list[dict]:
+    # 📥  load 📜🔝  (🙀💔 → 📜🕳️)
+    try:
+        with open(𓊪𓉏, encoding="utf-8") as 𓆑:
+            𓂭 = json.load(𓆑)
+        if isinstance(𓂭, list):
+            return [𓅘 for 𓅘 in 𓂭 if isinstance(𓅘, dict)]
+    except (OSError, ValueError):
+        pass
+    return []
+
+
+def 𓎌(𓆳: dict, 𓊪𓉏: str = 𓎋𓊪, 𓈖: int = 𓎋𓈖) -> list[dict]:
+    # 📤  add 🆕 → sort 🔽🏆 (tie → 🔼⏱️) → ✂️ top-N → 💾
+    𓂏 = 𓎋(𓊪𓉏)
+    𓂏.append(𓆳)
+    𓂏.sort(key=lambda 𓅘: (-𓅘.get("🏆", 0), 𓅘.get("⏱️", 0)))
+    𓂏 = 𓂏[:𓈖]
+    with open(𓊪𓉏, "w", encoding="utf-8") as 𓆑:
+        json.dump(𓂏, 𓆑, ensure_ascii=False)
+    return 𓂏
+
+
+def 𓎍(𓂏: list[dict]) -> str:
+    # 🖼️  📜🔝 render
+    if not 𓂏:
+        return "📜🕳️"
+    𓂐 = ["🏆📜🔝"]
+    for 𓇋, 𓆳 in enumerate(𓂏, 1):
+        𓂐.append(
+            f"{𓇋}. 🏆{𓆳.get('🏆', 0)}  ⏱️{𓆳.get('⏱️', 0)}"
+            f"  🐟{𓆳.get('🐟', 0)}  🥛{𓆳.get('🥛', 0)}"
+            f"  🐦{𓆳.get('🐦', 0)}  😿{𓆳.get('😿', 0)}"
+        )
+    return "\n".join(𓂐)
 
 # 🗺️ 📐
 𓈖𓊪 = 11   # ↔️
@@ -329,6 +371,14 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
     return 𓉔𓏤.𓂊(𓉔𓏤.𓃠, 𓅑)
 
 
+def 𓎎(𓉔𓏤: 𓉔) -> dict:
+    # 📇  🎮 → 📜 record
+    return {
+        "🏆": 𓉔𓏤.𓊙(), "⏱️": 𓉔𓏤.𓏰, "🐟": 𓉔𓏤.𓊛,
+        "🥛": 𓉔𓏤.𓊳, "🐦": 𓉔𓏤.𓅮, "😿": 𓉔𓏤.𓊟,
+    }
+
+
 def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200) -> 𓉔:
     # 🤖🎬  🐈💨🐭  (auto)
     𓉔𓏤 = 𓉔(random.Random(𓊃𓏤))
@@ -342,6 +392,8 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200) -> 𓉔:
     print(𓉔𓏤.𓁐())
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
+        print("┈┈┈┈┈┈┈┈┈┈┈")
+        print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
     else:
         print("🙀💨  meow…")
     return 𓉔𓏤
@@ -368,6 +420,8 @@ def 𓊪𓏰():
         𓉔𓏤.𓂷(𓊍)
     print(𓉔𓏤.𓁐())
     print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  prrr~")
+    print("┈┈┈┈┈┈┈┈┈┈┈")
+    print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
 
 
 if __name__ == "__main__":
