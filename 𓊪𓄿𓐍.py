@@ -550,8 +550,8 @@ def 𓊪𓆓():
     assert 𓆦.𓁐("Meow… purr! grrr nyan mew miaou") == "Meow… purr! grrr nyan mew miaou"
     assert 𓆦.𓁐("😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42") == "😻🎉🐾 prrr~ 𓃠 → ✅ ⚡ 42"
     assert 𓆦.𓁐("") == ""
-    # 🗣️👀 → 📜 ↔️ + 🏷️ 📄🔚
-    assert 𓆦.𓁐("Here is the plan:\n") == "Here is the plan:  😾hisss!\n"
+    # 🗣️👀 → 📜 ↔️ + 🏷️ 📄🔚   (4🗣️ → ⬆️⬆️)
+    assert 𓆦.𓁐("Here is the plan:\n") == "Here is the plan:  😾😾hisssss!!\n"
     # 🔗 ✅ 🚫💥
     assert 𓆦.𓁐("📚 https://code.claude.com/docs/en/hooks") == "📚 https://code.claude.com/docs/en/hooks"
     # ⌨️ `…` ✅
@@ -560,9 +560,28 @@ def 𓊪𓆓():
     assert 𓆦.𓁐(".claude/𓆓𓁐.py 🐾") == ".claude/𓆓𓁐.py 🐾"
     # 📄📄📄 → 1️⃣🏷️
     𓆼 = 𓆦.𓁐("🐈 meow\nSTOP the cat\nprrr~ 𓃠\n")
-    assert 𓆼 == "🐈 meow\nSTOP the cat  😾hisss!\nprrr~ 𓃠\n"
+    assert 𓆼 == "🐈 meow\nSTOP the cat  😾😾hisssss!!\nprrr~ 𓃠\n"
     assert 𓆦.𓁐("café ☕") == "café ☕  😾hisss!"          # À-ž 👀
-    assert 𓆦.𓁐("his mr pur hi") == "his mr pur hi  😾hisss!"   # 🎭🐈 🚫
+    assert 𓆦.𓁐("his mr pur hi") == "his mr pur hi  😾😾hisssss!!"   # 🎭🐈 🚫
+
+
+def 𓊪𓆓𓅂():
+    # 😾 ⬆️⬆️⬆️ → 📢   (🗣️🔢 → 🔊🪜)
+    assert 𓆦.𓅱(1) == "  😾hisss!"
+    assert 𓆦.𓅱(2) == "  😾hisss!"
+    assert 𓆦.𓅱(3) == "  😾😾hisssss!!"
+    assert 𓆦.𓅱(5) == "  😾😾hisssss!!"
+    assert 𓆦.𓅱(6) == "  📢😾😾😾HISSSSSS‼️"
+    assert 𓆦.𓅱(42) == "  📢😾😾😾HISSSSSS‼️"
+    # ⬆️  1-2 🗣️
+    assert 𓆦.𓁐("cat 🐾") == "cat 🐾  😾hisss!"
+    # ⬆️⬆️  3-5 🗣️
+    assert 𓆦.𓁐("the cat sat 🐾") == "the cat sat 🐾  😾😾hisssss!!"
+    # ⬆️⬆️⬆️ 📢  ≥6 🗣️
+    𓆼 = 𓆦.𓁐("the quick brown fox jumps over dogs")
+    assert 𓆼 == "the quick brown fox jumps over dogs  📢😾😾😾HISSSSSS‼️"
+    # 🐈✅ 🚫🔢 : meow prrr 🚫➕
+    assert 𓆦.𓁐("meow prrr the cat sat nya 🐾") == "meow prrr the cat sat nya 🐾  😾😾hisssss!!"
 
 
 def 𓊪𓆓𓂭():
@@ -600,7 +619,7 @@ def 𓊪𓆓𓂭():
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓂭]
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
