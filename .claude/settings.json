@@ -1,5 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "agent": "meow",
-  "includeCoAuthoredBy": false
+  "includeCoAuthoredBy": false,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/𓆑𓊪.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
