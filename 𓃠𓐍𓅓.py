@@ -1,7 +1,7 @@
-# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾 + 🐦🕊️
-# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🐦🕊️ … 🧱 … 🎯 → 😻😹😼
+# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾 + 🐦🕊️ + 🕳️🌀
+# ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🐦🕊️ … 🕳️🌀 … 🧱 … 🎯 → 😻😹😼
 #
-# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️
+# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️  𓎛🕳️
 from __future__ import annotations
 import sys
 import random
@@ -57,18 +57,23 @@ class 𓉔:
     𓅯 = 7
 
     def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
-                 𓃥𓁋: bool = True, 𓅱𓁋: bool = True):
+                 𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True):
         self.𓊃 = 𓊃 or random.Random()
         self.𓃠 = (0, 0)                        # 🐈
         self.𓁉 = (𓈖𓊪 - 1, 𓈖𓏏 - 1)          # 🐭
         self.𓊵: set[tuple[int, int]] = set()   # 🧱
         self.𓆵(𓊵𓈖)                            # 🧱🎲
-        self.𓇬 = self.𓆙()                     # 🧀
-        self.𓆛 = self.𓆙((self.𓇬,))            # 🐟
-        self.𓊮 = self.𓆙((self.𓇬, self.𓆛))    # 🥛
+        self.𓎛: tuple[tuple[int, int], tuple[int, int]] | None = None  # 🕳️↔️🕳️
+        if 𓎛𓁋:
+            𓄾 = self.𓆙()                       # 🕳️ a
+            𓄿 = self.𓆙((𓄾,))                  # 🕳️ b
+            self.𓎛 = (𓄾, 𓄿)                   # 🕳️↔️🕳️
+        self.𓇬 = self.𓆙(self.𓎜())             # 🧀
+        self.𓆛 = self.𓆙((self.𓇬, *self.𓎜()))            # 🐟
+        self.𓊮 = self.𓆙((self.𓇬, self.𓆛, *self.𓎜()))    # 🥛
         self.𓅱: tuple[int, int] | None = None  # 🐦
         if 𓅱𓁋:
-            self.𓅱 = self.𓆙((self.𓇬, self.𓆛, self.𓊮))  # 🐦🎲
+            self.𓅱 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, *self.𓎜()))  # 🐦🎲
         self.𓃥: tuple[int, int] | None = None  # 🐕
         if 𓃥𓁋:
             self.𓃥 = self.𓃥𓆙()               # 🐕🎲 far
@@ -141,6 +146,16 @@ class 𓉔:
         return 𓂊𓈎.get((𓃀[0] - 𓄿[0], 𓃀[1] - 𓄿[1]), "🐾")
 
     # ─────────── 📍🎲 ───────────
+    def 𓎜(self) -> tuple:
+        # 🕳️ exclusion  (portal cells or ∅)
+        return self.𓎛 if self.𓎛 is not None else ()
+
+    def 𓎚(self, 𓆓: tuple[int, int], 𓄿: tuple[int, int]) -> tuple[int, int]:
+        # 🕳️ landing :  🐾 from 𓄿 → 𓆓 .  enter 🕳️ from 🚫🕳️ → twin ; else 𓆓
+        if self.𓎛 is not None and 𓆓 in self.𓎛 and 𓄿 not in self.𓎛:
+            return self.𓎛[1] if 𓆓 == self.𓎛[0] else self.𓎛[0]
+        return 𓆓
+
     def 𓆙(self, 𓊫: tuple[tuple[int, int], ...] = ()) -> tuple[int, int]:
         # 🎲 📍  🟩  🔗  ≠🐈🐭  ≠𓊫
         𓂭 = self.𓃰(self.𓃠)
@@ -153,7 +168,7 @@ class 𓉔:
     def 𓃥𓆙(self) -> tuple[int, int]:
         # 🐕🎲 📍  🔗  ≠🐈🐭🧀🐟🥛🐦  📏🐈 ≥ 𓃥𓊞
         𓂭 = self.𓃰(self.𓃠)
-        𓆊 = {self.𓃠, self.𓁉, self.𓇬, self.𓆛, self.𓊮, self.𓅱}
+        𓆊 = {self.𓃠, self.𓁉, self.𓇬, self.𓆛, self.𓊮, self.𓅱, *self.𓎜()}
         𓊾 = sorted(𓅘 for 𓅘, 𓂘 in 𓂭.items() if 𓅘 not in 𓆊 and 𓂘 >= self.𓃥𓊞)
         if not 𓊾:                              # 🤏🗺️ fallback → any 🟩
             𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in 𓆊)
@@ -175,22 +190,23 @@ class 𓉔:
         self.𓏰 += 1
         if self.𓊰 > 0:                   # ⚡⏳ tick
             self.𓊰 -= 1
-        self.𓃠 = self.𓎗(self.𓃠, 𓂃[𓊍])
+        𓋉 = self.𓃠                       # 📍 prev
+        self.𓃠 = self.𓎚(self.𓎗(self.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 + 🕳️➡️🕳️
         if self.𓃠 == self.𓁉:            # 😻🎯
             self.𓄊 = True
             return True
         if self.𓃠 == self.𓇬:            # 🧀😋
-            self.𓇬 = self.𓆙((self.𓆛, self.𓊮, self.𓃥, self.𓅱))
+            self.𓇬 = self.𓆙((self.𓆛, self.𓊮, self.𓃥, self.𓅱, *self.𓎜()))
         if self.𓃠 == self.𓆛:            # 🐟😋
             self.𓊛 += 1
-            self.𓆛 = self.𓆙((self.𓇬, self.𓊮, self.𓃥, self.𓅱))
+            self.𓆛 = self.𓆙((self.𓇬, self.𓊮, self.𓃥, self.𓅱, *self.𓎜()))
         if self.𓃠 == self.𓊮:            # 🥛😋 → ⚡
             self.𓊳 += 1
             self.𓊰 = self.𓋨
-            self.𓊮 = self.𓆙((self.𓇬, self.𓆛, self.𓃥, self.𓅱))
+            self.𓊮 = self.𓆙((self.𓇬, self.𓆛, self.𓃥, self.𓅱, *self.𓎜()))
         if self.𓅱 is not None and self.𓃠 == self.𓅱:   # 🐦😋 → 🏆
             self.𓅮 += 1
-            self.𓅱 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥))
+            self.𓅱 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥, *self.𓎜()))
         if self.𓊰 > 0:                   # 🥛⚡  🐈🎯🐭 from afar
             𓂭 = self.𓃰(self.𓃠)
             if 𓂭.get(self.𓁉, 999) <= self.𓋩:
@@ -215,7 +231,7 @@ class 𓉔:
         self.𓃥 = self.𓊐(self.𓃥, self.𓃠)
         if self.𓃥 == self.𓃠:            # 😿  bonk!
             self.𓊟 += 1
-            self.𓃠 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥))  # 🐈🌀
+            self.𓃠 = self.𓆙((self.𓇬, self.𓆛, self.𓊮, self.𓃥, *self.𓎜()))  # 🐈🌀
             self.𓃥 = self.𓃥𓆙()         # 🐕🎲 far
 
     def 𓅓𓎗(self) -> tuple[int, int]:
@@ -284,6 +300,8 @@ class 𓉔:
                     𓂐.append("🐟")
                 elif 𓅘 == self.𓊮:
                     𓂐.append("🥛")
+                elif self.𓎛 is not None and 𓅘 in self.𓎛:
+                    𓂐.append("🕳️")
                 elif 𓅘 in self.𓊵:
                     𓂐.append("🧱")
                 else:
@@ -301,7 +319,10 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
         if 𓆓 == 𓉔𓏤.𓃥:                        # 🚫🐕
             continue
-        𓊈 = (𓂭𓁉.get(𓆓, 10 ** 9), -𓂭𓃥.get(𓆓, 0))
+        𓂚 = 𓉔𓏤.𓎚(𓆓, 𓉔𓏤.𓃠)                 # 🕳️ landing  (portal shortcut)
+        if 𓂚 == 𓉔𓏤.𓃥:                        # 🚫🐕 land
+            continue
+        𓊈 = (𓂭𓁉.get(𓂚, 10 ** 9), -𓂭𓃥.get(𓂚, 0))
         if 𓊈 < 𓅒:
             𓅒 = 𓊈
             𓅑 = 𓆓
