@@ -190,6 +190,7 @@ def 𓊪𓁐():
     assert "🥛" in 𓋁.𓁐()      # 🥛 drawn
     assert "🐕" in 𓋁.𓁐()      # 🐕 drawn
     assert "🐦" in 𓋁.𓁐()      # 🐦 drawn
+    assert "🕳️" in 𓋁.𓁐()      # 🕳️ drawn
 
 
 def 𓊪𓋴():
@@ -316,6 +317,32 @@ def 𓊪𓅱𓁋():
     assert 𓋁.𓅮 == 0
 
 
+def 𓊪𓎛():
+    # 🕳️➡️🕳️  teleport : 🐈 steps on 🕳️ → 🕳️ twin , 🚫 re-teleport standing
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
+    𓋁.𓁉 = (0, 7)                              # 🐭 far
+    𓋁.𓇬 = (9, 0)
+    𓋁.𓆛 = (9, 1)
+    𓋁.𓊮 = (9, 2)
+    𓋁.𓎛 = ((5, 5), (1, 1))                    # 🕳️↔️🕳️
+    𓋁.𓃠 = (4, 5)                              # →➡️ 🕳️(5,5)
+    𓋁.𓂷("➡️")
+    assert 𓋁.𓃠 == (1, 1)                      # 🕳️ twin
+    𓋁.𓂷("🐾")                                # 💤 on 🕳️ → 🚫 re-teleport
+    assert 𓋁.𓃠 == (1, 1)
+
+
+def 𓊪𓎛𓁋():
+    # 🚫🕳️  off : 𓎛=None , 🚫 render , 🐈 still 😻
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓎛𓁋=False)
+    assert 𓋁.𓎛 is None
+    assert "🕳️" not in 𓋁.𓁐()
+    for _ in range(500):
+        if 𓋁.𓂷(𓅓.𓊄(𓋁)):
+            break
+    assert 𓋁.𓄊 is True
+
+
 def 𓊪𓆓():
     # 🪝😾  🗣️🔤👀 → 📜 ↔️ + 🏷️   (🚫🎭📜)
     assert 𓆦.𓁐("meow mrrr prrr hisss nya") == "meow mrrr prrr hisss nya"
@@ -367,6 +394,7 @@ def 𓊪𓆓𓂭():
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
+     𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓆓, 𓊪𓆓𓂭]
 
 if __name__ == "__main__":
