@@ -414,19 +414,32 @@ class 𓉔:
         return "\n".join(𓂏)
 
 
+# 🐾9️⃣  ❤️ ≤ 𓊄𓋹 → 🐈 💀-averse mode  (last life → dodge ; else 🏹 aggressive hunter)
+𓊄𓋹 = 1
+
+
 def 𓊄(𓉔𓏤: 𓉔) -> str:
-    # 🐈🧠  BFS 💨→🐭 , 🚫🐕 :  min 📏→🐭 , tie → max 📏→🐕 , 🚫 step onto 🐕
+    # 🐈🧠  BFS 💨→🐭 , 🚫🐕 :  💀safe → min 📏→🐭 → max 📏→🐕 , 🚫 step onto 🐕
+    #   🐾9️⃣ : ❤️≤𓊄𓋹 AND 🐕 acts next 🐾 → 💀-averse (else 🏹 aggressive dart)
+    #   danger = 🐕💨 next & 📏🐕≤1 → bonk ; 🎯 win (📏🐭=0) always safe
     𓂭𓁉 = 𓉔𓏤.𓃰(𓉔𓏤.𓁉)                       # 📏→🐭
     𓂭𓃥 = 𓉔𓏤.𓃰(𓉔𓏤.𓃥) if 𓉔𓏤.𓃥 is not None else {}   # 📏→🐕
+    # 💀-averse❓ : ❤️ low AND 🐕💨 next 🐾  (𓏰 +1 after 🐈 🐾 , 🐕 acts @ 𓏰%𓃥𓎿==0)
+    𓋂𓈎 = (𓉔𓏤.𓃥 is not None and 𓉔𓏤.𓋹 <= 𓊄𓋹
+           and (𓉔𓏤.𓏰 + 1) % 𓉔𓏤.𓃥𓎿 == 0)
     𓅑 = 𓉔𓏤.𓃠
-    𓅒 = (10 ** 9, 0)
+    𓅒 = (9, 10 ** 9, 0)
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
         if 𓆓 == 𓉔𓏤.𓃥:                        # 🚫🐕
             continue
         𓂚 = 𓉔𓏤.𓎚(𓆓, 𓉔𓏤.𓃠)                 # 🕳️ landing  (portal shortcut)
         if 𓂚 == 𓉔𓏤.𓃥:                        # 🚫🐕 land
             continue
-        𓊈 = (𓂭𓁉.get(𓂚, 10 ** 9), -𓂭𓃥.get(𓂚, 0))
+        𓅗 = 𓂭𓁉.get(𓂚, 10 ** 9)              # 📏→🐭
+        # 💀 danger : 🐕 acts next & could 💨1 onto 🐈  (📏🐕≤1) — 🎯 win always safe
+        𓋁𓈎 = 1 if (𓋂𓈎 and 𓅗 > 0
+                    and 𓂭𓃥.get(𓂚, 10 ** 9) <= 1) else 0
+        𓊈 = (𓋁𓈎, 𓅗, -𓂭𓃥.get(𓂚, 0))
         if 𓊈 < 𓅒:
             𓅒 = 𓊈
             𓅑 = 𓆓

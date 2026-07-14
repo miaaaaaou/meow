@@ -81,9 +81,11 @@ def 𓊪𓇬():
 
 
 def 𓊪𓄊():
-    # 🤖  🐈 always 😻  (many 🎲 + 🧱)
+    # 🤖  🐈 always 😻  (🔗 map solvable , many 🎲 + 🧱)
+    #   ❤️×∞ → 💀 death layer OFF : this checks pure 🔗 solvability (💀 tested @ 𓊪𓋺)
     for 𓊃 in range(60):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
+        𓋁.𓋹 = 10 ** 9                 # ❤️×∞  (🚫💀 → 🔗 solvability only)
         for _ in range(500):
             if 𓋁.𓂷(𓅓.𓊄(𓋁)):
                 break
@@ -507,10 +509,12 @@ def 𓊪𓊆():
 
 
 def 𓊪𓊆𓄊():
-    # 🎚️  ∀ 🌊 1..9  →  🐈 always 😻  (🔗 solvable)
+    # 🎚️  ∀ 🌊 1..9  →  🐈 always 😻  (🔗 map solvable ∀ 🎚️)
+    #   ❤️×∞ → 💀 layer OFF : full-speed 🐕 @ 🌊≥7 → 💀 challenge tested @ 𓊪𓋺 , not here
     for 𓊍 in range(1, 10):
         for 𓊃 in range(6):
             𓋁 = 𓅓.𓊆(𓊍, random.Random(𓊃 + 𓊍 * 10))
+            𓋁.𓋹 = 10 ** 9             # ❤️×∞  (🚫💀 → 🔗 solvability only)
             for _ in range(600):
                 if 𓋁.𓂷(𓅓.𓊄(𓋁)):
                     break
@@ -592,11 +596,83 @@ def 𓊪𓆓𓂭():
     assert 𓊿.stdout == ""
 
 
+def 𓊪𓋿():
+    # 😻🔥  combo :  🔥 streak +1 / catch ; 🏆 bonus += base ×(min(🔥,🧢)−1) ; 🧢 cap
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋁.𓋿(5); assert 𓋁.𓋻 == 1 and 𓋁.𓋼 == 0        # 1️⃣st = base only (×0)
+    𓋁.𓋿(5); assert 𓋁.𓋻 == 2 and 𓋁.𓋼 == 5        # +5×1
+    𓋁.𓋿(3); assert 𓋁.𓋻 == 3 and 𓋁.𓋼 == 11       # +3×2
+    # 🧢 cap : 🔥 past 🧢=5 → reward ×4 max (min(🔥,🧢)−1)
+    𓋁.𓋻 = 10
+    𓅐 = 𓋁.𓋼
+    𓋁.𓋿(2)
+    assert 𓋁.𓋼 - 𓅐 == 2 * (𓅓.𓉔.𓋻𓈎 - 1)         # 🧢 → ×(5−1)=×4
+    # 🎯 integration : 🐟😋 → 🔥 streak +1
+    𓋂 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓁉 = (0, 7); 𓋂.𓇬 = (9, 0); 𓋂.𓊮 = (9, 1)
+    𓋂.𓆛 = (3, 2); 𓋂.𓃠 = (2, 2)
+    𓋂.𓂷("➡️")
+    assert 𓋂.𓊛 == 1 and 𓋂.𓋻 == 1                  # 🐟 → 🔥 +1
+    # 🏆 score includes 🔥 combo bonus
+    𓋃 = 𓅓.𓉔(random.Random(0))
+    𓋃.𓏰 = 0; 𓋃.𓊛 = 0; 𓋃.𓊳 = 0; 𓋃.𓅮 = 0; 𓋃.𓊟 = 0
+    𓅑 = 𓋃.𓊙()
+    𓋃.𓋼 = 20
+    assert 𓋃.𓊙() == 𓅑 + 20                         # combo → 🏆
+
+
+def 𓊪𓋺():
+    # 🐾9️⃣  ❤️×9 : 😿 bonk −1 ; 0 → 💀 🎮🔚 ; 🔥 reset on bonk ; 🐈 🚫 relocate @ 💀
+    𓋁 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    assert 𓋁.𓋹 == 𓅓.𓉔.𓋹𓈖                        # ❤️×9 start
+    assert 𓋁.𓋺 is False and 𓋁.𓋾() is False
+    # 🔥 streak → bonk → ❤️−1 + 🔥 reset
+    𓋁.𓋻 = 4
+    𓋁.𓃠 = (5, 5); 𓋁.𓃥 = (5, 6)                    # adjacent → bonk
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓊟 == 1 and 𓋁.𓋹 == 8                  # 😿+1 , ❤️−1
+    assert 𓋁.𓋻 == 0                                # 🔥 reset
+    assert 𓋁.𓋺 is False                            # still 🐈🎮
+    # 💀 last ❤️ → 🎮🔚 , 🐈 stuck (🚫 🌀 relocate)
+    𓋂 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓋹 = 1
+    𓋂.𓃠 = (5, 5); 𓋂.𓃥 = (5, 6)
+    𓋂.𓃥𓎗()
+    assert 𓋂.𓋹 == 0 and 𓋂.𓋺 is True              # 💀
+    assert 𓋂.𓋾() is True                           # 🎮🔚
+    assert 𓋂.𓃠 == (5, 5)                           # 🚫 relocate (stuck @ 💀)
+    # 𓂷 propagates 🎮🔚  (loop breaks on 💀 , 🚫 win)
+    𓋃 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋃.𓋹 = 1
+    𓋃.𓃠 = (5, 5); 𓋃.𓁉 = (0, 7); 𓋃.𓃥 = (5, 6)
+    𓋃.𓃥𓎿 = 1                                       # 🐕 acts every 🐾
+    𓆳 = 𓋃.𓂷("🐾")
+    assert 𓋃.𓋺 is True                             # 💀
+    assert 𓋃.𓄊 is False                            # 🚫 😻 win
+    assert 𓆳 is True                                # 🎮🔚 → loop breaks
+
+
+def 𓊪𓁑():
+    # 🖼️ HUD :  ❤️×N + 🔥×N  ; 🔥≥3 → ✨ ; 🌈 ANSI wrap
+    𓋁 = 𓅓.𓉔(random.Random(0))
+    𓊞 = 𓋁.𓁑()
+    assert "❤️×9" in 𓊞 and "🔥×0" in 𓊞            # start
+    assert "✨" not in 𓊞
+    𓋁.𓋹 = 4; 𓋁.𓋻 = 3
+    𓊞 = 𓋁.𓁑()
+    assert "❤️×4" in 𓊞 and "🔥×3" in 𓊞
+    assert "✨" in 𓊞                               # 🔥≥3 → ✨
+    # 🌈 : ❤️🔥 → ANSI
+    𓂭 = 𓅓.𓋊(𓋁.𓁑(), True)
+    assert "\033[" in 𓂭 and "\033[0m" in 𓂭
+
+
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
+     𓊪𓋿, 𓊪𓋺, 𓊪𓁑,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
