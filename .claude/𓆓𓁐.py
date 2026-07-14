@@ -19,22 +19,28 @@ import sys
     r"(?i)^(?:m+e+o+w+|m+e+w+|m+i+a+(?:[ou]+w*|w+)|m+r{2,}|p+u*r{2,}|h+i+s{2,}|n+y+a+n*|g*r{2,})$"
 )
 
-# 🏷️  📄🔚
-𓅱 = "  😾hisss!"
+# 🏷️  📄🔚   😾 ⬆️⬆️⬆️ → 📢
+def 𓅱(𓈖: int) -> str:
+    if 𓈖 >= 6:
+        return "  📢😾😾😾HISSSSSS‼️"     # ⬆️⬆️⬆️ 📢
+    if 𓈖 >= 3:
+        return "  😾😾hisssss!!"           # ⬆️⬆️
+    return "  😾hisss!"                    # ⬆️
 
 
-def 𓁹(𓋍: str) -> bool:
-    # 🗣️❓   (🙈 → 🔍)
+def 𓁹(𓋍: str) -> int:
+    # 🗣️🔢   (🙈 → 🔍)
     𓋎 = 𓁹𓅂.sub(" ", 𓋍)
-    return any(not 𓃠𓊍.match(𓊍) for 𓊍 in 𓊖.findall(𓋎))
+    return sum(1 for 𓊍 in 𓊖.findall(𓋎) if not 𓃠𓊍.match(𓊍))
 
 
 def 𓁐(𓆼: str) -> str:
-    # 📜 → 📜🏷️   (📄-wise ; 📜 ↔️ ; 🔗✅)
-    return "\n".join(
-        𓋍 + 𓅱 if 𓁹(𓋍) else 𓋍
-        for 𓋍 in 𓆼.split("\n")
-    )
+    # 📜 → 📜🏷️   (📄-wise ; 📜 ↔️ ; 🔗✅ ; 🗣️🔢 → 🔊🪜)
+    𓂏 = []
+    for 𓋍 in 𓆼.split("\n"):
+        𓈖 = 𓁹(𓋍)
+        𓂏.append(𓋍 + 𓅱(𓈖) if 𓈖 else 𓋍)
+    return "\n".join(𓂏)
 
 
 def 𓋹() -> None:
