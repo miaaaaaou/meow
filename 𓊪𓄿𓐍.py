@@ -416,6 +416,123 @@ def 𓊪𓋰():
     assert 𓋁.𓋯 is True                # still spent
 
 
+def 𓊪𓋹():
+    # 🐾9️⃣  nine-lives : 🏁 ❤️×9 , 😿 −1 , 0 → 💀🎮🔚 , 🖼️ HUD , 🔗✅ 🚫💀
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓋹 == 9                          # 🏁 start ❤️×9
+    assert 𓋁.𓋺 is False                      # 🚫💀
+    assert 𓋁.𓋾() is False                    # 🎮 on
+    # 😿 bonk → ❤️ 8 + 🐈🌀 restart + still alive
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓃥 = (5, 6)                             # adjacent → bonk
+    𓋁.𓃥𓎗()
+    assert 𓋁.𓋹 == 8                          # ❤️ −1
+    assert 𓋁.𓊟 == 1                          # 😿 tally = 9−❤️
+    assert 𓋁.𓋺 is False                      # still alive
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞    # 🐕🎲 far after 🌀
+    # ❤️ 1 → 😿 → 0 → 💀 🎮🔚
+    𓋂 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
+    𓋂.𓋹 = 1
+    𓋂.𓃠 = (5, 5)
+    𓋂.𓃥 = (5, 6)
+    𓋂.𓃥𓎗()
+    assert 𓋂.𓋹 == 0                          # 0 ❤️
+    assert 𓋂.𓋺 is True                       # 💀 lose flag
+    assert 𓋂.𓋾() is True                     # 🎮🔚
+    # 💀 propagates : 𓂷 returns 🎮🔚 True
+    𓋃 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
+    𓋃.𓋹 = 1
+    𓋃.𓃥𓎿 = 1                                 # 🐕💨 full-speed (move this turn)
+    𓋃.𓃠 = (5, 5)
+    𓋃.𓁉 = (0, 7)                             # 🐭 far (🚫 catch)
+    𓋃.𓅱 = None
+    𓋃.𓃥 = (5, 6)                             # 🐕 adjacent → fatal bonk on 𓃥𓎗
+    assert 𓋃.𓂷("🐾") is True                 # 🎮🔚 via 💀
+    assert 𓋃.𓋺 is True and 𓋃.𓄊 is False
+    # 🏆 −10 ×😿 (9−❤️) tally kept
+    𓋄 = 𓅓.𓉔(random.Random(0))
+    𓋄.𓏰 = 10
+    𓋄.𓊟 = 3
+    assert 𓋄.𓊙() == max(0, 100 - 10 - 30)     # −10×3 bonks
+    # 🖼️ HUD ❤️×N  (plain + 🌈)
+    assert "❤️×9" in 𓋄.𓁑()
+    𓂮 = 𓅓.𓋊(𓋄.𓁑(), True)
+    assert "\033[" in 𓂮 and "❤️" in 𓂮         # 🌈 wrap
+    assert 𓅓.𓋊(𓋄.𓁑(), False) == 𓋄.𓁑()      # 🚫⚑ ↔️
+    # 🔗✅ 120🎲 ↔️ 🚫💥  + 🚫💀 (🐾9️⃣ cat survives , always 😻)
+    for 𓊃 in range(120):
+        𓋅 = 𓅓.𓉔(random.Random(𓊃))
+        for _ in range(500):
+            if 𓋅.𓂷(𓅓.𓊄(𓋅)):
+                break
+        assert 𓋅.𓄊 is True, f"🙀 seed={𓊃}"     # 😻
+        assert 𓋅.𓋺 is False, f"💀 seed={𓊃}"    # 🚫9️⃣😿 death
+        assert 𓋅.𓋹 == 9 - 𓋅.𓊟                 # ❤️ = 9 − 😿
+
+
+def 𓊪𓋻():
+    # 😻🔥  combo streak : 🎯 → 🔥+1 , 🏆 ×min(🔥,5) , 😿 reset , 🖼️ HUD✨
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓋻 == 0 and 𓋁.𓋼 == 0            # 🏁 clean
+    # 🔥 tally math :  🔥+1 , bonus += base×(min(🔥,5)−1)
+    𓋁.𓋿(5)                                   # 🔥1 → ×1 , +0
+    assert 𓋁.𓋻 == 1 and 𓋁.𓋼 == 0
+    𓋁.𓋿(5)                                   # 🔥2 → ×2 , +5
+    assert 𓋁.𓋻 == 2 and 𓋁.𓋼 == 5
+    𓅐 = 𓋁.𓋼
+    𓋁.𓋿(5)                                   # 🔥3 → ×3 , +10  (🎯 total = base×3)
+    assert 𓋁.𓋻 == 3
+    assert 𓋁.𓋼 - 𓅐 == 10                     # bonus×2 + base×1 = base×3
+    # 🔥 🧢 cap ×5  (6th 🎯 still ×5)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    for _ in range(4):
+        𓋂.𓋿(10)                              # 🔥1..4
+    𓅐 = 𓋂.𓋼
+    𓋂.𓋿(10)                                  # 🔥5 → ×5 , +40
+    assert 𓋂.𓋼 - 𓅐 == 40
+    𓅐 = 𓋂.𓋼
+    𓋂.𓋿(10)                                  # 🔥6 → 🧢 ×5 , +40 (🚫×6)
+    assert 𓋂.𓋻 == 6
+    assert 𓋂.𓋼 - 𓅐 == 40                     # 🧢 cap held
+    # 😿 bonk → 🔥 0 reset
+    𓋃 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0)
+    𓋃.𓋻 = 4
+    𓋃.𓃠 = (5, 5)
+    𓋃.𓃥 = (5, 6)                             # adjacent → bonk
+    𓋃.𓃥𓎗()
+    assert 𓋃.𓊟 == 1
+    assert 𓋃.𓋻 == 0                          # 🔥 reset
+    # 🏆 folds 🔥 combo bonus
+    𓋄 = 𓅓.𓉔(random.Random(0))
+    𓋄.𓏰 = 10
+    𓋄.𓊛 = 2
+    𓋄.𓋼 = 17
+    assert 𓋄.𓊙() == max(0, 100 - 10) + 5 * 2 + 17
+    # 🎯 integration : 🐟😋 via 𓂷 → 🔥+1 , 🥛😋 → 🔥+1
+    𓋅 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
+    𓋅.𓁉 = (0, 7)         # 🐭 far
+    𓋅.𓇬 = (9, 0)         # 🧀 elsewhere
+    𓋅.𓊮 = (9, 2)         # 🥛 elsewhere
+    𓋅.𓃠 = (2, 2)
+    𓋅.𓆛 = (3, 2)         # 🐟 →➡️
+    𓋅.𓂷("➡️")
+    assert 𓋅.𓊛 == 1 and 𓋅.𓋻 == 1            # 🐟😋 → 🔥1
+    # 🖼️ HUD 🔥×N  (plain + 🌈 , 🔥≥3 → ✨)
+    𓋆 = 𓅓.𓉔(random.Random(0))
+    𓋆.𓋻 = 2
+    assert "🔥×2" in 𓋆.𓁑()
+    assert "✨" not in 𓋆.𓁑()                  # <3 → 🚫✨
+    𓋆.𓋻 = 3
+    assert "🔥×3✨" in 𓋆.𓁑()                  # ≥3 → ✨
+    𓂮 = 𓅓.𓋊(𓋆.𓁑(), True)
+    assert "\033[" in 𓂮 and "🔥" in 𓂮         # 🌈 wrap
+    # 🔗✅ 120🎲 ↔️ 🚫💥  (🏁 clean streak ∀)
+    for 𓊃 in range(120):
+        𓋇 = 𓅓.𓉔(random.Random(𓊃))
+        assert 𓋇.𓋻 == 0 and 𓋇.𓋼 == 0
+        assert "🔥×0" in 𓋇.𓁑()
+
+
 def 𓊪𓋊():
     # 🌈  colorize : ⚑ → ANSI wrap , 🚫⚑ → 📺 ↔️ plain
     𓊞 = "🐈🟩🧱\n🐭🐕🥛"
@@ -597,6 +714,7 @@ def 𓊪𓆓𓂭():
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
+     𓊪𓋹, 𓊪𓋻,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,

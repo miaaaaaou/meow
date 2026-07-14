@@ -414,20 +414,31 @@ class 𓉔:
         return "\n".join(𓂏)
 
 
+# 🐈🧠  🐾9️⃣ caution :  ❤️ low + 🐕 near → 💨 flee mode  (🚫💀 死 , 🚫 livelock)
+𓊄𓋹 = 3   # ❤️ ≤ this → cautious
+𓊄𓃥 = 2   # 🐕 BFS 📏 ≤ this → 💨 flee trigger
+
+
 def 𓊄(𓉔𓏤: 𓉔) -> str:
-    # 🐈🧠  BFS 💨→🐭 , 🚫🐕 :  min 📏→🐭 , tie → max 📏→🐕 , 🚫 step onto 🐕
+    # 🐈🧠  BFS →🐭 , 🚫🐕 :  greedy (min 📏🐭 , tie max 📏🐕) ;
+    #        ❤️≤3 + 🐕📏≤2 → 💨 flee (max 📏🐕 , tie min 📏🐭)  → 🚫9️⃣😿💀
     𓂭𓁉 = 𓉔𓏤.𓃰(𓉔𓏤.𓁉)                       # 📏→🐭
     𓂭𓃥 = 𓉔𓏤.𓃰(𓉔𓏤.𓃥) if 𓉔𓏤.𓃥 is not None else {}   # 📏→🐕
+    𓋞 = (𓉔𓏤.𓃥 is not None                    # 💨 flee❓  ❤️低 + 🐕近
+          and 𓉔𓏤.𓋹 <= 𓊄𓋹
+          and 𓂭𓃥.get(𓉔𓏤.𓃠, 10 ** 9) <= 𓊄𓃥)
     𓅑 = 𓉔𓏤.𓃠
-    𓅒 = (10 ** 9, 0)
+    𓅒 = None
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
         if 𓆓 == 𓉔𓏤.𓃥:                        # 🚫🐕
             continue
         𓂚 = 𓉔𓏤.𓎚(𓆓, 𓉔𓏤.𓃠)                 # 🕳️ landing  (portal shortcut)
         if 𓂚 == 𓉔𓏤.𓃥:                        # 🚫🐕 land
             continue
-        𓊈 = (𓂭𓁉.get(𓂚, 10 ** 9), -𓂭𓃥.get(𓂚, 0))
-        if 𓊈 < 𓅒:
+        𓃀𓁉 = 𓂭𓁉.get(𓂚, 10 ** 9)              # 📏🐭
+        𓃀𓃥 = 𓂭𓃥.get(𓂚, 0)                    # 📏🐕
+        𓊈 = (-𓃀𓃥, 𓃀𓁉) if 𓋞 else (𓃀𓁉, -𓃀𓃥)   # 💨 flee vs 🎯 chase
+        if 𓅒 is None or 𓊈 < 𓅒:
             𓅒 = 𓊈
             𓅑 = 𓆓
     return 𓉔𓏤.𓂊(𓉔𓏤.𓃠, 𓅑)
