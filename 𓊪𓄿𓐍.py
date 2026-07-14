@@ -389,6 +389,51 @@ def 𓊪𓎍():
     assert "🐦3" in 𓊮
 
 
+def 𓊪𓊆():
+    # 🎚️  🌊 factory : 🚧 1..9 , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 💨🐕@≥7 , 👀🐭@≥5
+    # 🚧 clamp
+    assert 𓅓.𓊆(0, random.Random(0)).𓊍 == 1
+    assert 𓅓.𓊆(99, random.Random(0)).𓊍 == 9
+    assert 𓅓.𓊆(5, random.Random(0)).𓊍 == 5
+    # 🌊1️⃣ → 🚫🐕🐦🕳️
+    𓋁 = 𓅓.𓊆(1, random.Random(0))
+    assert 𓋁.𓃥 is None and 𓋁.𓅱 is None and 𓋁.𓎛 is None
+    # 🌊2️⃣ → 🐕 on
+    assert 𓅓.𓊆(2, random.Random(0)).𓃥 is not None
+    # 🌊3️⃣ → 🐦 on
+    assert 𓅓.𓊆(3, random.Random(0)).𓅱 is not None
+    # 🌊4️⃣ → 🕳️ on
+    assert 𓅓.𓊆(4, random.Random(0)).𓎛 is not None
+    # 🌊5️⃣ → 👀🐭 sharper
+    assert 𓅓.𓊆(5, random.Random(0)).𓋴 == 4
+    # 🌊7️⃣ → 🐕💨 full-speed
+    assert 𓅓.𓊆(7, random.Random(0)).𓃥𓎿 == 1
+    assert 𓅓.𓊆(6, random.Random(0)).𓃥𓎿 == 𓅓.𓉔.𓃥𓎿   # half-speed still
+    # 🧱 grows with 🎚️  (record tag)
+    assert 𓅓.𓎎(𓅓.𓊆(4, random.Random(0)))["🎚️"] == 4
+
+
+def 𓊪𓊆𓄊():
+    # 🎚️  ∀ 🌊 1..9  →  🐈 always 😻  (🔗 solvable)
+    for 𓊍 in range(1, 10):
+        for 𓊃 in range(6):
+            𓋁 = 𓅓.𓊆(𓊍, random.Random(𓊃 + 𓊍 * 10))
+            for _ in range(600):
+                if 𓋁.𓂷(𓅓.𓊄(𓋁)):
+                    break
+            assert 𓋁.𓄊 is True, f"🙀 🎚️={𓊍} seed={𓊃}"
+
+
+def 𓊪𓊆𓂺():
+    # 🏁  parse 🌊 level from args  (digits + keycap emoji)
+    assert 𓅓.𓊆𓂺([]) == 1
+    assert 𓅓.𓊆𓂺(["🤖", "5"]) == 5
+    assert 𓅓.𓊆𓂺(["3️⃣"]) == 3
+    assert 𓅓.𓊆𓂺(["🤖", "99"]) == 9       # 🚧 clamp
+    assert 𓅓.𓊆𓂺(["🤖", "0"]) == 1        # 🚧 clamp
+    assert 𓅓.𓊆𓂺(["🤖", "🐾"]) == 1       # 🚫digit → default
+
+
 def 𓊪𓎎():
     # 📇  🎮 → 📜 record  (🏆⏱️🐟🥛🐦😿)
     𓋁 = 𓅓.𓉔(random.Random(0))
@@ -459,6 +504,7 @@ def 𓊪𓆓𓂭():
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
+     𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
      𓊪𓆓, 𓊪𓆓𓂭]
 
 if __name__ == "__main__":
