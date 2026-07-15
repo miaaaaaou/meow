@@ -1495,6 +1495,73 @@ def 𓊪𓆓𓉗𓂭():
     assert 𓂭["displayContent"] == "🙊🙊 nya  🙊❌😾😾‼️‼️\n🐈 prrr~\n"
 
 
+def 𓊪𓋱():
+    # 🌱 daily seed :  🌞 code → deterministic seed + 🌊  (∀🐈 🟰 🗺️ / 🌞)
+    #                🚫⚑ → 🎲 random  (🏁 base 🚫 regress) · 📇 🌱 key · 🛤️ split
+    assert len(𓅓.𓋱𓊞()) == 8 and 𓅓.𓋱𓊞().isdigit()   # 🌞 YYYYMMDD
+    𓊈, 𓊍 = 𓅓.𓋱("20260715")
+    assert 𓊈 == 20260715 and 𓊍 == 1 + 20260715 % 𓅓.𓊆𓈖  # seed + 🌊 = f(🌞)
+    assert 1 <= 𓊍 <= 9
+    # 🟰 🌞 → 🟰 🗺️  (seed override : 𓊃/🌊 args 🙈)
+    𓋁 = 𓅓.𓊆(1, random.Random(999), 𓋱𓉏="20260715")
+    𓋂 = 𓅓.𓊆(5, random.Random(1), 𓋱𓉏="20260715")
+    assert 𓋁.𓁐() == 𓋂.𓁐()                      # 🗺️ ↔️
+    assert 𓋁.𓃠 == 𓋂.𓃠 and 𓋁.𓁉𓂋 == 𓋂.𓁉𓂋      # 🐈🐭 ↔️
+    assert 𓋁.𓊍 == 𓊍 and 𓋁.𓋱𓉏 == "20260715"    # 🌊 = f(🌞) , tag
+    # ≠ 🌞 → ≠ 🗺️
+    𓋃 = 𓅓.𓊆(1, None, 𓋱𓉏="20260716")
+    assert 𓋁.𓁐() != 𓋃.𓁐()
+    # 🚫⚑ default → 🎲 random , 🚫 🌱 tag , 🏁 classic 🛤️
+    𓋄 = 𓅓.𓊆(5, random.Random(0))
+    assert 𓋄.𓋱𓉏 is None
+    assert "🌱" not in 𓅓.𓎎(𓋄) and 𓅓.𓎋𓉏(𓋄) == 𓅓.𓎋𓊪
+    # 📇 : ⚑ → 🌱 tag ; 🛤️ → 🏆📜🌱.json  (≠ classic ≠ ⏱️)
+    assert 𓅓.𓎎(𓋁)["🌱"] == "20260715"
+    assert 𓅓.𓎋𓉏(𓋁) == 𓅓.𓎋𓊪𓋱
+    assert 𓅓.𓎋𓊪𓋱 != 𓅓.𓎋𓊪 and 𓅓.𓎋𓊪𓋱 != 𓅓.𓎋𓊪𓋃
+    # 🖼️ HUD : 🌱 → 🚫 collide ⏳/🚀/❄️  (🙈 those unless their ⚑)
+    assert "⏳×" not in 𓋁.𓁑() and "🚀×" not in 𓋁.𓁑()
+
+
+def 𓊪𓋲():
+    # 🌱 📜🔝 split :  per-🌞 top-N (👴🌞 kept) + 🌞 filter render + 𓎋𓎗 routing
+    #              + 🔗✅ 120🎲 : ∀ 🌞 code → 🗺️ 🔗 (🐭 reachable) , 🎮 🚫 crash
+    𓊔 = 𓅓.𓎋𓊪𓋱
+    try:
+        with tempfile.TemporaryDirectory() as 𓊪𓉏:
+            𓅓.𓎋𓊪𓋱 = os.path.join(𓊪𓉏, "🌱.json")
+            for 𓈙 in (30, 50, 10, 70):
+                𓂏 = 𓅓.𓎌𓋱({"🏆": 𓈙, "⏱️": 5, "🌱": "20260715"}, "20260715")
+            assert [𓅘["🏆"] for 𓅘 in 𓂏] == [70, 50, 30, 10]   # 🎯 today , 🔽🏆
+            𓂑 = 𓅓.𓎌𓋱({"🏆": 99, "⏱️": 3, "🌱": "20260716"}, "20260716")
+            assert [𓅘["🌱"] for 𓅘 in 𓂑] == ["20260716"]       # filter → 🎯 B
+            𓄽 = 𓅓.𓎋(𓅓.𓎋𓊪𓋱)
+            assert sorted({𓅘["🌱"] for 𓅘 in 𓄽}) == ["20260715", "20260716"]  # 👴🌞 kept
+            # 🖼️ filter render : A code → A title , 🚫 B score
+            𓂮 = 𓅓.𓎍(𓄽, "20260715")
+            assert "🏆📜🔝🌱20260715" in 𓂮 and "🏆99" not in 𓂮
+            assert "🏆📜🔝🌱20991231" in 𓅓.𓎍(𓄽, "20991231")   # 🈳 🌞 → title + 📜🕳️
+            # 𓎋𓎗 e2e : 🌱 game → 🌱 🛤️ , 🌞 filter title
+            𓋁 = 𓅓.𓊆(1, None, 𓋱𓉏="20260715")
+            assert "🏆📜🔝🌱20260715" in 𓅓.𓎋𓎗(𓋁)
+            assert len(𓅓.𓎋(𓅓.𓎋𓊪𓋱)) >= 1
+    finally:
+        𓅓.𓎋𓊪𓋱 = 𓊔                            # ♻️ restore global 🛤️
+    # 🔗✅ 120🎲 : ∀ 🌞 code → 🗺️ 🔗 + 🎮 runs 🚫💥
+    for 𓈙 in range(120):
+        𓅕 = f"2026{1 + 𓈙 % 12:02d}{1 + 𓈙 % 28:02d}"   # 🌞 codes
+        𓋂 = 𓅓.𓊆(1, None, 𓋱𓉏=𓅕)
+        𓂭 = 𓋂.𓃰(𓋂.𓃠)
+        for 𓅘 in 𓋂.𓁉𓂋:
+            assert 𓅘 in 𓂭, f"🙀 🐭 unreachable 🌞={𓅕}"   # 🔗
+        # 🟰 code → 🟰 🗺️ (determinism 🔁)
+        𓋃 = 𓅓.𓊆(9, random.Random(𓈙), 𓋱𓉏=𓅕)
+        assert 𓋂.𓁐() == 𓋃.𓁐(), f"🙀 ≠ 🗺️ 🌞={𓅕}"
+        for _ in range(60):
+            if 𓋂.𓂷(𓅓.𓊄(𓋂)):
+                break                             # 🎮 🚫 crash
+
+
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
@@ -1506,7 +1573,7 @@ def 𓊪𓆓𓉗𓂭():
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
      𓊪𓋃𓁋, 𓊪𓋃𓈖, 𓊪𓋂, 𓊪𓋂𓊙, 𓊪𓋃𓁑, 𓊪𓋺𓁐, 𓊪𓎋𓉏, 𓊪𓋃𓂺,
      𓊪𓋊, 𓊪𓋋,
-     𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
+     𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
      𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭]
