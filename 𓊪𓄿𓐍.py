@@ -970,6 +970,13 @@ def 𓊪𓎏():
     assert 𓅓.𓎏("🐕") == ["🐕"]                  # 🚫🧭 🔤 → 🤔❓ @ 🕹️
     # ⎋ noise 🚮 + 🧭 kept  (🐈🚧 partial seq)
     assert 𓅓.𓎏("\x1b[\x1b[C") == ["➡️"]
+    # 🀄 ⚔️ ⎋ 🤝 : ⎋ present → 🀄 token 🚫 dropped ‼️  (🙀 🚪 must 💨)
+    assert 𓅓.𓎏("\x1b[C🙀") == ["➡️", "🙀"]      # ▶️ then 🚪
+    assert 𓅓.𓎏("\x1b[C🧶") == ["➡️", "🧶"]      # ▶️ then 🎾
+    assert 𓅓.𓎏("🧶\x1b[C") == ["🧶", "➡️"]      # 🀄 🥇 then 🧭
+    assert 𓅓.𓎏("\x1b[C 🐾 ") == ["➡️", "🐾"]    # 🚿 strip
+    assert 𓅓.𓎏("\x1b[1;5C") == []              # ⌃➡️ params → 🚫🧭 (🚫💥)
+    assert 𓅓.𓎏("\x1b[C\x1b[1;5C\x1b[B") == ["➡️", "⬇️"]   # 🚮 mid , 🧭 kept
     # 🕹️ 🔗 : ∀ 🧭 → 𓂃 ✅  (🐾 map 🤝)
     for 𓅕 in ("\x1b[A", "\x1b[B", "\x1b[C", "\x1b[D"):
         assert 𓅓.𓎏(𓅕)[0] in 𓅓.𓂃
@@ -995,6 +1002,14 @@ def 𓊪𓎏𓊪𓏰():
     assert 𓂭.returncode == 0
     assert "🤔❓" not in 𓂭.stdout
     assert "⏱️=3" in 𓂭.stdout                   # ▶️×3 in 1 📜
+    # ⌨️ 🤝 🀄 : ⎋[C + 🙀 1️⃣ 📜 → ▶️ then 🚪  (🐛 : 🙀 💨 dropped)
+    𓂯 = subprocess.run(
+        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        input="\x1b[C🙀\n", capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂯.returncode == 0
+    assert "👋😼" in 𓂯.stdout                   # 🚪 ✅  (🚫 🙈)
+    assert "🤔❓" not in 𓂯.stdout
     # 🤔❓ 🚫🧭 🔤  (🚫💥)
     𓂮 = subprocess.run(
         [sys.executable, "𓃠𓐍𓅓.py", "1"],
