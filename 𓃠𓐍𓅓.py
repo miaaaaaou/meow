@@ -114,10 +114,12 @@ class 𓉔:
     𓋃𓎿 = 8
     # ⏱️  ⏳ ≤ this → 🟥 flash  (🖼️ HUD)
     𓋃𓈎 = 5
+    # 🌟🧊  freeze ❄️ duration  (🐈🧊😋 → 🐕 ❄️ N 🐾 : 🚫 chase , 🚫 bonk)
+    𓋕𓊞 = 5
 
     def __init__(𓋁, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
                  𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True,
-                 𓋃𓁋: bool = False):
+                 𓋃𓁋: bool = False, 𓋔𓁋: bool = True):
         𓋁.𓊃 = 𓊃 or random.Random()
         𓋁.𓃠 = (0, 0)                        # 🐈
         𓋁.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 pack  (📍 list)
@@ -139,6 +141,11 @@ class 𓉔:
         𓋁.𓃥: tuple[int, int] | None = None  # 🐕
         if 𓃥𓁋:
             𓋁.𓃥 = 𓋁.𓃥𓆙()               # 🐕🎲 far
+        𓋁.𓋔: tuple[int, int] | None = None  # 🧊  (⇔ 🐕 present : 🚫🐕 → 🚫🧊)
+        𓋁.𓋕 = 0                             # ❄️ freeze countdown  (🐕 frozen)
+        𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=4)   # 🐈 📜 visited  (2-cycle 👀)
+        if 𓋔𓁋 and 𓋁.𓃥 is not None:
+            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲
         𓋁.𓏰 = 0                             # ⏱️
         𓋁.𓊛 = 0                             # 🐟😋 (fish eaten)
         𓋁.𓊳 = 0                             # 🥛😋 (milk eaten)
@@ -185,10 +192,10 @@ class 𓉔:
             𓋁.𓊚𓂋 = [𓂘]
 
     def 𓁉𓆙(𓋁) -> tuple[int, int]:
-        # 🐭🎲 📍  🔗 from 🐈  ≠🐈🐭🐭🧀🐟🥛🐕🐦🕳️
+        # 🐭🎲 📍  🔗 from 🐈  ≠🐈🐭🐭🧀🐟🥛🐕🐦🕳️🧊
         𓂭 = 𓋁.𓃰(𓋁.𓃠)
         𓆊 = {𓋁.𓃠, *𓋁.𓁉𓂋, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮,
-              𓋁.𓃥, 𓋁.𓅱, *𓋁.𓎜()}
+              𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()}
         𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in 𓆊)
         if not 𓊾:
             return 𓋁.𓁉
@@ -330,27 +337,33 @@ class 𓉔:
             𓋁.𓋮 -= 1
             if 𓋁.𓋮 == 0:
                 𓋁.𓋭 = None
+        if 𓋁.𓋕 > 0:                   # 🌟🧊 ❄️⏳ tick → 🐕 thaw
+            𓋁.𓋕 -= 1
         𓋉 = 𓋁.𓃠                       # 📍 prev
         𓋁.𓃠 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 + 🕳️➡️🕳️
+        𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 visited  (2-cycle 👀 → 🧱 stalemate)
         if 𓋢:                            # 🧶 throw 🎾 📍🐈  (after 🐾 stay)
             𓋁.𓋰()
         if 𓋁.𓁏(𓋁.𓃠):              # 😻🎯  (∀🐭 → 🎮🔚)
             return True
         if 𓋁.𓃠 == 𓋁.𓇬:            # 🧀😋
-            𓋁.𓇬 = 𓋁.𓆙((𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, *𓋁.𓎜()))
+            𓋁.𓇬 = 𓋁.𓆙((𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
         if 𓋁.𓃠 == 𓋁.𓆛:            # 🐟😋
             𓋁.𓊛 += 1
             𓋁.𓋿(5)                    # 🔥 combo (🐟 base 5)
-            𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, *𓋁.𓎜()))
+            𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
         if 𓋁.𓃠 == 𓋁.𓊮:            # 🥛😋 → ⚡
             𓋁.𓊳 += 1
             𓋁.𓊰 = 𓋁.𓋨
             𓋁.𓋿(3)                    # 🔥 combo (🥛 base 3)
-            𓋁.𓊮 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓃥, 𓋁.𓅱, *𓋁.𓎜()))
+            𓋁.𓊮 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
         if 𓋁.𓅱 is not None and 𓋁.𓃠 == 𓋁.𓅱:   # 🐦😋 → 🏆
             𓋁.𓅮 += 1
             𓋁.𓋿(𓋁.𓅯)              # 🔥 combo (🐦 base 𓅯=7)
-            𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, *𓋁.𓎜()))
+            𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))
+        if 𓋁.𓋔 is not None and 𓋁.𓃠 == 𓋁.𓋔:   # 🌟🧊😋 → 🐕 ❄️  (🚫🏆 , 🚫🔥 : 🛠️ tool)
+            𓋁.𓋕 = 𓋁.𓋕𓊞           # ❄️ armed  (🐕 🚫 chase , 🚫 bonk)
+            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲 respawn
         if 𓋁.𓊰 > 0:                   # 🥛⚡  🐈🎯 nearest 🐭 from afar
             𓂭 = 𓋁.𓃰(𓋁.𓃠)
             𓆉 = sorted((𓂭.get(𓅘, 999), 𓅘) for 𓅘 in 𓋁.𓁉𓂋)
@@ -368,6 +381,13 @@ class 𓉔:
         if 𓋁.𓋃𓁋 and 𓋁.𓋂 <= 0 and not 𓋁.𓄊:
             𓋁.𓋺 = True                # ⏱️ ⏳0 → 💀  (🚫😻 → lose)
         return 𓋁.𓄊 or 𓋁.𓋺         # 🎮🔚 : 😻 win or 💀 lose
+
+    def 𓋗(𓋁) -> bool:
+        # 🐈 📜 2-cycle 👀 :  A↔️B↔️A↔️B  →  🧱 stalemate  (#27 : 🧠 stateless 🧱)
+        if len(𓋁.𓋗𓂋) < 4:
+            return False
+        𓄾, 𓃀, 𓂭, 𓂘 = 𓋁.𓋗𓂋
+        return 𓄾 == 𓂭 and 𓃀 == 𓂘 and 𓄾 != 𓃀
 
     def 𓋾(𓋁) -> bool:
         # 🎮🔚  game over : 😻 catch or 💀 (❤️0 | ⏳0)
@@ -388,7 +408,8 @@ class 𓉔:
 
     def 𓃥𓎗(𓋁) -> None:
         # 🐕🧠 :  BFS 1️⃣🐾 →🐈 .  🐕👉🐈 → 😿 :  🐈🌀 safe restart , 🐕🎲 far
-        if 𓋁.𓃥 is None:
+        #        🌟🧊 ❄️ → 🚫🐾 , 🚫😿 bonk  (🐈 🆓 escape)
+        if 𓋁.𓃥 is None or 𓋁.𓋕 > 0:
             return
         if 𓋁.𓋭 is not None and 𓎉(𓋁.𓃥, 𓋁.𓋭) <= 𓋁.𓋫:
             𓋁.𓃥 = 𓋁.𓊐(𓋁.𓃥, 𓋁.𓋭)   # 🧶 distract : 💨🎾 , 🚫💨🐈
@@ -401,7 +422,7 @@ class 𓉔:
             if 𓋁.𓋹 <= 0:              # 💀 0 ❤️ → 🎮🔚
                 𓋁.𓋺 = True
                 return
-            𓋁.𓃠 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, *𓋁.𓎜()))  # 🐈🌀
+            𓋁.𓃠 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🐈🌀
             𓋁.𓃥 = 𓋁.𓃥𓆙()         # 🐕🎲 far
 
     def 𓅓𓎗(𓋁, 𓇋: int = 0) -> tuple[int, int]:
@@ -461,6 +482,8 @@ class 𓉔:
         𓋠 = f"❤️×{𓋁.𓋹}  🐭×{len(𓋁.𓁉𓂋)}  🔥×{𓋁.𓋻}"
         if 𓋁.𓋻 >= 3:
             𓋠 += "✨"
+        if 𓋁.𓋕 > 0:                    # 🌟🧊 ❄️ on → ⏳ left  (🚫❄️ → 🙈)
+            𓋠 += f"  ❄️×{𓋁.𓋕}"
         if 𓋁.𓋃𓁋:                      # ⏱️ ⚑ on → ⏳ left  (🚫⚑ → 📺 ↔️)
             𓋠 += f"  ⏳×{max(0, 𓋁.𓋂)}"
             if 𓋁.𓋂 <= 𓋁.𓋃𓈎:
@@ -490,6 +513,8 @@ class 𓉔:
                     𓂐.append("🐟")
                 elif 𓅘 == 𓋁.𓊮:
                     𓂐.append("🥛")
+                elif 𓅘 == 𓋁.𓋔:
+                    𓂐.append("🧊")
                 elif 𓋁.𓎛 is not None and 𓅘 in 𓋁.𓎛:
                     𓂐.append("🕳️")
                 elif 𓅘 in 𓋁.𓊵:
@@ -505,6 +530,9 @@ class 𓉔:
 𓊄𓃥 = 2   # 🐕 BFS 📏 ≤ this → 💨 flee trigger
 𓊄𓎿 = 3   # 🐕 📏 🧢 :  far 🐕 → 🚫 tie-break noise  (🚫 🕳️🌀 livelock)
 𓊄𓋬 = 2   # 🐕 📏 ≤ this + 🧶 unspent → 🎾 throw  (🐕 distract → 🐈🎯🐭)
+𓊄𓋔 = 1   # 🌟🧊 🚧 : 🏃🧊 ⇔ 📏🧊(🐈) + this < 📏🧊(🐕)  (🐈 🥇 arrives , 🚫😿💀)
+          #          📊 360🎲 : margin 0 → 💀3 ; 1 → 💀0 🙀7 🥇 ; 2 → 🙀12
+𓊄𓋹𓈎 = 1  # 🧱 stalemate gamble ⇔ ❤️ > this  (🚫 gamble 🔚 ❤️ → 🚫💀)
 
 
 def 𓊄𓁉(𓉔𓏤: 𓉔) -> tuple[int, int]:
@@ -518,6 +546,8 @@ def 𓊄𓁉(𓉔𓏤: 𓉔) -> tuple[int, int]:
 def 𓊄(𓉔𓏤: 𓉔) -> str:
     # 🐈🧠  BFS →🐭 (nearest of 🐭🐭) , 🚫🐕 :  greedy (min 📏🐭 , tie max 📏🐕) ;
     #        ❤️≤3 + 🐕📏≤2 → 💨 flee (max 📏🐕 , tie min 📏🐭)  → 🚫9️⃣😿💀
+    #        🌟🧊 (#34) : 💨 flee + 🧊 🗺️ → tie → min 📏🧊 (⚔️ 🐭)  → 🏃🧊 → 🐕❄️
+    #                     → 🚫 mutual-repel 2-cycle  (⚔️ #27 tail)
     𓂭𓁉 = 𓉔𓏤.𓃰(𓊄𓁉(𓉔𓏤))                     # 📏→🐭 (🎯 nearest)
     𓂭𓃥 = 𓉔𓏤.𓃰(𓉔𓏤.𓃥) if 𓉔𓏤.𓃥 is not None else {}   # 📏→🐕
     𓂘𓃥 = 𓂭𓃥.get(𓉔𓏤.𓃠, 10 ** 9)             # 📏 🐈↔️🐕
@@ -526,6 +556,14 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
           and 𓂘𓃥 <= 𓊄𓃥)
     if 𓉔𓏤.𓃥 is not None and not 𓉔𓏤.𓋯 and 𓂘𓃥 <= 𓊄𓋬:
         return "🧶"                            # 🎾 throw → 🐕💨🎾 ⏳ , 🐈🎯🐭 free
+    # 🌟🧊  💨 flee + 🧊 🗺️ + 🚫❄️ yet → 🏃🧊 grab  (→ 🐕❄️ → 🆓 escape)
+    # 🚧 guard ‼️ : only if 📏🧊(🐈) + 𓊄𓋔 < 📏🧊(🐕)  (🐈 🥇 arrives)
+    #              else 🏃🧊 → 🐕 👉 😿💀  (📊 🚫🚧 → 💀 0→12 🙀)
+    # 🧱 stalemate (📜 2-cycle , #27) → 🚧 relax : 😿 gamble ≫ ∞ 🙀  (🐈🌀 → 🆓 cycle)
+    𓂭𓋔 = 𓉔𓏤.𓃰(𓉔𓏤.𓋔) if (𓋞 and 𓉔𓏤.𓋔 is not None) else {}   # 📏→🧊
+    𓋖 = (𓋞 and 𓉔𓏤.𓋔 is not None and 𓉔𓏤.𓋕 == 0
+          and ((𓉔𓏤.𓋗() and 𓉔𓏤.𓋹 > 𓊄𓋹𓈎)   # 🧱 → gamble , 🚫 @ 🔚 ❤️
+               or 𓂭𓋔.get(𓉔𓏤.𓃠, 10 ** 9) + 𓊄𓋔 < 𓂭𓋔.get(𓉔𓏤.𓃥, 10 ** 9)))
     𓅑 = 𓉔𓏤.𓃠
     𓅒 = None
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
@@ -537,7 +575,14 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
         𓃀𓁉 = 𓂭𓁉.get(𓂚, 10 ** 9)              # 📏🐭
         𓃀𓃥 = 𓂭𓃥.get(𓂚, 10 ** 9)              # 📏🐕  (raw : 💨 flee → 🕳️🌀 far ✅)
         # 🎯 chase : 🧢 📏🐕 → 🐕远 = 🚫 tie-break noise  (🚫 ↔️↔️ livelock)
-        𓊈 = (-𓃀𓃥, 𓃀𓁉) if 𓋞 else (𓃀𓁉, -min(𓃀𓃥, 𓊄𓎿))
+        # 💨 flee + 🧊 (#34) : 🏃🧊 🥇 (min 📏🧊) , tie → max 📏🐕 🥈  → grab → ❄️
+        # 💨 flee 🚫🧊      : max 📏🐕 🥇 , tie → min 📏🐭 🥈
+        if 𓋖:
+            𓊈 = (𓂭𓋔.get(𓂚, 10 ** 9), -𓃀𓃥)
+        elif 𓋞:
+            𓊈 = (-𓃀𓃥, 𓃀𓁉)
+        else:
+            𓊈 = (𓃀𓁉, -min(𓃀𓃥, 𓊄𓎿))
         if 𓅒 is None or 𓊈 < 𓅒:
             𓅒 = 𓊈
             𓅑 = 𓆓
@@ -567,6 +612,7 @@ def 𓎋𓉏(𓉔𓏤: 𓉔) -> str:
     "🧀": "33", "🐟": "94", "🥛": "34", "🕳️": "95", "🧱": "90", "🟩": "32",
     "❤️": "91", "🔥": "93",   # 🟥❤️ lives , 🟧🔥 streak
     "⏳": "96", "🟥": "91",   # 🟦⏳ budget , 🟥 flash  (⏳ ≤ 𓋃𓈎)
+    "🧊": "96", "❄️": "96",   # 🌟🧊 freeze  (🧊 tile , ❄️ HUD → cyan)
 }
 
 
