@@ -1,4 +1,6 @@
 #  🤖✅  —  𓃠 CI  ·  🧪 + 🤖🎬 + 🐍📏
+#  🚧  GitHub : job id / matrix 🔑 → ASCII  ⇒  🐈🗣️ (meow · mrrr · prrr)
+#       😺 → `name:` 📺
 name: 🤖✅
 
 on:
@@ -8,56 +10,51 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: 🤖✅-${{ github.ref }}
+  group: meow-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+
 jobs:
-  🧪:
-    name: 🧪 🐍${{ matrix.🐍 }}
+  meow:
+    name: 🧪 🐍${{ matrix.nya }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        🐍: ["3.12", "3.13", "3.14"]
+        nya: ["3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.🐍 }}
+          python-version: ${{ matrix.nya }}
       - name: 🧪 🐈✅🐭
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: "1"
         run: python3 𓊪𓄿𓐍.py
 
-  🤖🎬:
-    name: 🤖🎬 🌊${{ matrix.🎚️ }}
+  mrrr:
+    name: 🤖🎬 🌊${{ matrix.mew }}
     runs-on: ubuntu-latest
+    env:
+      TERM: dumb
     strategy:
       fail-fast: false
       matrix:
-        🎚️: ["1", "5", "9"]
+        mew: ["1", "5", "9"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: 🤖 🕹️ 🌊${{ matrix.🎚️ }}
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: "1"
-          TERM: dumb
+      - name: 🤖 🕹️ 🌊${{ matrix.mew }}
         timeout-minutes: 3
-        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.🎚️ }}
-      - name: 🌈 🎨📺 🌊${{ matrix.🎚️ }}
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: "1"
-          TERM: dumb
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.mew }}
+      - name: 🌈 🎨📺 🌊${{ matrix.mew }}
         timeout-minutes: 3
-        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.🎚️ }} 🌈
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.mew }} 🌈
 
-  🐍📏:
+  prrr:
     name: 🐍📏 + 𓂀🚫🗣️
     runs-on: ubuntu-latest
     steps:
@@ -70,7 +67,4 @@ jobs:
       - name: 🪝 ✅ 𓆑𓊪.sh
         run: bash -n .claude/𓆑𓊪.sh
       - name: 𓂀 🚫🗣️  (🐈👅 guard)
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: "1"
         run: python3 .github/𓊪𓂀𓅓.py
