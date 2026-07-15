@@ -6,12 +6,25 @@ from __future__ import annotations
 import sys
 import json
 import random
+import datetime
 from collections import deque
 
 # ─────────── 💾🏆 📜🔝 ───────────
 𓎋𓊪 = "🏆📜.json"    # 💾 default 🛤️  (🏁 classic)
 𓎋𓊪𓋃 = "🏆📜⏳.json"  # 💾 ⏱️ time-attack 🛤️  (🏁 mode → own 📜🔝)
+𓎋𓊪𓋱 = "🏆📜🌱.json"  # 💾 🌱 daily-seed 🛤️  (∀🐈 🟰 🗺️ / 🌞 → own 📜🔝)
 𓎋𓈖 = 10             # 📜🔝 keep top-N
+
+
+def 𓋱𓊞() -> str:
+    # 🌞  today → YYYYMMDD share code  (∀🐈 🟰 🗺️ / 🌞)
+    return datetime.date.today().strftime("%Y%m%d")
+
+
+def 𓋱(𓅔: str) -> tuple[int, int]:
+    # 🌱  date code → (seed , 🌊) :  🌊 = 1 + code % 9  (🌞 → variety)
+    𓊈 = int(𓅔)
+    return 𓊈, 1 + 𓊈 % 𓊆𓈖
 
 
 def 𓎋(𓊪𓉏: str = 𓎋𓊪) -> list[dict]:
@@ -37,11 +50,30 @@ def 𓎌(𓆳: dict, 𓊪𓉏: str = 𓎋𓊪, 𓈖: int = 𓎋𓈖) -> list[dic
     return 𓂏
 
 
-def 𓎍(𓂏: list[dict]) -> str:
-    # 🖼️  📜🔝 render
+def 𓎌𓋱(𓆳: dict, 𓅔: str, 𓈖: int = 𓎋𓈖) -> list[dict]:
+    # 📤 🌱 daily :  append → per-🌞 top-N → 💾  (👴🌞 kept , 🚫 cross-day evict)
+    #   → return 🎯 today's (𓅔) entries , sorted 🔽🏆  (🖼️ ready)
+    𓂏 = 𓎋(𓎋𓊪𓋱)
+    𓂏.append(𓆳)
+    𓆒: dict[str, list[dict]] = {}
+    for 𓅘 in 𓂏:
+        𓆒.setdefault(str(𓅘.get("🌱", "")), []).append(𓅘)
+    𓂏 = []
+    for 𓅕 in 𓆒.values():
+        𓅕.sort(key=lambda 𓅘: (-𓅘.get("🏆", 0), 𓅘.get("⏱️", 0)))
+        𓂏.extend(𓅕[:𓈖])
+    with open(𓎋𓊪𓋱, "w", encoding="utf-8") as 𓆑:
+        json.dump(𓂏, 𓆑, ensure_ascii=False)
+    return [𓅘 for 𓅘 in 𓂏 if str(𓅘.get("🌱", "")) == 𓅔]
+
+
+def 𓎍(𓂏: list[dict], 𓅔: str | None = None) -> str:
+    # 🖼️  📜🔝 render  (𓅔 = 🌱 filter : 🎯 🟰 🌞 → 👴🌞 🙈)
+    if 𓅔 is not None:
+        𓂏 = [𓅘 for 𓅘 in 𓂏 if str(𓅘.get("🌱", "")) == 𓅔]
     if not 𓂏:
-        return "📜🕳️"
-    𓂐 = ["🏆📜🔝"]
+        return "📜🕳️" if 𓅔 is None else f"🏆📜🔝🌱{𓅔}\n📜🕳️"
+    𓂐 = ["🏆📜🔝" if 𓅔 is None else f"🏆📜🔝🌱{𓅔}"]
     for 𓇋, 𓆳 in enumerate(𓂏, 1):
         𓋏 = f"  ⏳{𓆳['⏳']}" if "⏳" in 𓆳 else ""   # ⏱️ 🏁 → ⏳ leftover
         𓂐.append(
@@ -171,6 +203,7 @@ class 𓉔:
         𓋁.𓋼 = 0                             # 🏆 combo bonus accumulator
         𓋁.𓋃𓁋 = 𓋃𓁋                          # ⏱️ time-attack ⚑  (default 🚫)
         𓋁.𓋂 = 𓋃𓈖(1)                        # ⏳ budget left  (🌊 → 𓊆 rescales)
+        𓋁.𓋱𓉏: str | None = None              # 🌱 daily code  (𓊆 sets ⇔ opt-in ⚑)
 
     # ─────────── 🐭🐭  pack 🏦 ───────────
     @property
@@ -657,13 +690,25 @@ def 𓎎(𓉔𓏤: 𓉔) -> dict:
     }
     if 𓉔𓏤.𓋃𓁋:
         𓆳["⏳"] = max(0, 𓉔𓏤.𓋂)          # ⏱️ 🏁 tag  (🚫⚑ → 🚫 key)
+    if 𓉔𓏤.𓋱𓉏 is not None:
+        𓆳["🌱"] = 𓉔𓏤.𓋱𓉏                # 🌱 daily tag  (🚫⚑ → 🚫 key)
     return 𓆳
 
 
 def 𓎋𓉏(𓉔𓏤: 𓉔) -> str:
-    # 💾 🛤️  by 🏁 mode :  ⏱️ → 🏆📜⏳.json  ;  classic → 🏆📜.json
-    # 🚫 pollute : ⏱️ 🏆 ➕ ⏳ bonus ≫ classic 🏆 → 📜🔝 split ‼️
+    # 💾 🛤️  by 🏁 mode :  🌱 → 🏆📜🌱.json  ;  ⏱️ → 🏆📜⏳.json  ;  classic → 🏆📜.json
+    # 🚫 pollute : 🌱 fixed 🗺️ + ⏱️ 🏆 ➕ ⏳ bonus ≫ classic 🏆 → 📜🔝 split ‼️
+    if 𓉔𓏤.𓋱𓉏 is not None:
+        return 𓎋𓊪𓋱
     return 𓎋𓊪𓋃 if 𓉔𓏤.𓋃𓁋 else 𓎋𓊪
+
+
+def 𓎋𓎗(𓉔𓏤: 𓉔) -> str:
+    # 💾→📜🔝  :  🌱 daily → per-🌞 track + 🌞 filter ;  else 🏁 mode 🛤️
+    𓆳 = 𓎎(𓉔𓏤)
+    if 𓉔𓏤.𓋱𓉏 is not None:
+        return 𓎍(𓎌𓋱(𓆳, 𓉔𓏤.𓋱𓉏), 𓉔𓏤.𓋱𓉏)
+    return 𓎍(𓎌(𓆳, 𓎋𓉏(𓉔𓏤)))
 
 
 # ─────────── 🌈 🎨📺 ───────────
@@ -705,10 +750,14 @@ def 𓁉𓈖(𓊍: int) -> int:
 
 
 def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = False,
-      𓋦𓁋: bool = False) -> 𓉔:
+      𓋦𓁋: bool = False, 𓋱𓉏: str | None = None) -> 𓉔:
     # 🎚️  🌊 1..9 → scaled 🏠🎮 :  🧱↑ , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 👀🐭@≥5 ,
     #                              🐭🐭@≥5 , 💨🐕@≥7  ;  ⏱️ ⚑ → ⏳=40+8×🌊
     #                              🚀 ⚑ → 🌊≥3  (🚫⚑ → 🚫🚀 : 🚫 regress 🏁 base)
+    #      🌱 code ⚑ → seed + 🌊 = f(🌞)  (∀🐈 🟰 🗺️ , 🚫⚑ → 🎲 random : 🚫 regress)
+    if 𓋱𓉏 is not None:
+        𓊈, 𓊍 = 𓋱(𓋱𓉏)                       # 🌱 seed + 🌊 = f(🌞)
+        𓊃 = random.Random(𓊈)
     𓊍 = 𓎘(𓊍 - 1, 𓊆𓈖) + 1                  # 🚧 1..9
     𓉔𓏤 = 𓉔(
         𓊃,
@@ -726,14 +775,16 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = Fals
     if 𓊍 >= 7:
         𓉔𓏤.𓃥𓎿 = 1                          # 🐕💨 full-speed (🚫 half)
     𓉔𓏤.𓊍 = 𓊍                               # 🎚️ tag
+    𓉔𓏤.𓋱𓉏 = 𓋱𓉏                            # 🌱 daily tag  (📇 + 🛤️ split)
     return 𓉔𓏤
 
 
 def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
-      𓋃𓁋: bool = False, 𓋦𓁋: bool = False) -> 𓉔:
-    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional , 🚀 optional
-    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋, 𓋦𓁋)
-    print(f"😺🎬  🎚️{𓉔𓏤.𓊍}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}")
+      𓋃𓁋: bool = False, 𓋦𓁋: bool = False, 𓋱𓉏: str | None = None) -> 𓉔:
+    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional , 🚀 optional , 🌱 optional
+    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋, 𓋦𓁋, 𓋱𓉏)
+    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 share code
+    print(f"😺🎬  🎚️{𓉔𓏤.𓊍}{𓅔}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}")
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     for _ in range(𓏲):
         𓆳 = 𓊄(𓉔𓏤)
@@ -744,11 +795,11 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  🏆={𓉔𓏤.𓊙()}  prrr~")
         print("┈┈┈┈┈┈┈┈┈┈┈")
-        print(𓎍(𓎌(𓎎(𓉔𓏤), 𓎋𓉏(𓉔𓏤))))   # 💾🏆 → 📜🔝  (🏁 mode 🛤️)
+        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 daily → per-🌞 filter , else 🏁 🛤️)
     elif 𓉔𓏤.𓋺:
         print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
         print("┈┈┈┈┈┈┈┈┈┈┈")
-        print(𓎍(𓎌(𓎎(𓉔𓏤), 𓎋𓉏(𓉔𓏤))))   # 💾🏆 → 📜🔝  (💀 also 📜)
+        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (💀 also 📜)
     else:
         print("🙀💨  meow…")
     return 𓉔𓏤
@@ -763,10 +814,12 @@ def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
             f"  ❤️×{𓉔𓏤.𓋹}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…")
 
 
-def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋: bool = False):
-    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ , 🚀 optional
-    𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋, 𓋦𓁋)
-    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⌨️⬆️⬇️⬅️➡️ | 🀄⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
+def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋: bool = False,
+        𓋱𓉏: str | None = None):
+    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ , 🚀 , 🌱 optional
+    𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋, 𓋦𓁋, 𓋱𓉏)
+    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 share code
+    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}{𓅔}  ⌨️⬆️⬇️⬅️➡️ | 🀄⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
         𓋛 = "🚧" if 𓉔𓏤.𓋯 else "🎾"
@@ -796,7 +849,7 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋
     else:
         print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
     print("┈┈┈┈┈┈┈┈┈┈┈")
-    print(𓎍(𓎌(𓎎(𓉔𓏤), 𓎋𓉏(𓉔𓏤))))   # 💾🏆 → 📜🔝  (🏁 mode 🛤️)
+    print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 daily → per-🌞 filter , else 🏁 🛤️)
 
 
 # ─────────── ⌨️ 🕹️ 🐾 reader ───────────
@@ -859,7 +912,8 @@ if __name__ == "__main__":
     𓋉𓏤 = "🌈" in 𓊾                                    # ⚑🌈
     𓋃𓏤 = "⏱️" in 𓊾 or "⏳" in 𓊾                       # ⚑⏱️  time-attack
     𓋦𓏤 = "🚀" in 𓊾 or "💨" in 𓊾                       # ⚑🚀  dash power-up
+    𓋱𓏤 = 𓋱𓊞() if ("🌱" in 𓊾 or "🌞" in 𓊾) else None  # ⚑🌱  daily seed → 🌞 code
     if any(𓅕 in ("🤖", "🎬", "--🤖") for 𓅕 in 𓊾):
-        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤, 𓋦𓁋=𓋦𓏤)
+        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤, 𓋦𓁋=𓋦𓏤, 𓋱𓉏=𓋱𓏤)
     else:
-        𓊪𓏰(𓊍𓏤, 𓋉𓏤, 𓋃𓏤, 𓋦𓏤)
+        𓊪𓏰(𓊍𓏤, 𓋉𓏤, 𓋃𓏤, 𓋦𓏤, 𓋱𓏤)
