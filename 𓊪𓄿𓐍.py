@@ -8,9 +8,7 @@ import subprocess
 import sys
 import tempfile
 
-𓊒 = 𓇓.spec_from_file_location("𓅓", "𓃠𓐍𓅓.py")
-𓅓 = 𓇓.module_from_spec(𓊒)
-𓊒.loader.exec_module(𓅓)
+import 𓃠𓐍𓅓 as 𓅓          # 📦 🧱 ×9 → 📤 ☝️  (#48 ✂️)
 
 𓊓 = 𓇓.spec_from_file_location("𓆓𓁐", ".claude/𓆓𓁐.py")
 𓆦 = 𓇓.module_from_spec(𓊓)
@@ -1345,7 +1343,7 @@ def 𓊪𓎏():
 def 𓊪𓎏𓊪𓏰():
     # 🕹️  ⌨️ → 🐈🐾 🏁→🔚  (📥 ⎋[C → 🐈 ▶️ ; 🐾🐾 🤏⏳ ; 🙀 → 🚪)
     𓂺 = subprocess.run(
-        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        [sys.executable, "-m", "𓃠𓐍𓅓", "1"],
         input="\x1b[C\n\x1b[C\n\x1b[B\n🙀\n",
         capture_output=True, text=True, timeout=60,
     )
@@ -1355,7 +1353,7 @@ def 𓊪𓎏𓊪𓏰():
     assert "👋😼" in 𓂺.stdout                   # 🙀 🚪
     # ⌨️⌨️ 🤏⏳ : 1 📜 → 🐾🐾🐾
     𓂭 = subprocess.run(
-        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        [sys.executable, "-m", "𓃠𓐍𓅓", "1"],
         input="\x1b[C\x1b[C\x1b[C\n🙀\n",
         capture_output=True, text=True, timeout=60,
     )
@@ -1364,7 +1362,7 @@ def 𓊪𓎏𓊪𓏰():
     assert "⏱️=3" in 𓂭.stdout                   # ▶️×3 ∈ 1 📜
     # ⌨️ 🤝 🀄 : ⎋[C + 🙀 1️⃣ 📜 → ▶️ ⏭️ 🚪  (🐛 : 🙀 💨 🚮)
     𓂯 = subprocess.run(
-        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        [sys.executable, "-m", "𓃠𓐍𓅓", "1"],
         input="\x1b[C🙀\n", capture_output=True, text=True, timeout=60,
     )
     assert 𓂯.returncode == 0
@@ -1372,7 +1370,7 @@ def 𓊪𓎏𓊪𓏰():
     assert "🤔❓" not in 𓂯.stdout
     # 🤔❓ 🚫🧭 🔤  (🚫💥)
     𓂮 = subprocess.run(
-        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        [sys.executable, "-m", "𓃠𓐍𓅓", "1"],
         input="🐕\n🙀\n", capture_output=True, text=True, timeout=60,
     )
     assert 𓂮.returncode == 0
@@ -1525,7 +1523,7 @@ def 𓊪𓅗𓆑():
     # 🐈👅 🈵 ↔️ → 🟩
     assert 𓆧.𓅗𓆑() == []
     # 💉 : 💬🐍 + 📜📄 → 😾
-    for 𓊨𓉏, 𓋍 in (("𓃠𓐍𓅓.py", "\n# a plain english comment\n"),
+    for 𓊨𓉏, 𓋍 in (("𓃠𓐍𓅓/𓉔𓊵.py", "\n# a plain english comment\n"),
                     ("𓂀.md", "\n🐈 the lazy dog sleeps\n")):
         𓊨 = pathlib.Path(𓊨𓉏)
         𓆓 = 𓊨.read_text()
@@ -1573,10 +1571,10 @@ def 𓊪𓋱():
 def 𓊪𓋲():
     # 🌱 📜🔝 ✂️ :  ⏫-N / 🌞 (👴🌞 💾 ✅) + 🌞 🕸️ 🖼️ + 𓎋𓎗 🛤️
     #            + 🔗✅ 120🎲 : ∀ 🌞🀄 → 🗺️ 🔗 (🐭 🛣️ ✅) , 🎮 🚫💥
-    𓊔 = 𓅓.𓎋𓊪𓋱
+    𓊔 = 𓅓.𓎋𓊵.𓎋𓊪𓋱                          # 📦 : 🩹 → 🀄 🧱 (#48)
     try:
         with tempfile.TemporaryDirectory() as 𓊪𓉏:
-            𓅓.𓎋𓊪𓋱 = os.path.join(𓊪𓉏, "🌱.json")
+            𓅓.𓎋𓊵.𓎋𓊪𓋱 = os.path.join(𓊪𓉏, "🌱.json")
             for 𓈙 in (30, 50, 10, 70):
                 𓂏 = 𓅓.𓎌𓋱({"🏆": 𓈙, "⏱️": 5, "🌱": "20260715"}, "20260715")
             assert [𓅘["🏆"] for 𓅘 in 𓂏] == [70, 50, 30, 10]   # 🎯 🌞 , 🔽🏆
@@ -1593,7 +1591,7 @@ def 𓊪𓋲():
             assert "🏆📜🔝🌱20260715" in 𓅓.𓎋𓎗(𓋁)
             assert len(𓅓.𓎋(𓅓.𓎋𓊪𓋱)) >= 1
     finally:
-        𓅓.𓎋𓊪𓋱 = 𓊔                            # ♻️ 🛤️ 🔄
+        𓅓.𓎋𓊵.𓎋𓊪𓋱 = 𓊔                          # ♻️ 🛤️ 🔄
     # 🔗✅ 120🎲 : ∀ 🌞🀄 → 🗺️ 🔗 + 🎮 🚫💥
     for 𓈙 in range(120):
         𓅕 = f"2026{1 + 𓈙 % 12:02d}{1 + 𓈙 % 28:02d}"   # 🌞 🀄

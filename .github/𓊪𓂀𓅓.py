@@ -23,8 +23,26 @@ import tokenize
     r"|h+i*s{2,}|n+y+a+n*|g*r{2,}|y+o+w+l+|t+r+i+l+|c+h+i+r+)$"
 )
 
-#  📁  —  🔍  (🏷️ 🀄)
-𓊵 = ["𓃠𓐍𓅓.py", "𓊪𓄿𓐍.py", ".claude/𓆓𓁐.py", ".github/𓊪𓂀𓅓.py"]
+#  📁  —  🔍  (🏷️ 🀄)   ·   📦 📁 → 🐾 ∀ 🧱  (#48 ✂️)
+𓊵𓉐 = ["𓃠𓐍𓅓", "𓊪𓄿𓐍.py", ".claude/𓆓𓁐.py", ".github/𓊪𓂀𓅓.py"]
+
+
+def 𓊵𓎗(𓂏):
+    #  📁 📜 → 📄 📜  ( 📦 → ∀ `*.py` 🔽 , 🔽📛 )
+    𓅕 = []
+    for 𓆓 in 𓂏:
+        𓊨 = pathlib.Path(𓆓)
+        if 𓊨.is_dir():
+            𓅕 += sorted(str(𓅘) for 𓅘 in 𓊨.rglob("*.py"))
+        else:
+            𓅕.append(𓆓)
+    return 𓅕
+
+
+𓊵 = 𓊵𓎗(𓊵𓉐)
+
+#  🙈 📛  —  🐍 🔑 📄 📛  ( 📦 🀄 ‼️ : 🚫 🐈 ✂️ )
+𓊵𓅗 = frozenset({"__init__", "__main__"})
 
 #  🈲 🗣️  🚫🚫🚫   (🪞 `.claude/𓆓𓁐.py` ; 🔣 `\u` ✍️)
 #  🇨🇳🇭🇰 U+3400-4DBF U+4E00-9FFF U+F900-FAFF U+20000-2EBEF · 🇵🇱 U+0104-0107 U+0118-0119
@@ -200,9 +218,11 @@ def 𓆑():
         𓅾 += 𓆛
         print("👀", 𓆓, "—", f"😿 ×{len(𓆛)}" if 𓆛 else "✅")
 
-    #  📁  🀄  —  📄 🏷️  𓂀/😺 ❓
+    #  📁  🀄  —  📄 🏷️  𓂀/😺 ❓   ( 🙈 : `__init__` `__main__` = 🐍 🔑 📛 )
     for 𓆓 in 𓊵:
         𓉐 = pathlib.Path(𓆓).stem
+        if 𓉐 in 𓊵𓅗:
+            continue
         if not 𓐍(𓉐) and not 𓂺(𓉐):
             𓅾.append((𓆓, 0, 𓉐))
 
