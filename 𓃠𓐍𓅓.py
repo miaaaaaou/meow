@@ -1,7 +1,7 @@
 # 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾 + 🐦🕊️ + 🕳️🌀
 # ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🐦🕊️ … 🕳️🌀 … 🧱 … 🎯 → 😻😹😼
 #
-# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️  𓎛🕳️
+# 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️  𓎛🕳️  𓋔🧊  𓋤🚀
 from __future__ import annotations
 import sys
 import json
@@ -116,10 +116,13 @@ class 𓉔:
     𓋃𓈎 = 5
     # 🌟🧊  freeze ❄️ duration  (🐈🧊😋 → 🐕 ❄️ N 🐾 : 🚫 chase , 🚫 bonk)
     𓋕𓊞 = 5
+    # 🌟🚀  dash charges per 😋  (🐈🚀😋 → 💨 leap 2️⃣🐾 ×N)
+    𓋧 = 3
 
     def __init__(𓋁, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
                  𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True,
-                 𓋃𓁋: bool = False, 𓋔𓁋: bool = True):
+                 𓋃𓁋: bool = False, 𓋔𓁋: bool = True,
+                 𓋦𓁋: bool = False):
         𓋁.𓊃 = 𓊃 or random.Random()
         𓋁.𓃠 = (0, 0)                        # 🐈
         𓋁.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 pack  (📍 list)
@@ -147,6 +150,10 @@ class 𓉔:
         𓋁.𓋚 = 0                             # 🧱 cycle 🔁 streak  (persistent → 📜 break)
         if 𓋔𓁋 and 𓋁.𓃥 is not None:
             𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲
+        𓋁.𓋤: tuple[int, int] | None = None  # 🚀  (⚑ opt-in : 🚫⚑ → 🚫🚀)
+        𓋁.𓋥 = 0                             # 💨 dash charges  (🚀😋 → +𓋧)
+        if 𓋦𓁋:
+            𓋁.𓋤 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🚀🎲
         𓋁.𓏰 = 0                             # ⏱️
         𓋁.𓊛 = 0                             # 🐟😋 (fish eaten)
         𓋁.𓊳 = 0                             # 🥛😋 (milk eaten)
@@ -196,7 +203,7 @@ class 𓉔:
         # 🐭🎲 📍  🔗 from 🐈  ≠🐈🐭🐭🧀🐟🥛🐕🐦🕳️🧊
         𓂭 = 𓋁.𓃰(𓋁.𓃠)
         𓆊 = {𓋁.𓃠, *𓋁.𓁉𓂋, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮,
-              𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()}
+              𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()}
         𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in 𓆊)
         if not 𓊾:
             return 𓋁.𓁉
@@ -340,32 +347,19 @@ class 𓉔:
                 𓋁.𓋭 = None
         if 𓋁.𓋕 > 0:                   # 🌟🧊 ❄️⏳ tick → 🐕 thaw
             𓋁.𓋕 -= 1
+        𓋝 = 𓋁.𓋥 > 0                  # 🌟🚀 💨 armed @ 🐾 🏁  (🚀😋 mid-🐾 → ⏭️ 🐾)
         𓋉 = 𓋁.𓃠                       # 📍 prev
-        𓋁.𓃠 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 + 🕳️➡️🕳️
-        𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 visited  (2-cycle 👀 → 🧱 stalemate)
-        𓋁.𓋚 = 𓋁.𓋚 + 1 if 𓋁.𓋗() else 0   # 🔁 streak  (transient ≠ 🧱)
+        𓋁.𓃠 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 1️⃣ + 🕳️➡️🕳️
         if 𓋢:                            # 🧶 throw 🎾 📍🐈  (after 🐾 stay)
             𓋁.𓋰()
-        if 𓋁.𓁏(𓋁.𓃠):              # 😻🎯  (∀🐭 → 🎮🔚)
+        𓄾 = 𓋁.𓁏(𓋁.𓃠)              # 😻🎯 @ 📍1️⃣  (∀🐭 → 🎮🔚)
+        if not 𓄾:
+            𓋁.𓋣()                     # 🀄 😋 @ 📍1️⃣
+            𓄾 = 𓋁.𓋪(𓊍, 𓋢, 𓋝)      # 🌟🚀 dash → 🐾 2️⃣  (🎯 @ 📍2️⃣ ?)
+        𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 visited  (1️⃣ / 🐾 : leap → 🔚 📍)
+        𓋁.𓋚 = 𓋁.𓋚 + 1 if 𓋁.𓋗() else 0   # 🔁 streak  (transient ≠ 🧱)
+        if 𓄾:
             return True
-        if 𓋁.𓃠 == 𓋁.𓇬:            # 🧀😋
-            𓋁.𓇬 = 𓋁.𓆙((𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
-        if 𓋁.𓃠 == 𓋁.𓆛:            # 🐟😋
-            𓋁.𓊛 += 1
-            𓋁.𓋿(5)                    # 🔥 combo (🐟 base 5)
-            𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
-        if 𓋁.𓃠 == 𓋁.𓊮:            # 🥛😋 → ⚡
-            𓋁.𓊳 += 1
-            𓋁.𓊰 = 𓋁.𓋨
-            𓋁.𓋿(3)                    # 🔥 combo (🥛 base 3)
-            𓋁.𓊮 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, *𓋁.𓎜()))
-        if 𓋁.𓅱 is not None and 𓋁.𓃠 == 𓋁.𓅱:   # 🐦😋 → 🏆
-            𓋁.𓅮 += 1
-            𓋁.𓋿(𓋁.𓅯)              # 🔥 combo (🐦 base 𓅯=7)
-            𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))
-        if 𓋁.𓋔 is not None and 𓋁.𓃠 == 𓋁.𓋔:   # 🌟🧊😋 → 🐕 ❄️  (🚫🏆 , 🚫🔥 : 🛠️ tool)
-            𓋁.𓋕 = 𓋁.𓋕𓊞           # ❄️ armed  (🐕 🚫 chase , 🚫 bonk)
-            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲 respawn
         if 𓋁.𓊰 > 0:                   # 🥛⚡  🐈🎯 nearest 🐭 from afar
             𓂭 = 𓋁.𓃰(𓋁.𓃠)
             𓆉 = sorted((𓂭.get(𓅘, 999), 𓅘) for 𓅘 in 𓋁.𓁉𓂋)
@@ -383,6 +377,50 @@ class 𓉔:
         if 𓋁.𓋃𓁋 and 𓋁.𓋂 <= 0 and not 𓋁.𓄊:
             𓋁.𓋺 = True                # ⏱️ ⏳0 → 💀  (🚫😻 → lose)
         return 𓋁.𓄊 or 𓋁.𓋺         # 🎮🔚 : 😻 win or 💀 lose
+
+    def 𓋣(𓋁) -> None:
+        # 🀄 😋 @ 🐈 📍 :  🧀 · 🐟 · 🥛⚡ · 🐦🏆 · 🌟🧊❄️ · 🌟🚀💨
+        #   (🚫 🐭 : 𓁏 owns 🎯)  ·  🌟🚀 dash → 𓂷 calls this ×2 / 🐾  (🚫 🙈 mid-cell)
+        if 𓋁.𓃠 == 𓋁.𓇬:            # 🧀😋
+            𓋁.𓇬 = 𓋁.𓆙((𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
+        if 𓋁.𓃠 == 𓋁.𓆛:            # 🐟😋
+            𓋁.𓊛 += 1
+            𓋁.𓋿(5)                    # 🔥 combo (🐟 base 5)
+            𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
+        if 𓋁.𓃠 == 𓋁.𓊮:            # 🥛😋 → ⚡
+            𓋁.𓊳 += 1
+            𓋁.𓊰 = 𓋁.𓋨
+            𓋁.𓋿(3)                    # 🔥 combo (🥛 base 3)
+            𓋁.𓊮 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
+        if 𓋁.𓅱 is not None and 𓋁.𓃠 == 𓋁.𓅱:   # 🐦😋 → 🏆
+            𓋁.𓅮 += 1
+            𓋁.𓋿(𓋁.𓅯)              # 🔥 combo (🐦 base 𓅯=7)
+            𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
+        if 𓋁.𓋔 is not None and 𓋁.𓃠 == 𓋁.𓋔:   # 🌟🧊😋 → 🐕 ❄️  (🚫🏆 , 🚫🔥 : 🛠️ tool)
+            𓋁.𓋕 = 𓋁.𓋕𓊞           # ❄️ armed  (🐕 🚫 chase , 🚫 bonk)
+            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋤, *𓋁.𓎜()))  # 🧊🎲 respawn
+        if 𓋁.𓋤 is not None and 𓋁.𓃠 == 𓋁.𓋤:   # 🌟🚀😋 → 💨 ×𓋧  (🚫🏆 , 🚫🔥 : 🛠️ tool)
+            𓋁.𓋥 += 𓋁.𓋧            # 💨 charges  (stack : 🚀🚀 → +3+3)
+            𓋁.𓋤 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🚀🎲 respawn
+
+    def 𓋪(𓋁, 𓊍: str, 𓋢: bool = False, 𓋝: bool = True) -> bool:
+        # 🌟🚀  dash sub-step 2️⃣ :  𓋥 > 0 + real 🧭 → 🐈 leap 1️⃣ more cell → −1 💨
+        #   𓋝 = 💨 armed @ 🐾 🏁 ‼️ :  🚀😋 mid-🐾 → 💨 ⏭️ 🐾  (🚫 instant spend)
+        #   🚧 🧱/🧱edge → 🚫 leap , 🚫 consume  (📏 value-gated : 🚫 waste 💨)
+        #   🚧 🐕 @ 📍2️⃣ → stay 📍1️⃣ , 🚫 consume  (🚫 self-😿 bonk)
+        #   🕳️🌀 : 📍1️⃣ = portal → 🐈 already @ twin → sub-step 2️⃣ 🐾 from twin  (𓎚 🤝)
+        #   → 🔚 : 🎯 @ 📍2️⃣ ? (😻)  ·  🀄 😋 @ 📍2️⃣  (𓋣)
+        if not 𓋝 or 𓋁.𓋥 <= 0 or 𓋢 or 𓊍 == "🐾":
+            return False
+        𓋡 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋁.𓃠)   # 📍2️⃣  (🧱/edge → 🟰 📍1️⃣)
+        if 𓋡 == 𓋁.𓃠 or 𓋡 == 𓋁.𓃥:
+            return False                    # 🚫 leap → 💨 kept
+        𓋁.𓋥 -= 1
+        𓋁.𓃠 = 𓋡
+        if 𓋁.𓁏(𓋁.𓃠):              # 😻🎯 @ 📍2️⃣
+            return True
+        𓋁.𓋣()                         # 🀄 😋 @ 📍2️⃣
+        return False
 
     def 𓋗(𓋁) -> bool:
         # 🐈 📜 cycle 👀 :  period-2 (A↔️B) · 3 · 🕳️ portal 4-cycle  →  🧱 stalemate
@@ -428,7 +466,7 @@ class 𓉔:
             if 𓋁.𓋹 <= 0:              # 💀 0 ❤️ → 🎮🔚
                 𓋁.𓋺 = True
                 return
-            𓋁.𓃠 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🐈🌀
+            𓋁.𓃠 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))  # 🐈🌀
             𓋁.𓃥 = 𓋁.𓃥𓆙()         # 🐕🎲 far
 
     def 𓅓𓎗(𓋁, 𓇋: int = 0) -> tuple[int, int]:
@@ -483,13 +521,15 @@ class 𓉔:
                 + (max(0, 𓋁.𓋂) if 𓋁.𓋃𓁋 else 0))
 
     def 𓁑(𓋁) -> str:
-        # 🖼️ HUD :  ❤️×N + 🐭×N pack + 🔥×N streak (≥3 → ✨) + ⏳×N (⚑ , ≤5 → 🟥)
+        # 🖼️ HUD :  ❤️×N + 🐭×N + 🔥×N (≥3 → ✨) + ❄️×N + 🚀×N + ⏳×N (⚑ , ≤5 → 🟥)
         #        🀄 : ⏳ = budget left  ≠  ⏱️ = 𓏰 turns  (🚫 collide ‼️)
         𓋠 = f"❤️×{𓋁.𓋹}  🐭×{len(𓋁.𓁉𓂋)}  🔥×{𓋁.𓋻}"
         if 𓋁.𓋻 >= 3:
             𓋠 += "✨"
         if 𓋁.𓋕 > 0:                    # 🌟🧊 ❄️ on → ⏳ left  (🚫❄️ → 🙈)
             𓋠 += f"  ❄️×{𓋁.𓋕}"
+        if 𓋁.𓋥 > 0:                    # 🌟🚀 💨 charges  (🚫💨 → 🙈)
+            𓋠 += f"  🚀×{𓋁.𓋥}"
         if 𓋁.𓋃𓁋:                      # ⏱️ ⚑ on → ⏳ left  (🚫⚑ → 📺 ↔️)
             𓋠 += f"  ⏳×{max(0, 𓋁.𓋂)}"
             if 𓋁.𓋂 <= 𓋁.𓋃𓈎:
@@ -521,6 +561,8 @@ class 𓉔:
                     𓂐.append("🥛")
                 elif 𓅘 == 𓋁.𓋔:
                     𓂐.append("🧊")
+                elif 𓅘 == 𓋁.𓋤:
+                    𓂐.append("🚀")
                 elif 𓋁.𓎛 is not None and 𓅘 in 𓋁.𓎛:
                     𓂐.append("🕳️")
                 elif 𓅘 in 𓋁.𓊵:
@@ -631,6 +673,7 @@ def 𓎋𓉏(𓉔𓏤: 𓉔) -> str:
     "❤️": "91", "🔥": "93",   # 🟥❤️ lives , 🟧🔥 streak
     "⏳": "96", "🟥": "91",   # 🟦⏳ budget , 🟥 flash  (⏳ ≤ 𓋃𓈎)
     "🧊": "96", "❄️": "96",   # 🌟🧊 freeze  (🧊 tile , ❄️ HUD → cyan)
+    "🚀": "93",              # 🌟🚀 dash  (🟨 burst)
 }
 
 
@@ -661,9 +704,11 @@ def 𓁉𓈖(𓊍: int) -> int:
     return min(𓁉𓈎, 1 + (𓊍 - (𓁉𓊞 - 1)) // 2)
 
 
-def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = False) -> 𓉔:
+def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = False,
+      𓋦𓁋: bool = False) -> 𓉔:
     # 🎚️  🌊 1..9 → scaled 🏠🎮 :  🧱↑ , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 👀🐭@≥5 ,
     #                              🐭🐭@≥5 , 💨🐕@≥7  ;  ⏱️ ⚑ → ⏳=40+8×🌊
+    #                              🚀 ⚑ → 🌊≥3  (🚫⚑ → 🚫🚀 : 🚫 regress 🏁 base)
     𓊍 = 𓎘(𓊍 - 1, 𓊆𓈖) + 1                  # 🚧 1..9
     𓉔𓏤 = 𓉔(
         𓊃,
@@ -672,6 +717,7 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = Fals
         𓅱𓁋=𓊍 >= 3,                          # 🐦 @ ≥3
         𓎛𓁋=𓊍 >= 4,                          # 🕳️ @ ≥4
         𓋃𓁋=𓋃𓁋,                             # ⏱️ opt-in ⚑
+        𓋦𓁋=𓋦𓁋 and 𓊍 >= 3,                  # 🚀 opt-in ⚑ , 🌊 @ ≥3
     )
     𓉔𓏤.𓋂 = 𓋃𓈖(𓊍)                          # ⏱️ ⏳ = f(🌊)
     if 𓊍 >= 5:
@@ -684,9 +730,9 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = Fals
 
 
 def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
-      𓋃𓁋: bool = False) -> 𓉔:
-    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional
-    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋)
+      𓋃𓁋: bool = False, 𓋦𓁋: bool = False) -> 𓉔:
+    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional , 🚀 optional
+    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋, 𓋦𓁋)
     print(f"😺🎬  🎚️{𓉔𓏤.𓊍}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}")
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     for _ in range(𓏲):
@@ -717,9 +763,9 @@ def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
             f"  ❤️×{𓉔𓏤.𓋹}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…")
 
 
-def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False):
-    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ optional
-    𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋)
+def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋: bool = False):
+    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ , 🚀 optional
+    𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋, 𓋦𓁋)
     print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⌨️⬆️⬇️⬅️➡️ | 🀄⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
@@ -812,7 +858,8 @@ if __name__ == "__main__":
     𓊍𓏤 = 𓊆𓂺(𓊾)
     𓋉𓏤 = "🌈" in 𓊾                                    # ⚑🌈
     𓋃𓏤 = "⏱️" in 𓊾 or "⏳" in 𓊾                       # ⚑⏱️  time-attack
+    𓋦𓏤 = "🚀" in 𓊾 or "💨" in 𓊾                       # ⚑🚀  dash power-up
     if any(𓅕 in ("🤖", "🎬", "--🤖") for 𓅕 in 𓊾):
-        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤)
+        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤, 𓋦𓁋=𓋦𓏤)
     else:
-        𓊪𓏰(𓊍𓏤, 𓋉𓏤, 𓋃𓏤)
+        𓊪𓏰(𓊍𓏤, 𓋉𓏤, 𓋃𓏤, 𓋦𓏤)

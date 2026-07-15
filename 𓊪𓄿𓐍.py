@@ -1116,6 +1116,132 @@ def 𓊪𓋘():
     assert 𓅓.𓊄(𓋃) == "⬆️"                    # 🚫 armed → 🏁 base 🐾 ‼️
 
 
+def 𓊪𓋤():
+    # 🌟🚀  tile :  ⚑ opt-in  ·  🐈🚀😋 → 💨 ×𓋧 , respawn 🎲  (🚫🏆 , 🚫🔥 : 🛠️ tool)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=False)
+    assert 𓋁.𓋤 is None and 𓋁.𓋥 == 0        # 🚫⚑ → 🚫🚀  (🏁 base 🚫 regress ‼️)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
+    assert 𓋂.𓋤 is not None                    # ⚑ → 🚀 🗺️
+    assert 𓋂.𓋤 not in (𓋂.𓃠, 𓋂.𓇬, 𓋂.𓆛, 𓋂.𓊮, 𓋂.𓅱, 𓋂.𓃥, 𓋂.𓋔)
+    assert 𓋂.𓋤 not in 𓋂.𓁉𓂋                # 🚫 stack ∀🀄
+    # 😋 → 💨 ×𓋧 , respawn ≠ 📍 old  ,  🚫🏆 🚫🔥
+    𓋂.𓃠, 𓋂.𓋤 = (5, 4), (5, 3)
+    𓋂.𓅱, 𓋂.𓃥 = None, None
+    𓋂.𓁉𓂋, 𓋂.𓊚𓂋 = [(0, 0)], [0]
+    𓋂.𓇬, 𓋂.𓆛, 𓋂.𓊮 = (0, 7), (10, 0), (10, 7)
+    𓋃, 𓋄 = 𓋂.𓋻, 𓋂.𓋼                     # 🔥 , 🏆 combo before
+    𓋂.𓂷("⬆️")
+    assert 𓋂.𓋥 == 𓋂.𓋧                     # 💨 ×3 armed ‼️  (🚫 instant spend)
+    assert 𓋂.𓃠 == (5, 3)                    # 🚀😋 @ 📍1️⃣ → 🚫 leap ⏳ this 🐾
+    assert 𓋂.𓋤 != (5, 3)                    # 🎲 respawn
+    assert 𓋂.𓋻 == 𓋃 and 𓋂.𓋼 == 𓋄       # 🛠️ tool → 🚫🔥 , 🚫🏆
+    # 🚀🚀 stack → +𓋧 ×2  (⏭️ 🐾 → leap −1)
+    𓋂.𓃠, 𓋂.𓋤, 𓋂.𓋥 = (5, 4), (5, 3), 0
+    𓋂.𓂷("⬆️")
+    assert 𓋂.𓋥 == 𓋂.𓋧
+    𓋂.𓃠, 𓋂.𓋤 = (5, 4), (5, 3)
+    𓋂.𓂷("⬆️")                               # 💨 armed → leap 2️⃣ + 🚀😋 @ 📍1️⃣
+    assert 𓋂.𓋥 == 2 * 𓋂.𓋧 - 1             # +3 stack , −1 leap ‼️
+
+
+def 𓊪𓋪():
+    # 🌟🚀  dash leap :  𓋥>0 + 🧭 → 🐈 2️⃣ cells / 🐾 , −1 💨  ·  🚧 🧱 · 🐕 · 🕳️
+    def 𓋅(𓋥=1, 𓃥=None, 𓊵=()):
+        𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False, 𓋔𓁋=False)
+        𓋆.𓃠, 𓋆.𓋥, 𓋆.𓃥 = (5, 4), 𓋥, 𓃥
+        𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(0, 0)], [0]
+        𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 7), (10, 0), (10, 7)
+        𓋆.𓊵 = set(𓊵)
+        return 𓋆
+    # 💨 0️⃣ → 🐾 1️⃣ cell  (🏁 base)
+    𓋁 = 𓋅(𓋥=0)
+    𓋁.𓂷("⬆️")
+    assert 𓋁.𓃠 == (5, 3) and 𓋁.𓋥 == 0
+    # 💨 >0 → leap 2️⃣ cells , −1 💨
+    𓋂 = 𓋅(𓋥=2)
+    𓋂.𓂷("⬆️")
+    assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1     # 2️⃣🐾 ‼️
+    # 🐾 stay → 🚫 leap , 🚫 consume
+    𓋂.𓂷("🐾")
+    assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
+    # 🧶 throw → 🚫 leap , 🚫 consume  (🐾 stay 🀄)
+    𓋂.𓂷("🧶")
+    assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
+    # 🧱 @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume  (📏 value-gated)
+    𓋃 = 𓋅(𓋥=1, 𓊵=((5, 2),))
+    𓋃.𓂷("⬆️")
+    assert 𓋃.𓃠 == (5, 3) and 𓋃.𓋥 == 1     # 💨 kept ‼️
+    # 🧱edge @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume
+    𓋄 = 𓋅(𓋥=1)
+    𓋄.𓃠 = (5, 1)
+    𓋄.𓂷("⬆️")
+    assert 𓋄.𓃠 == (5, 0) and 𓋄.𓋥 == 1
+    # 🐕 @ 📍2️⃣ → stay 📍1️⃣ , 🚫 consume  (🚫 self-😿)
+    𓋅𓏤 = 𓋅(𓋥=1, 𓃥=(5, 2))
+    𓋅𓏤.𓃥𓎿 = 99                             # 🐕 🚫🐾 ⏳ 🧪
+    𓋅𓏤.𓂷("⬆️")
+    assert 𓋅𓏤.𓃠 == (5, 3) and 𓋅𓏤.𓋥 == 1 and 𓋅𓏤.𓊟 == 0
+    # 🎯 @ 📍1️⃣ mid-leap → 😻  (🚫 🙈 fly-over ‼️)
+    𓋆 = 𓋅(𓋥=1)
+    𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(5, 3)], [0]
+    assert 𓋆.𓂷("⬆️") is True and 𓋆.𓄊 is True
+    assert 𓋆.𓃠 == (5, 3)                     # 🎯 @ 📍1️⃣ → 🎮🔚 , 🚫 leap on
+    # 🎯 @ 📍2️⃣ → 😻
+    𓋇 = 𓋅(𓋥=1)
+    𓋇.𓁉𓂋, 𓋇.𓊚𓂋 = [(5, 2)], [0]
+    assert 𓋇.𓂷("⬆️") is True and 𓋇.𓃠 == (5, 2)
+    # 🕳️🌀 : 📍1️⃣ = portal → 🐈 twin , sub-step 2️⃣ 🐾 from twin
+    𓋈 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓃥𓁋=False, 𓋔𓁋=False)
+    𓋈.𓎛 = ((5, 3), (1, 6))
+    𓋈.𓃠, 𓋈.𓋥 = (5, 4), 1
+    𓋈.𓁉𓂋, 𓋈.𓊚𓂋 = [(9, 0)], [0]
+    𓋈.𓇬, 𓋈.𓆛, 𓋈.𓊮 = (0, 7), (10, 0), (10, 7)
+    𓋈.𓂷("⬆️")
+    assert 𓋈.𓃠 == (1, 5) and 𓋈.𓋥 == 0     # 🕳️ twin (1,6) → ⬆️ → (1,5) ‼️
+    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍 只)
+    𓋉 = 𓋅(𓋥=1)
+    𓋉.𓋗𓂋.clear()
+    𓋉.𓂷("⬆️")
+    assert list(𓋉.𓋗𓂋) == [(5, 2)]
+
+
+def 𓊪𓋤𓁐():
+    # 🌟🚀  🖼️ :  🗺️ 🚀 tile  ·  HUD 🚀×N ⇔ 💨 > 0  ·  🌈 🟨
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
+    assert "🚀" in 𓋁.𓁐()                     # 🗺️ 🚀 drawn
+    assert "🚀×" not in 𓋁.𓁑()                # 💨 0️⃣ → 🙈 HUD
+    𓋁.𓋥 = 3
+    assert "🚀×3" in 𓋁.𓁑()                   # 💨 → HUD ‼️
+    assert "🚀×3" in 𓋁.𓁑() and "❄️" not in 𓋁.𓁑()   # ⚔️ ❄️ , 🚫 collide
+    assert "\033[93m🚀" in 𓅓.𓋊(𓋁.𓁐(), True)  # 🌈 🟨
+    # 🚫⚑ → 🚫 🚀 🗺️
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert "🚀" not in 𓋂.𓁐() and "🚀×" not in 𓋂.𓁑()
+
+
+def 𓊪𓋦𓊆():
+    # 🌟🚀  🌊 gate :  ⚑ + 🌊≥3 → 🚀  ;  🌊<3 → 🚫  ;  🚫⚑ → 🚫 ∀🌊  (🚫 regress)
+    assert 𓅓.𓊆(3, random.Random(0), False, True).𓋤 is not None
+    assert 𓅓.𓊆(2, random.Random(0), False, True).𓋤 is None      # 🌊<3 → 🚫🚀
+    assert 𓅓.𓊆(9, random.Random(0), False, True).𓋤 is not None
+    for 𓊍 in range(1, 10):                    # 🚫⚑ → 🚫🚀 ∀🌊  (🏁 base ‼️)
+        assert 𓅓.𓊆(𓊍, random.Random(0)).𓋤 is None
+
+
+def 𓊪𓋦𓆲():
+    # 🌟🚀  🔗✅ :  🤖🎬 ×120🎲 @ 🌊3/9 , ⚑🚀 on  →  🚫💥 , 💨 fires
+    𓋁 = 0
+    for 𓊃𓏤 in range(120):
+        for 𓊍 in (3, 9):
+            𓋂 = 𓅓.𓊆(𓊍, random.Random(𓊃𓏤), False, True)
+            for _ in range(300):
+                if 𓋂.𓂷(𓅓.𓊄(𓋂)):
+                    break
+            𓋁 += 𓋂.𓋥
+            assert 𓋂.𓋤 is None or 𓋂.𓋤 not in 𓋂.𓊵   # 🚀 🚫 in 🧱
+    assert 𓋁 > 0                              # 💨 grabbed ≥1 ⏳ 240🎮
+
+
 def 𓊪𓋔𓊄():
     # 🌟🧊  🐈🧠 :  💨 flee + 🧊 近 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
     #
@@ -1347,6 +1473,7 @@ def 𓊪𓆓𓂭():
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋔, 𓊪𓋕, 𓊪𓋗, 𓊪𓋚, 𓊪𓋘, 𓊪𓋔𓊄, 𓊪𓋔𓁐,
+     𓊪𓋤, 𓊪𓋪, 𓊪𓋤𓁐, 𓊪𓋦𓊆, 𓊪𓋦𓆲,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
