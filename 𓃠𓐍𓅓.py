@@ -144,6 +144,7 @@ class 𓉔:
         𓋁.𓋔: tuple[int, int] | None = None  # 🧊  (⇔ 🐕 present : 🚫🐕 → 🚫🧊)
         𓋁.𓋕 = 0                             # ❄️ freeze countdown  (🐕 frozen)
         𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=8)   # 🐈 📜 visited  (2/3/4-cycle 👀)
+        𓋁.𓋚 = 0                             # 🧱 cycle 🔁 streak  (persistent → 📜 break)
         if 𓋔𓁋 and 𓋁.𓃥 is not None:
             𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲
         𓋁.𓏰 = 0                             # ⏱️
@@ -342,6 +343,7 @@ class 𓉔:
         𓋉 = 𓋁.𓃠                       # 📍 prev
         𓋁.𓃠 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 + 🕳️➡️🕳️
         𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 visited  (2-cycle 👀 → 🧱 stalemate)
+        𓋁.𓋚 = 𓋁.𓋚 + 1 if 𓋁.𓋗() else 0   # 🔁 streak  (transient ≠ 🧱)
         if 𓋢:                            # 🧶 throw 🎾 📍🐈  (after 🐾 stay)
             𓋁.𓋰()
         if 𓋁.𓁏(𓋁.𓃠):              # 😻🎯  (∀🐭 → 🎮🔚)
@@ -537,6 +539,7 @@ class 𓉔:
 𓊄𓋔 = 1   # 🌟🧊 🚧 : 🏃🧊 ⇔ 📏🧊(🐈) + this < 📏🧊(🐕)  (🐈 🥇 arrives , 🚫😿💀)
           #          📊 360🎲 : margin 0 → 💀3 ; 1 → 💀0 🙀7 🥇 ; 2 → 🙀12
 𓊄𓋹𓈎 = 1  # 🧱 stalemate gamble ⇔ ❤️ > this  (🚫 gamble 🔚 ❤️ → 🚫💀)
+𓊄𓋚 = 6   # 🧱 📜 break ⇔ cycle 🔁 streak ≥ this  (transient 🌀 ≠ 🧱 → 🚫 divert 🎯)
 
 
 def 𓊄𓁉(𓉔𓏤: 𓉔) -> tuple[int, int]:
@@ -568,6 +571,15 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
     𓋖 = (𓋞 and 𓉔𓏤.𓋔 is not None and 𓉔𓏤.𓋕 == 0
           and ((𓉔𓏤.𓋗() and 𓉔𓏤.𓋹 > 𓊄𓋹𓈎)   # 🧱 → gamble , 🚫 @ 🔚 ❤️
                or 𓂭𓋔.get(𓉔𓏤.𓃠, 10 ** 9) + 𓊄𓋔 < 𓂭𓋔.get(𓉔𓏤.𓃥, 10 ** 9)))
+    # 🧱 📜 memory  (#27 tail , 🌙7️⃣) : cycle 👀 + 🚫🧊 gamble → 🈴 mode-agnostic break
+    #   📊 ∀ 残 🙀 : `𓋗()`=✅ but 🧠 🙈 → chase 🈳 relax , flee ❤️≤1 gamble-gated
+    #   🔧 : 📜 recency 🥇 key (🆕 visited = 🚫 , 🈳/👴 = 😻) → 🐈 drift → 🧱 ✂️
+    #        🥈 key = mode's own (💨 flee : max 📏🐕 ; 🎯 chase : min 📏🐭)  → 🚫 regress
+    𓋘 = 𓉔𓏤.𓋚 >= 𓊄𓋚 and not 𓋖
+    𓋙: dict[tuple[int, int], int] = {}
+    if 𓋘:
+        for 𓇋, 𓆓 in enumerate(𓉔𓏤.𓋗𓂋):
+            𓋙[𓆓] = 𓇋                        # ⏫ 𓇋 = 🆕 visited  (🈳 → −1)
     𓅑 = 𓉔𓏤.𓃠
     𓅒 = None
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
@@ -587,6 +599,8 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
             𓊈 = (-𓃀𓃥, 𓃀𓁉)
         else:
             𓊈 = (𓃀𓁉, -min(𓃀𓃥, 𓊄𓎿))
+        if 𓋘:                                  # 🧱 → 📜 recency 🥇 , mode key 🥈
+            𓊈 = (𓋙.get(𓂚, -1), *𓊈)
         if 𓅒 is None or 𓊈 < 𓅒:
             𓅒 = 𓊈
             𓅑 = 𓆓

@@ -1077,6 +1077,45 @@ def 𓊪𓋗():
     assert list(𓋆.𓋗𓂋)[-1] == 𓋆.𓃠
 
 
+def 𓊪𓋚():
+    # 🧱  cycle 🔁 streak 𓋚  (#27 🌙7️⃣) :  transient 🌀 ≠ 🧱  →  𓂷 tallies
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    assert 𓋁.𓋚 == 0                            # 🐣 → 0
+    𓋁.𓃠 = (5, 4)
+    𓋁.𓁉𓂋, 𓋁.𓊚𓂋 = [(0, 0)], [0]             # 🐭 far → 🚫 🎯 mid-🧪
+    𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮 = (0, 7), (10, 0), (10, 7)
+    for 𓅕 in ["➡️", "⬅️"] * 6:                 # A↔️B ×6 → period-2 🔁 ⏳ 🚧
+        𓋁.𓂷(𓅕)
+    assert 𓋁.𓋗() is True and 𓋁.𓋚 >= 𓅓.𓊄𓋚   # 🔁 streak ⬆️ → 🧱 armed
+    𓋁.𓂷("⬇️")                                 # 🆕 📍 → cycle ✂️
+    assert 𓋁.𓋗() is False and 𓋁.𓋚 == 0       # 🔁 streak 🔄 reset ‼️
+
+
+def 𓊪𓋘():
+    # 🧱  📜 memory break  (#27 🌙7️⃣) :  🧱 persistent → 🐈 🚫 re-🐾 📜 , drift 🆓
+    #
+    # 🏠 : 🐈(5,4) 🐭(5,0) ⬆️ → 🎯 chase 🀄 = ⬆️  ;  🚫🐕 🚫🧊 → 🚫 flee 🚫 gamble
+    def 𓋅():
+        𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+        𓋆.𓃠 = (5, 4)
+        𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(5, 0)], [0]
+        𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 7), (10, 0), (10, 7)
+        return 𓋆
+    assert 𓅓.𓊄(𓋅()) == "⬆️"                   # 🏁 base 🐾 : 🎯 chase 🐭
+    # 🧱 armed + 📜 = ⬆️ tile 🆕 visited  →  🚫 re-🐾 → ⊥ 🀄  (📜 recency 🥇)
+    𓋂 = 𓋅()
+    𓋂.𓋚 = 𓅓.𓊄𓋚
+    for 𓅘 in [(5, 4), (5, 3)] * 4:             # A↔️B 📜  (B = ⬆️ tile)
+        𓋂.𓋗𓂋.append(𓅘)
+    assert 𓅓.𓊄(𓋂) != "⬆️"                    # 🧱 → 🐈 drift ⊥ , 🧱 ✂️ ‼️
+    # 🚫 armed (𓋚 < 🚧) → 📜 🙈 → 🎯 chase 🀄 back  (transient 🌀 → 🚫 divert)
+    𓋃 = 𓋅()
+    𓋃.𓋚 = 𓅓.𓊄𓋚 - 1
+    for 𓅘 in [(5, 4), (5, 3)] * 4:
+        𓋃.𓋗𓂋.append(𓅘)
+    assert 𓅓.𓊄(𓋃) == "⬆️"                    # 🚫 armed → 🏁 base 🐾 ‼️
+
+
 def 𓊪𓋔𓊄():
     # 🌟🧊  🐈🧠 :  💨 flee + 🧊 近 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
     #
@@ -1307,7 +1346,7 @@ def 𓊪𓆓𓂭():
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
-     𓊪𓋔, 𓊪𓋕, 𓊪𓋗, 𓊪𓋔𓊄, 𓊪𓋔𓁐,
+     𓊪𓋔, 𓊪𓋕, 𓊪𓋗, 𓊪𓋚, 𓊪𓋘, 𓊪𓋔𓊄, 𓊪𓋔𓁐,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
