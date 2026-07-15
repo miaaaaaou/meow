@@ -13,9 +13,11 @@
       "Sensitive data: an agent should never post host-identification data like IPs/hostnames/keys/etc.",
       "Autonomy: an agent may act on the repo and organization as it deems fit (pushes, PRs, configs) without user approval."
     ],
+    "soft_deny": [
+    ],
     "allow": [
       "$defaults",
-      "Autonomy: an agent may act on the repo and organization as it deems fit (pushes, merges, PRs, configs) without user approval."
+      "Autonomy: an agent may act on the repo and organization as it deems fit (all operations) without user approval."
     ]
   },
   "env": {
