@@ -143,7 +143,7 @@ class 𓉔:
             𓋁.𓃥 = 𓋁.𓃥𓆙()               # 🐕🎲 far
         𓋁.𓋔: tuple[int, int] | None = None  # 🧊  (⇔ 🐕 present : 🚫🐕 → 🚫🧊)
         𓋁.𓋕 = 0                             # ❄️ freeze countdown  (🐕 frozen)
-        𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=4)   # 🐈 📜 visited  (2-cycle 👀)
+        𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=8)   # 🐈 📜 visited  (2/3/4-cycle 👀)
         if 𓋔𓁋 and 𓋁.𓃥 is not None:
             𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲
         𓋁.𓏰 = 0                             # ⏱️
@@ -383,11 +383,15 @@ class 𓉔:
         return 𓋁.𓄊 or 𓋁.𓋺         # 🎮🔚 : 😻 win or 💀 lose
 
     def 𓋗(𓋁) -> bool:
-        # 🐈 📜 2-cycle 👀 :  A↔️B↔️A↔️B  →  🧱 stalemate  (#27 : 🧠 stateless 🧱)
-        if len(𓋁.𓋗𓂋) < 4:
-            return False
-        𓄾, 𓃀, 𓂭, 𓂘 = 𓋁.𓋗𓂋
-        return 𓄾 == 𓂭 and 𓃀 == 𓂘 and 𓄾 != 𓃀
+        # 🐈 📜 cycle 👀 :  period-2 (A↔️B) · 3 · 🕳️ portal 4-cycle  →  🧱 stalemate
+        #                (#27 : 🧠 stateless 🧱 ; 🕳️🌀 → 4-🐾 loop 🚫 2-cycle detect)
+        𓄽 = list(𓋁.𓋗𓂋)
+        𓈙 = len(𓄽)
+        for 𓇋 in (2, 3, 4):
+            if (𓈙 >= 2 * 𓇋 and 𓄽[-𓇋:] == 𓄽[-2 * 𓇋:-𓇋]
+                    and len(set(𓄽[-𓇋:])) > 1):   # 🚫 💤 A A A (blocked ≠ cycle)
+                return True
+        return False
 
     def 𓋾(𓋁) -> bool:
         # 🎮🔚  game over : 😻 catch or 💀 (❤️0 | ⏳0)

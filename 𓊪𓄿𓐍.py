@@ -1041,25 +1041,40 @@ def 𓊪𓋕():
 
 
 def 𓊪𓋗():
-    # 🌟🧊  📜 2-cycle 👀 :  A↔️B↔️A↔️B → 🧱 stalemate  (#27 🧠 memory)
+    # 🌟🧊  📜 cycle 👀 :  period-2/3/4 → 🧱 stalemate  (#27 🧠 memory ; 🕳️ 4-cycle)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     assert 𓋁.𓋗() is False                      # 📜 🈳 → 🚫
     for 𓅘 in [(1, 1), (1, 2), (1, 1)]:
         𓋁.𓋗𓂋.append(𓅘)
     assert 𓋁.𓋗() is False                      # <4 📜
     𓋁.𓋗𓂋.append((1, 2))
-    assert 𓋁.𓋗() is True                       # A B A B → 🧱
-    𓋁.𓋗𓂋.append((3, 3))                       # B A B C → 🚫
+    assert 𓋁.𓋗() is True                       # A B A B → 🧱  (period-2)
+    𓋁.𓋗𓂋.append((3, 3))                       # …A B A B C → 🚫 (🚫 fresh cycle)
     assert 𓋁.𓋗() is False
-    # 💤 🐾 ×4 (A A A A) → 🚫 2-cycle  (𓄾 ≠ 𓃀 🚧)
+    # 💤 🐾 (A A A A) → 🚫 cycle  (𓄾 ≠ 𓃀 🚧 : blocked ≠ loop)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    for _ in range(4):
+    for _ in range(8):
         𓋂.𓋗𓂋.append((2, 2))
     assert 𓋂.𓋗() is False
-    # 🐾 → 📜 grows  (𓂷 feeds 𓋗𓂋)
+    # 🕳️ portal 4-cycle : A B C D A B C D  →  🧱  (2-cycle detect 🙈 → #27 tail)
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    𓋃.𓂷("➡️")
-    assert list(𓋃.𓋗𓂋)[-1] == 𓋃.𓃠
+    for 𓅘 in [(1, 4), (8, 1), (7, 1), (2, 4)] * 2:
+        𓋃.𓋗𓂋.append(𓅘)
+    assert 𓋃.𓋗() is True                       # period-4 → 🧱 ‼️
+    # 3-cycle : A B C A B C  →  🧱
+    𓋄 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    for 𓅘 in [(0, 0), (0, 1), (0, 2)] * 2:
+        𓋄.𓋗𓂋.append(𓅘)
+    assert 𓋄.𓋗() is True                       # period-3 → 🧱
+    # 🚫 false-⚡ : monotone walk A B C D E F G H → 🚫 cycle
+    𓋅 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    for 𓅘 in [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]:
+        𓋅.𓋗𓂋.append(𓅘)
+    assert 𓋅.𓋗() is False                      # 🚫 repeat → 🚫🧱
+    # 🐾 → 📜 grows  (𓂷 feeds 𓋗𓂋)
+    𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋆.𓂷("➡️")
+    assert list(𓋆.𓋗𓂋)[-1] == 𓋆.𓃠
 
 
 def 𓊪𓋔𓊄():
