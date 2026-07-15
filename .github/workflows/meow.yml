@@ -26,8 +26,8 @@ jobs:
       matrix:
         nya: ["3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.nya }}
       - name: 🧪 🐈✅🐭
@@ -43,8 +43,8 @@ jobs:
       matrix:
         mew: ["1", "5", "9"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
       - name: 🤖 🕹️ 🌊${{ matrix.mew }}
@@ -58,8 +58,8 @@ jobs:
     name: 🐍📏 + 𓂀🚫🗣️
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
       - name: 🐍 ✅ syntax
