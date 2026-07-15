@@ -772,6 +772,68 @@ def 𓊪𓊆𓄊():
             assert 𓋁.𓄊 is True, f"🙀 🎚️={𓊍} seed={𓊃}"
 
 
+def 𓊪𓎏():
+    # ⌨️  🐾 reader :  ⎋[A⎋[B⎋[C⎋[D → 🔼🔽▶️◀️  (#23 🐛)  ; 🀄 ↔️ ; 🚫💥
+    assert 𓅓.𓎏("\x1b[A") == ["⬆️"]
+    assert 𓅓.𓎏("\x1b[B") == ["⬇️"]
+    assert 𓅓.𓎏("\x1b[C") == ["➡️"]              # 🙏 #23 : ^[[C 🟰 ➡️
+    assert 𓅓.𓎏("\x1b[D") == ["⬅️"]
+    # ⎋O𓅕  app-cursor mode  (📺 🔀)
+    assert 𓅓.𓎏("\x1bOA") == ["⬆️"]
+    assert 𓅓.𓎏("\x1bOD") == ["⬅️"]
+    # `^[` 📺 echo 🔤  (🧑📋 paste)
+    assert 𓅓.𓎏("^[[C") == ["➡️"]
+    assert 𓅓.𓎏("^[[A") == ["⬆️"]
+    # ⌨️⌨️ hold → 🐾🐾  (∀ seq in 📜 , 🧭 order kept)
+    assert 𓅓.𓎏("\x1b[C\x1b[C\x1b[B") == ["➡️", "➡️", "⬇️"]
+    # 🀄 ↔️ passthrough  (🚫⎋ → 🔤 as-is)
+    assert 𓅓.𓎏("⬆️") == ["⬆️"]
+    assert 𓅓.𓎏(" 🐾 ") == ["🐾"]
+    assert 𓅓.𓎏("🧶") == ["🧶"]
+    assert 𓅓.𓎏("🙀") == ["🙀"]
+    assert 𓅓.𓎏("q") == ["q"]
+    # 🕳️ / 🤔❓
+    assert 𓅓.𓎏("") == []
+    assert 𓅓.𓎏("   ") == []
+    assert 𓅓.𓎏("\x1b") == []                   # solo ⎋ → 🚫🧭
+    assert 𓅓.𓎏("\x1b[Z") == []                 # ⇧⇥ → 🚫🧭  (🚫💥)
+    assert 𓅓.𓎏("🐕") == ["🐕"]                  # 🚫🧭 🔤 → 🤔❓ @ 🕹️
+    # ⎋ noise 🚮 + 🧭 kept  (🐈🚧 partial seq)
+    assert 𓅓.𓎏("\x1b[\x1b[C") == ["➡️"]
+    # 🕹️ 🔗 : ∀ 🧭 → 𓂃 ✅  (🐾 map 🤝)
+    for 𓅕 in ("\x1b[A", "\x1b[B", "\x1b[C", "\x1b[D"):
+        assert 𓅓.𓎏(𓅕)[0] in 𓅓.𓂃
+
+
+def 𓊪𓎏𓊪𓏰():
+    # 🕹️  ⌨️ → 🐈🐾 e2e  (📥 ⎋[C → 🐈 ▶️ ; 🐾🐾 hold ; 🙀 → 🚪)
+    𓂺 = subprocess.run(
+        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        input="\x1b[C\n\x1b[C\n\x1b[B\n🙀\n",
+        capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂺.returncode == 0
+    assert "🤔❓" not in 𓂺.stdout                # ⌨️ 🚫 😿  (🙏 #23)
+    assert "⏱️=3" in 𓂺.stdout                   # 🐾×3  (🧱🎲 → 📍 ⚖️ , ⏱️ ✅)
+    assert "👋😼" in 𓂺.stdout                   # 🙀 🚪
+    # ⌨️⌨️ hold : 1 📜 → 🐾🐾🐾
+    𓂭 = subprocess.run(
+        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        input="\x1b[C\x1b[C\x1b[C\n🙀\n",
+        capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂭.returncode == 0
+    assert "🤔❓" not in 𓂭.stdout
+    assert "⏱️=3" in 𓂭.stdout                   # ▶️×3 in 1 📜
+    # 🤔❓ 🚫🧭 🔤  (🚫💥)
+    𓂮 = subprocess.run(
+        [sys.executable, "𓃠𓐍𓅓.py", "1"],
+        input="🐕\n🙀\n", capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂮.returncode == 0
+    assert "🤔❓" in 𓂮.stdout and "👋😼" in 𓂮.stdout
+
+
 def 𓊪𓊆𓂺():
     # 🏁  parse 🌊 level from args  (digits + keycap emoji)
     assert 𓅓.𓊆𓂺([]) == 1
@@ -875,6 +937,7 @@ def 𓊪𓆓𓂭():
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
+     𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
      𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭]
 
