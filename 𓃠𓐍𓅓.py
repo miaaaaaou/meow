@@ -1,4 +1,4 @@
-# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 BFS + 🐕😾 + 🐦🕊️ + 🕳️🌀
+# 🐈🎮🐭 — 𓃠 𓆲 𓅓 𓐍  ✨  🧱🗺️ + 🧭 𓃰 + 🐕😾 + 🐦🕊️ + 🕳️🌀
 # ⬆️⬇️⬅️➡️ 🐾 … 🐈💨🐭 … 🐕💨🐈 … 🐦🕊️ … 🕳️🌀 … 🧱 … 🎯 → 😻😹😼
 #
 # 𓉻 𓐁 𓂀:  𓊪↔️  𓏏↕️  𓃠🐈  𓁉🐭  𓃥🐕  𓅱🐦  𓇬🧀  𓊵🧱  𓊟😿  𓅮🕊️  𓎛🕳️  𓋔🧊  𓋤🚀
@@ -10,25 +10,25 @@ import datetime
 from collections import deque
 
 # ─────────── 💾🏆 📜🔝 ───────────
-𓎋𓊪 = "🏆📜.json"    # 💾 default 🛤️  (🏁 classic)
-𓎋𓊪𓋃 = "🏆📜⏳.json"  # 💾 ⏱️ time-attack 🛤️  (🏁 mode → own 📜🔝)
-𓎋𓊪𓋱 = "🏆📜🌱.json"  # 💾 🌱 daily-seed 🛤️  (∀🐈 🟰 🗺️ / 🌞 → own 📜🔝)
-𓎋𓈖 = 10             # 📜🔝 keep top-N
+𓎋𓊪 = "🏆📜.json"    # 💾 🏁🏁 🛤️  (🏛️)
+𓎋𓊪𓋃 = "🏆📜⏳.json"  # 💾 ⏱️ ⏳⚔️ 🛤️  (🏁 🀄 → 📜🔝 ✂️)
+𓎋𓊪𓋱 = "🏆📜🌱.json"  # 💾 🌱🌞🎲 🛤️  (∀🐈 🟰 🗺️ / 🌞 → 📜🔝 ✂️)
+𓎋𓈖 = 10             # 📜🔝 ⏫-N 💾
 
 
 def 𓋱𓊞() -> str:
-    # 🌞  today → YYYYMMDD share code  (∀🐈 🟰 🗺️ / 🌞)
+    # 🌞  ⏰ → `%Y%m%d` 🀄  (∀🐈 🟰 🗺️ / 🌞 → 🤝 ⚔️)
     return datetime.date.today().strftime("%Y%m%d")
 
 
 def 𓋱(𓅔: str) -> tuple[int, int]:
-    # 🌱  date code → (seed , 🌊) :  🌊 = 1 + code % 9  (🌞 → variety)
+    # 🌱  🌞🀄 → (🎲 , 🌊) :  🌊 = 1 + 🀄 % 9  (🌞 → 🌈 🗺️)
     𓊈 = int(𓅔)
     return 𓊈, 1 + 𓊈 % 𓊆𓈖
 
 
 def 𓎋(𓊪𓉏: str = 𓎋𓊪) -> list[dict]:
-    # 📥  load 📜🔝  (🙀💔 → 📜🕳️)
+    # 📥  📜🔝  (🙀💔 → 📜🕳️)
     try:
         with open(𓊪𓉏, encoding="utf-8") as 𓆑:
             𓂭 = json.load(𓆑)
@@ -40,7 +40,7 @@ def 𓎋(𓊪𓉏: str = 𓎋𓊪) -> list[dict]:
 
 
 def 𓎌(𓆳: dict, 𓊪𓉏: str = 𓎋𓊪, 𓈖: int = 𓎋𓈖) -> list[dict]:
-    # 📤  add 🆕 → sort 🔽🏆 (tie → 🔼⏱️) → ✂️ top-N → 💾
+    # 📤  ➕🆕 → 🔽🏆 (🟰 → 🔼⏱️) → ✂️ ⏫-N → 💾
     𓂏 = 𓎋(𓊪𓉏)
     𓂏.append(𓆳)
     𓂏.sort(key=lambda 𓅘: (-𓅘.get("🏆", 0), 𓅘.get("⏱️", 0)))
@@ -51,8 +51,8 @@ def 𓎌(𓆳: dict, 𓊪𓉏: str = 𓎋𓊪, 𓈖: int = 𓎋𓈖) -> list[dic
 
 
 def 𓎌𓋱(𓆳: dict, 𓅔: str, 𓈖: int = 𓎋𓈖) -> list[dict]:
-    # 📤 🌱 daily :  append → per-🌞 top-N → 💾  (👴🌞 kept , 🚫 cross-day evict)
-    #   → return 🎯 today's (𓅔) entries , sorted 🔽🏆  (🖼️ ready)
+    # 📤 🌱 :  ➕ → 🪣/🌞 → ⏫-N / 🪣 → 💾  (👴🌞 💾 ✅ , 🚫 ↔️🌞 🚮)
+    #   → ↩️ 🎯 🌞 (𓅔) ☝️ , 🔽🏆  (🖼️ 🟢)
     𓂏 = 𓎋(𓎋𓊪𓋱)
     𓂏.append(𓆳)
     𓆒: dict[str, list[dict]] = {}
@@ -68,14 +68,14 @@ def 𓎌𓋱(𓆳: dict, 𓅔: str, 𓈖: int = 𓎋𓈖) -> list[dict]:
 
 
 def 𓎍(𓂏: list[dict], 𓅔: str | None = None) -> str:
-    # 🖼️  📜🔝 render  (𓅔 = 🌱 filter : 🎯 🟰 🌞 → 👴🌞 🙈)
+    # 🖼️  📜🔝  (𓅔 = 🌱 🕸️ : 🎯 🟰 🌞 → 👴🌞 🙈)
     if 𓅔 is not None:
         𓂏 = [𓅘 for 𓅘 in 𓂏 if str(𓅘.get("🌱", "")) == 𓅔]
     if not 𓂏:
         return "📜🕳️" if 𓅔 is None else f"🏆📜🔝🌱{𓅔}\n📜🕳️"
     𓂐 = ["🏆📜🔝" if 𓅔 is None else f"🏆📜🔝🌱{𓅔}"]
     for 𓇋, 𓆳 in enumerate(𓂏, 1):
-        𓋏 = f"  ⏳{𓆳['⏳']}" if "⏳" in 𓆳 else ""   # ⏱️ 🏁 → ⏳ leftover
+        𓋏 = f"  ⏳{𓆳['⏳']}" if "⏳" in 𓆳 else ""   # ⏱️ 🏁 → ⏳ ↩️
         𓂐.append(
             f"{𓇋}. 🏆{𓆳.get('🏆', 0)}  🎚️{𓆳.get('🎚️', 1)}  ⏱️{𓆳.get('⏱️', 0)}"
             f"  🐟{𓆳.get('🐟', 0)}  🥛{𓆳.get('🥛', 0)}"
@@ -106,49 +106,49 @@ def 𓎘(𓆼: int, 𓊝: int) -> int:
 
 
 def 𓐍(𓄿: tuple[int, int], 𓃀: tuple[int, int]) -> int:
-    # 📏  (|Δ↔️| + |Δ↕️|)   (manhattan)
+    # 📏  (|Δ↔️| + |Δ↕️|)   (🏙️ 🧱 🚶)
     return abs(𓄿[0] - 𓃀[0]) + abs(𓄿[1] - 𓃀[1])
 
 
 def 𓎉(𓄿: tuple[int, int], 𓃀: tuple[int, int]) -> int:
-    # 📐  max(|Δ↔️| , |Δ↕️|)   (chebyshev — 🕊️ 8🧭)
+    # 📐  ⏫(|Δ↔️| , |Δ↕️|)   (👑 🚶 — 🕊️ 8🧭)
     return max(abs(𓄿[0] - 𓃀[0]), abs(𓄿[1] - 𓃀[1]))
 
 
 class 𓉔:
     # 🏠🎮  🐈💨🐭  🧱
-    # 👀  🐈 near → 🐭😱
+    # 👀  🐈 👉 → 🐭😱
     𓋴 = 3
-    # 💨💨💨 → 💤  (🐭 stamina)
+    # 💨💨💨 → 💤  (🐭 🫁)
     𓎿 = 4
-    # 🥛⚡  pounce ⏳ turns
+    # 🥛⚡  🐆 ⏳ 🐾
     𓋨 = 4
-    # 🥛⚡  pounce 📏 reach  (🐈🎯🐭 from afar)
+    # 🥛⚡  🐆 📏 🦾  (🐈🎯🐭 ← 🔭)
     𓋩 = 2
-    # 🐕  spawn 📏 ≥ from 🐈  (fair start)
+    # 🐕  🎲 📏 ≥ ← 🐈  (⚖️ 🏁)
     𓃥𓊞 = 5
-    # 🐕💨  half-speed  (🐈🏃 head-start)  →  moves every 2️⃣ turns
+    # 🐕💨  🐌 ½  (🐈🏃 🥇)  →  🀫 / 2️⃣ 🐾
     𓃥𓎿 = 2
-    # 🐦🏆  bonus  (🐈🕊️😋 → +🏆)
+    # 🐦🏆  ➕  (🐈🕊️😋 → +🏆)
     𓅯 = 7
-    # 🧶  distract ⏳ turns  (🐕💨🎾 not 🐈)
+    # 🧶  🎣 ⏳ 🐾  (🐕💨🎾 , 🚫🐈)
     𓋬 = 3
-    # 🧶  🐕👀🎾 sight 📐 (chebyshev) range
+    # 🧶  🐕👀🎾 📐 (👑) 🦾
     𓋫 = 4
-    # 🐾9️⃣  ❤️ start lives  (😿 bonk −1 , 0 → 🎮🔚)
+    # 🐾9️⃣  ❤️ 🏁  (😿 👉 −1 , 0 → 🎮🔚)
     𓋹𓈖 = 9
-    # 😻🔥  combo streak 🧢 cap  (🏆 ×min(🔥,5))
+    # 😻🔥  🥞 🧶 🧢  (🏆 ×⏬(🔥,5))
     𓋻𓈎 = 5
-    # 🐭🐭  🎯 base 🏆 → 🔥 combo tally  (per 🐭 caught)
+    # 🐭🐭  🎯 🏁 🏆 → 🔥 🥞 🔢  (/ 🐭 🎯)
     𓁉𓊙 = 5
-    # ⏱️  time-attack : ⏳ = 𓋃𓊞 + 𓋃𓎿 × 🌊   (opt-in ⚑)
+    # ⏱️  ⏳⚔️ : ⏳ = 𓋃𓊞 + 𓋃𓎿 × 🌊   (⚑ ☝️)
     𓋃𓊞 = 40
     𓋃𓎿 = 8
-    # ⏱️  ⏳ ≤ this → 🟥 flash  (🖼️ HUD)
+    # ⏱️  ⏳ ≤ 👇 → 🟥 ⚡  (🖼️ 🎛️)
     𓋃𓈎 = 5
-    # 🌟🧊  freeze ❄️ duration  (🐈🧊😋 → 🐕 ❄️ N 🐾 : 🚫 chase , 🚫 bonk)
+    # 🌟🧊  ❄️ ⏳  (🐈🧊😋 → 🐕 ❄️ N 🐾 : 🚫💨 , 🚫👉)
     𓋕𓊞 = 5
-    # 🌟🚀  dash charges per 😋  (🐈🚀😋 → 💨 leap 2️⃣🐾 ×N)
+    # 🌟🚀  💨 / 😋  (🐈🚀😋 → 🦘 2️⃣🀫 ×N)
     𓋧 = 3
 
     def __init__(𓋁, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
@@ -157,15 +157,15 @@ class 𓉔:
                  𓋦𓁋: bool = False):
         𓋁.𓊃 = 𓊃 or random.Random()
         𓋁.𓃠 = (0, 0)                        # 🐈
-        𓋁.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 pack  (📍 list)
-        𓋁.𓊚𓂋 = [0]                         # 😮‍💨 per 🐭  (fatigue)
-        𓋁.𓁍 = 𓋁.𓁉𓂋[0]                   # 📍 last 🐭  (∀ 🎯 → 🖼️)
+        𓋁.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 👥  (📍 ⛓️)
+        𓋁.𓊚𓂋 = [0]                         # 😮‍💨 / 🐭  (🫁)
+        𓋁.𓁍 = 𓋁.𓁉𓂋[0]                   # 📍 🔚 🐭  (∀ 🎯 → 🖼️)
         𓋁.𓊵: set[tuple[int, int]] = set()   # 🧱
         𓋁.𓆵(𓊵𓈖)                            # 🧱🎲
         𓋁.𓎛: tuple[tuple[int, int], tuple[int, int]] | None = None  # 🕳️↔️🕳️
         if 𓎛𓁋:
-            𓄾 = 𓋁.𓆙()                       # 🕳️ a
-            𓄿 = 𓋁.𓆙((𓄾,))                  # 🕳️ b
+            𓄾 = 𓋁.𓆙()                       # 🕳️ 1️⃣
+            𓄿 = 𓋁.𓆙((𓄾,))                  # 🕳️ 2️⃣
             𓋁.𓎛 = (𓄾, 𓄿)                   # 🕳️↔️🕳️
         𓋁.𓇬 = 𓋁.𓆙(𓋁.𓎜())             # 🧀
         𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, *𓋁.𓎜()))            # 🐟
@@ -175,40 +175,40 @@ class 𓉔:
             𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, *𓋁.𓎜()))  # 🐦🎲
         𓋁.𓃥: tuple[int, int] | None = None  # 🐕
         if 𓃥𓁋:
-            𓋁.𓃥 = 𓋁.𓃥𓆙()               # 🐕🎲 far
-        𓋁.𓋔: tuple[int, int] | None = None  # 🧊  (⇔ 🐕 present : 🚫🐕 → 🚫🧊)
-        𓋁.𓋕 = 0                             # ❄️ freeze countdown  (🐕 frozen)
-        𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=8)   # 🐈 📜 visited  (2/3/4-cycle 👀)
-        𓋁.𓋚 = 0                             # 🧱 cycle 🔁 streak  (persistent → 📜 break)
+            𓋁.𓃥 = 𓋁.𓃥𓆙()               # 🐕🎲 🔭
+        𓋁.𓋔: tuple[int, int] | None = None  # 🧊  (⇔ 🐕 🈶 : 🚫🐕 → 🚫🧊)
+        𓋁.𓋕 = 0                             # ❄️ ⏳  (🐕 🧊)
+        𓋁.𓋗𓂋: deque[tuple[int, int]] = deque(maxlen=8)   # 🐈 📜 👣  (🌀 ⏳-2/3/4 👀)
+        𓋁.𓋚 = 0                             # 🧱 🌀 🔁 🧶  (🗿 → 📜 ✂️)
         if 𓋔𓁋 and 𓋁.𓃥 is not None:
             𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓎜()))  # 🧊🎲
-        𓋁.𓋤: tuple[int, int] | None = None  # 🚀  (⚑ opt-in : 🚫⚑ → 🚫🚀)
-        𓋁.𓋥 = 0                             # 💨 dash charges  (🚀😋 → +𓋧)
+        𓋁.𓋤: tuple[int, int] | None = None  # 🚀  (⚑ ☝️ : 🚫⚑ → 🚫🚀)
+        𓋁.𓋥 = 0                             # 💨 🦘 🔋  (🚀😋 → +𓋧)
         if 𓋦𓁋:
             𓋁.𓋤 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🚀🎲
         𓋁.𓏰 = 0                             # ⏱️
-        𓋁.𓊛 = 0                             # 🐟😋 (fish eaten)
-        𓋁.𓊳 = 0                             # 🥛😋 (milk eaten)
-        𓋁.𓊰 = 0                             # ⚡ (pounce turns)
-        𓋁.𓊟 = 0                             # 😿 (🐕 bonks)
-        𓋁.𓅮 = 0                             # 🐦😋 (birds caught)
+        𓋁.𓊛 = 0                             # 🐟😋 🔢
+        𓋁.𓊳 = 0                             # 🥛😋 🔢
+        𓋁.𓊰 = 0                             # ⚡ 🐆 ⏳
+        𓋁.𓊟 = 0                             # 😿 🔢 (🐕 👉)
+        𓋁.𓅮 = 0                             # 🐦😋 🔢
         𓋁.𓄊 = False                         # 🎯😻
-        𓋁.𓊍 = 1                             # 🎚️ 🌊 level
-        𓋁.𓋭: tuple[int, int] | None = None  # 🧶🎾 yarn
-        𓋁.𓋮 = 0                             # ⏳ 🧶 distract countdown
-        𓋁.𓋯 = False                         # 🧶×1 thrown flag
-        𓋁.𓋹 = 𓋁.𓋹𓈖                      # ❤️ lives (🐾9️⃣ nine-lives)
-        𓋁.𓋺 = False                         # 💀 lose flag (❤️=0 🎮🔚)
-        𓋁.𓋻 = 0                             # 🔥 combo streak
-        𓋁.𓋼 = 0                             # 🏆 combo bonus accumulator
-        𓋁.𓋃𓁋 = 𓋃𓁋                          # ⏱️ time-attack ⚑  (default 🚫)
-        𓋁.𓋂 = 𓋃𓈖(1)                        # ⏳ budget left  (🌊 → 𓊆 rescales)
-        𓋁.𓋱𓉏: str | None = None              # 🌱 daily code  (𓊆 sets ⇔ opt-in ⚑)
+        𓋁.𓊍 = 1                             # 🎚️ 🌊
+        𓋁.𓋭: tuple[int, int] | None = None  # 🧶🎾 📍
+        𓋁.𓋮 = 0                             # ⏳ 🧶 🎣
+        𓋁.𓋯 = False                         # 🧶×1 🤾 ⚑
+        𓋁.𓋹 = 𓋁.𓋹𓈖                      # ❤️ 🔢 (🐾9️⃣)
+        𓋁.𓋺 = False                         # 💀 ⚑ (❤️=0 🎮🔚)
+        𓋁.𓋻 = 0                             # 🔥 🥞 🧶
+        𓋁.𓋼 = 0                             # 🏆 🥞 ➕ 🪣
+        𓋁.𓋃𓁋 = 𓋃𓁋                          # ⏱️ ⏳⚔️ ⚑  (🏁🏁 🚫)
+        𓋁.𓋂 = 𓋃𓈖(1)                        # ⏳ 💰 ↩️  (🌊 → 𓊆 ⚖️)
+        𓋁.𓋱𓉏: str | None = None              # 🌱 🌞🀄  (𓊆 ✍️ ⇔ ⚑ ☝️)
 
-    # ─────────── 🐭🐭  pack 🏦 ───────────
+    # ─────────── 🐭🐭  👥 🏦 ───────────
     @property
     def 𓁉(𓋁) -> tuple[int, int]:
-        # 🐭  head of pack  (🚧 back-compat : solo ↔️ 𓁉𓂋[0] ; ∀🎯 → 📍 last)
+        # 🐭  👥 🥇  (🚧 👴🤝 : 1️⃣ ↔️ 𓁉𓂋[0] ; ∀🎯 → 📍 🔚)
         return 𓋁.𓁉𓂋[0] if 𓋁.𓁉𓂋 else 𓋁.𓁍
 
     @𓁉.setter
@@ -222,7 +222,7 @@ class 𓉔:
 
     @property
     def 𓊚(𓋁) -> int:
-        # 😮‍💨  head 🐭 fatigue  (🚧 back-compat)
+        # 😮‍💨  🥇 🐭 🫁  (🚧 👴🤝)
         return 𓋁.𓊚𓂋[0] if 𓋁.𓊚𓂋 else 0
 
     @𓊚.setter
@@ -233,7 +233,7 @@ class 𓉔:
             𓋁.𓊚𓂋 = [𓂘]
 
     def 𓁉𓆙(𓋁) -> tuple[int, int]:
-        # 🐭🎲 📍  🔗 from 🐈  ≠🐈🐭🐭🧀🐟🥛🐕🐦🕳️🧊
+        # 🐭🎲 📍  🔗 ← 🐈  ≠🐈🐭🐭🧀🐟🥛🐕🐦🕳️🧊
         𓂭 = 𓋁.𓃰(𓋁.𓃠)
         𓆊 = {𓋁.𓃠, *𓋁.𓁉𓂋, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮,
               𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()}
@@ -243,27 +243,27 @@ class 𓉔:
         return 𓋁.𓊃.choice(𓊾)
 
     def 𓁎(𓋁, 𓈖: int) -> None:
-        # 🐭🐭  pack grow → 𓈖 total  (🔗✅ ∀🐭 : 𓁉𓆙 picks from BFS 🗺️)
+        # 🐭🐭  👥 ⬆️ → 𓈖 Σ  (🔗✅ ∀🐭 : 𓁉𓆙 ← 𓃰 🗺️)
         while len(𓋁.𓁉𓂋) < 𓈖:
             𓋁.𓁉𓂋.append(𓋁.𓁉𓆙())
             𓋁.𓊚𓂋.append(0)
 
     def 𓁏(𓋁, 𓅘: tuple[int, int]) -> bool:
-        # 🎯  catch 🐭 @ 📍 → pop + 🔥 combo ;  ∀🐭 gone → 😻
+        # 🎯  🐭 @ 📍 → 🚮 + 🔥 🥞 ;  ∀🐭 🈳 → 😻
         if 𓅘 not in 𓋁.𓁉𓂋:
             return 𓋁.𓄊
         𓇋 = 𓋁.𓁉𓂋.index(𓅘)
         𓋁.𓁉𓂋.pop(𓇋)
         𓋁.𓊚𓂋.pop(𓇋)
         𓋁.𓁍 = 𓅘
-        𓋁.𓋿(𓋁.𓁉𓊙)                 # 🔥 combo +1 / 🐭
+        𓋁.𓋿(𓋁.𓁉𓊙)                 # 🔥 🥞 +1 / 🐭
         if not 𓋁.𓁉𓂋:
             𓋁.𓄊 = True                # 😻 ⇔ ∀🐭 🎯
         return 𓋁.𓄊
 
     # ─────────── 🧱🗺️ ───────────
     def 𓆵(𓋁, 𓈖: int) -> None:
-        # 🧱🎲  …  🐈↔️🐭 must stay 🔗  (connected)
+        # 🧱🎲  …  🐈↔️🐭 🔗 ‼️
         𓆖 = [(𓊪, 𓏏) for 𓊪 in range(𓈖𓊪) for 𓏏 in range(𓈖𓏏)]
         for _ in range(60):
             𓆗 = list(𓆖)
@@ -278,10 +278,10 @@ class 𓉔:
             𓋁.𓊵 = 𓆘
             if 𓋁.𓁉 in 𓋁.𓃰(𓋁.𓃠):     # 🔗❓
                 return
-        𓋁.𓊵 = set()                         # 🏳️  fallback
+        𓋁.𓊵 = set()                         # 🏳️  ↩️🅾️
 
     def 𓊇𓈎(𓋁, 𓅘: tuple[int, int]) -> list[tuple[int, int]]:
-        # 🟩 neighbors  (skip 🧱 & 🧱edge)
+        # 🟩 👯  (🙈 🧱 & 📐🧱)
         𓊾 = []
         for 𓊍, 𓂄 in 𓂃.items():
             if 𓊍 == "🐾":
@@ -293,7 +293,7 @@ class 𓉔:
         return 𓊾
 
     def 𓃰(𓋁, 𓄿: tuple[int, int]) -> dict[tuple[int, int], int]:
-        # 🧭  BFS 📏 map  from 𓄿  over 🟩
+        # 🧭  📏 🗺️  ← 𓄿  ∀🟩
         𓂭 = {𓄿: 0}
         𓆱 = deque([𓄿])
         while 𓆱:
@@ -307,7 +307,7 @@ class 𓉔:
     def 𓊐(𓋁, 𓅘: tuple[int, int], 𓄿: tuple[int, int],
            𓊫: frozenset[tuple[int, int]] | set[tuple[int, int]] = frozenset(),
            ) -> tuple[int, int]:
-        # ➡️🎯  next 🟩 from 𓅘 toward 𓄿  (min BFS 📏)  ·  𓊫 = 🚫 tiles (🈳 → ∀🟩)
+        # ➡️🎯  🟩 ⏭️ ← 𓅘 → 𓄿  (⏬ 𓃰 📏)  ·  𓊫 = 🚷 🀫 (🈳 → ∀🟩)
         𓂭 = 𓋁.𓃰(𓄿)
         𓅒 = 𓂭.get(𓅘, 10 ** 9)
         𓅑 = 𓅘
@@ -326,11 +326,11 @@ class 𓉔:
 
     # ─────────── 📍🎲 ───────────
     def 𓎜(𓋁) -> tuple:
-        # 🕳️ exclusion  (portal cells or ∅)
+        # 🕳️ 🚷  (🕳️ 🀫 / ∅)
         return 𓋁.𓎛 if 𓋁.𓎛 is not None else ()
 
     def 𓎚(𓋁, 𓆓: tuple[int, int], 𓄿: tuple[int, int]) -> tuple[int, int]:
-        # 🕳️ landing :  🐾 from 𓄿 → 𓆓 .  enter 🕳️ from 🚫🕳️ → twin ; else 𓆓
+        # 🕳️ 🛬 :  🐾 𓄿 → 𓆓 .  🚶 🕳️ ← 🚫🕳️ → 👯 ; 🚫 → 𓆓
         if 𓋁.𓎛 is not None and 𓆓 in 𓋁.𓎛 and 𓄿 not in 𓋁.𓎛:
             return 𓋁.𓎛[1] if 𓆓 == 𓋁.𓎛[0] else 𓋁.𓎛[0]
         return 𓆓
@@ -349,7 +349,7 @@ class 𓉔:
         𓂭 = 𓋁.𓃰(𓋁.𓃠)
         𓆊 = {𓋁.𓃠, *𓋁.𓁉𓂋, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, *𓋁.𓎜()}
         𓊾 = sorted(𓅘 for 𓅘, 𓂘 in 𓂭.items() if 𓅘 not in 𓆊 and 𓂘 >= 𓋁.𓃥𓊞)
-        if not 𓊾:                              # 🤏🗺️ fallback → any 🟩
+        if not 𓊾:                              # 🤏🗺️ ↩️🅾️ → ∀🟩
             𓊾 = sorted(𓅘 for 𓅘 in 𓂭 if 𓅘 not in 𓆊)
         if not 𓊾:
             return 𓋁.𓁉
@@ -359,95 +359,95 @@ class 𓉔:
         # 🐾 → 📍′  🚧  🧱🚫
         𓆓 = (𓎘(𓄿[0] + 𓂄[0], 𓈖𓊪), 𓎘(𓄿[1] + 𓂄[1], 𓈖𓏏))
         if 𓆓 in 𓋁.𓊵:
-            return 𓄿                           # 🧱 blocked
+            return 𓄿                           # 🧱 ⛔
         return 𓆓
 
     def 𓂷(𓋁, 𓊍: str) -> bool:
-        # 🐈 🐾 (or 🧶 throw) →  🐭💨  →  🎯❓
-        𓋢 = 𓊍 == "🧶"                    # 🧶 throw intent → 🐾 stay
+        # 🐈 🐾 (/ 🧶 🤾) →  🐭💨  →  🎯❓
+        𓋢 = 𓊍 == "🧶"                    # 🧶 🤾 → 🐾 💤
         if 𓋢:
             𓊍 = "🐾"
         if 𓊍 not in 𓂃:
             return False
         𓋁.𓏰 += 1
-        if 𓋁.𓋃𓁋:                     # ⏱️ ⏳ tick  (∀🐾 → −1)
+        if 𓋁.𓋃𓁋:                     # ⏱️ ⏳ ⏬  (∀🐾 → −1)
             𓋁.𓋂 -= 1
-        if 𓋁.𓊰 > 0:                   # ⚡⏳ tick
+        if 𓋁.𓊰 > 0:                   # ⚡⏳ ⏬
             𓋁.𓊰 -= 1
-        if 𓋁.𓋮 > 0:                   # 🧶⏳ tick → 💨 gone
+        if 𓋁.𓋮 > 0:                   # 🧶⏳ ⏬ → 🎾 🚮
             𓋁.𓋮 -= 1
             if 𓋁.𓋮 == 0:
                 𓋁.𓋭 = None
-        if 𓋁.𓋕 > 0:                   # 🌟🧊 ❄️⏳ tick → 🐕 thaw
+        if 𓋁.𓋕 > 0:                   # 🌟🧊 ❄️⏳ ⏬ → 🐕 💧
             𓋁.𓋕 -= 1
-        𓋝 = 𓋁.𓋥 > 0                  # 🌟🚀 💨 armed @ 🐾 🏁  (🚀😋 mid-🐾 → ⏭️ 🐾)
-        𓋉 = 𓋁.𓃠                       # 📍 prev
+        𓋝 = 𓋁.𓋥 > 0                  # 🌟🚀 💨 🔫 @ 🐾 🏁  (🚀😋 ⏳🐾 → ⏭️ 🐾)
+        𓋉 = 𓋁.𓃠                       # 📍 ⏮️
         𓋁.𓃠 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋉)  # 🐾 1️⃣ + 🕳️➡️🕳️
-        if 𓋢:                            # 🧶 throw 🎾 📍🐈  (after 🐾 stay)
+        if 𓋢:                            # 🧶 🤾 🎾 📍🐈  (⏭️ 🐾 💤)
             𓋁.𓋰()
         𓄾 = 𓋁.𓁏(𓋁.𓃠)              # 😻🎯 @ 📍1️⃣  (∀🐭 → 🎮🔚)
         if not 𓄾:
             𓋁.𓋣()                     # 🀄 😋 @ 📍1️⃣
-            𓄾 = 𓋁.𓋪(𓊍, 𓋢, 𓋝)      # 🌟🚀 dash → 🐾 2️⃣  (🎯 @ 📍2️⃣ ?)
-        𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 visited  (1️⃣ / 🐾 : leap → 🔚 📍)
-        𓋁.𓋚 = 𓋁.𓋚 + 1 if 𓋁.𓋗() else 0   # 🔁 streak  (transient ≠ 🧱)
+            𓄾 = 𓋁.𓋪(𓊍, 𓋢, 𓋝)      # 🌟🚀 🦘 → 🐾 2️⃣  (🎯 @ 📍2️⃣ ❓)
+        𓋁.𓋗𓂋.append(𓋁.𓃠)            # 📜 👣  (1️⃣ / 🐾 : 🦘 → 🔚 📍)
+        𓋁.𓋚 = 𓋁.𓋚 + 1 if 𓋁.𓋗() else 0   # 🔁 🧶  (☄️ ≠ 🧱)
         if 𓄾:
             return True
-        if 𓋁.𓊰 > 0:                   # 🥛⚡  🐈🎯 nearest 🐭 from afar
+        if 𓋁.𓊰 > 0:                   # 🥛⚡  🐈🎯 ⏬ 🐭 ← 🔭
             𓂭 = 𓋁.𓃰(𓋁.𓃠)
             𓆉 = sorted((𓂭.get(𓅘, 999), 𓅘) for 𓅘 in 𓋁.𓁉𓂋)
             if 𓆉 and 𓆉[0][0] <= 𓋁.𓋩 and 𓋁.𓁏(𓆉[0][1]):
                 return True
-        for 𓇋 in range(len(𓋁.𓁉𓂋)):   # 🐭🐭💨  (∀ own 🧠)
+        for 𓇋 in range(len(𓋁.𓁉𓂋)):   # 🐭🐭💨  (∀ 🪞 🧠)
             𓋁.𓁉𓂋[𓇋] = 𓋁.𓅓𓎗(𓇋)
-        if 𓋁.𓅱 is not None:            # 🐦🕊️  flee
+        if 𓋁.𓅱 is not None:            # 🐦🕊️  💨
             𓋁.𓅱𓎗()
         if 𓋁.𓁏(𓋁.𓃠):              # 😹
             return True
         if 𓋁.𓃥 is not None and 𓋁.𓏰 % 𓋁.𓃥𓎿 == 0:
-            𓋁.𓃥𓎗()                   # 🐕💨🐈  (half-speed)
+            𓋁.𓃥𓎗()                   # 🐕💨🐈  (🐌 ½)
         𓋁.𓁏(𓋁.𓃠)                  # 😹  (🐈🌀 → 🐭?)
         if 𓋁.𓋃𓁋 and 𓋁.𓋂 <= 0 and not 𓋁.𓄊:
-            𓋁.𓋺 = True                # ⏱️ ⏳0 → 💀  (🚫😻 → lose)
-        return 𓋁.𓄊 or 𓋁.𓋺         # 🎮🔚 : 😻 win or 💀 lose
+            𓋁.𓋺 = True                # ⏱️ ⏳0 → 💀  (🚫😻 → ⚰️)
+        return 𓋁.𓄊 or 𓋁.𓋺         # 🎮🔚 : 😻 / 💀
 
     def 𓋣(𓋁) -> None:
         # 🀄 😋 @ 🐈 📍 :  🧀 · 🐟 · 🥛⚡ · 🐦🏆 · 🌟🧊❄️ · 🌟🚀💨
-        #   (🚫 🐭 : 𓁏 owns 🎯)  ·  🌟🚀 dash → 𓂷 calls this ×2 / 🐾  (🚫 🙈 mid-cell)
+        #   (🚫 🐭 : 𓁏 = 🎯 🏠)  ·  🌟🚀 🦘 → 𓂷 → 👇 ×2 / 🐾  (🚫 🙈 ⏳🀫)
         if 𓋁.𓃠 == 𓋁.𓇬:            # 🧀😋
             𓋁.𓇬 = 𓋁.𓆙((𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
         if 𓋁.𓃠 == 𓋁.𓆛:            # 🐟😋
             𓋁.𓊛 += 1
-            𓋁.𓋿(5)                    # 🔥 combo (🐟 base 5)
+            𓋁.𓋿(5)                    # 🔥 🥞 (🐟 🏁 5)
             𓋁.𓆛 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
         if 𓋁.𓃠 == 𓋁.𓊮:            # 🥛😋 → ⚡
             𓋁.𓊳 += 1
             𓋁.𓊰 = 𓋁.𓋨
-            𓋁.𓋿(3)                    # 🔥 combo (🥛 base 3)
+            𓋁.𓋿(3)                    # 🔥 🥞 (🥛 🏁 3)
             𓋁.𓊮 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓃥, 𓋁.𓅱, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
         if 𓋁.𓅱 is not None and 𓋁.𓃠 == 𓋁.𓅱:   # 🐦😋 → 🏆
             𓋁.𓅮 += 1
-            𓋁.𓋿(𓋁.𓅯)              # 🔥 combo (🐦 base 𓅯=7)
+            𓋁.𓋿(𓋁.𓅯)              # 🔥 🥞 (🐦 🏁 𓅯=7)
             𓋁.𓅱 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))
-        if 𓋁.𓋔 is not None and 𓋁.𓃠 == 𓋁.𓋔:   # 🌟🧊😋 → 🐕 ❄️  (🚫🏆 , 🚫🔥 : 🛠️ tool)
-            𓋁.𓋕 = 𓋁.𓋕𓊞           # ❄️ armed  (🐕 🚫 chase , 🚫 bonk)
-            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋤, *𓋁.𓎜()))  # 🧊🎲 respawn
-        if 𓋁.𓋤 is not None and 𓋁.𓃠 == 𓋁.𓋤:   # 🌟🚀😋 → 💨 ×𓋧  (🚫🏆 , 🚫🔥 : 🛠️ tool)
-            𓋁.𓋥 += 𓋁.𓋧            # 💨 charges  (stack : 🚀🚀 → +3+3)
-            𓋁.𓋤 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🚀🎲 respawn
+        if 𓋁.𓋔 is not None and 𓋁.𓃠 == 𓋁.𓋔:   # 🌟🧊😋 → 🐕 ❄️  (🚫🏆 , 🚫🔥 : 🛠️)
+            𓋁.𓋕 = 𓋁.𓋕𓊞           # ❄️ 🔫  (🐕 🚫💨 , 🚫👉)
+            𓋁.𓋔 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋤, *𓋁.𓎜()))  # 🧊🎲 🔄
+        if 𓋁.𓋤 is not None and 𓋁.𓃠 == 𓋁.𓋤:   # 🌟🚀😋 → 💨 ×𓋧  (🚫🏆 , 🚫🔥 : 🛠️)
+            𓋁.𓋥 += 𓋁.𓋧            # 💨 🔋  (🥞 : 🚀🚀 → +3+3)
+            𓋁.𓋤 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, 𓋁.𓋔, *𓋁.𓎜()))  # 🚀🎲 🔄
 
     def 𓋪(𓋁, 𓊍: str, 𓋢: bool = False, 𓋝: bool = True) -> bool:
-        # 🌟🚀  dash sub-step 2️⃣ :  𓋥 > 0 + real 🧭 → 🐈 leap 1️⃣ more cell → −1 💨
-        #   𓋝 = 💨 armed @ 🐾 🏁 ‼️ :  🚀😋 mid-🐾 → 💨 ⏭️ 🐾  (🚫 instant spend)
-        #   🚧 🧱/🧱edge → 🚫 leap , 🚫 consume  (📏 value-gated : 🚫 waste 💨)
-        #   🚧 🐕 @ 📍2️⃣ → stay 📍1️⃣ , 🚫 consume  (🚫 self-😿 bonk)
-        #   🕳️🌀 : 📍1️⃣ = portal → 🐈 already @ twin → sub-step 2️⃣ 🐾 from twin  (𓎚 🤝)
-        #   → 🔚 : 🎯 @ 📍2️⃣ ? (😻)  ·  🀄 😋 @ 📍2️⃣  (𓋣)
+        # 🌟🚀  🦘 🐾 2️⃣ :  𓋥 > 0 + 🧭 🈶 → 🐈 🦘 +1️⃣ 🀫 → −1 💨
+        #   𓋝 = 💨 🔫 @ 🐾 🏁 ‼️ :  🚀😋 ⏳🐾 → 💨 ⏭️ 🐾  (🚫 ⚡🗑️)
+        #   🚧 🧱/📐🧱 → 🚫 🦘 , 🚫 −1  (📏 ⚖️ : 🚫 🗑️ 💨)
+        #   🚧 🐕 @ 📍2️⃣ → 💤 📍1️⃣ , 🚫 −1  (🚫 🪞😿)
+        #   🕳️🌀 : 📍1️⃣ = 🕳️ → 🐈 @ 👯 → 🐾 2️⃣ ← 👯  (𓎚 🤝)
+        #   → 🔚 : 🎯 @ 📍2️⃣ ❓ (😻)  ·  🀄 😋 @ 📍2️⃣  (𓋣)
         if not 𓋝 or 𓋁.𓋥 <= 0 or 𓋢 or 𓊍 == "🐾":
             return False
-        𓋡 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋁.𓃠)   # 📍2️⃣  (🧱/edge → 🟰 📍1️⃣)
+        𓋡 = 𓋁.𓎚(𓋁.𓎗(𓋁.𓃠, 𓂃[𓊍]), 𓋁.𓃠)   # 📍2️⃣  (🧱/📐 → 🟰 📍1️⃣)
         if 𓋡 == 𓋁.𓃠 or 𓋡 == 𓋁.𓃥:
-            return False                    # 🚫 leap → 💨 kept
+            return False                    # 🚫 🦘 → 💨 💾
         𓋁.𓋥 -= 1
         𓋁.𓃠 = 𓋡
         if 𓋁.𓁏(𓋁.𓃠):              # 😻🎯 @ 📍2️⃣
@@ -456,56 +456,56 @@ class 𓉔:
         return False
 
     def 𓋗(𓋁) -> bool:
-        # 🐈 📜 cycle 👀 :  period-2 (A↔️B) · 3 · 🕳️ portal 4-cycle  →  🧱 stalemate
-        #                (#27 : 🧠 stateless 🧱 ; 🕳️🌀 → 4-🐾 loop 🚫 2-cycle detect)
+        # 🐈 📜 🌀 👀 :  ⏳-2 (A↔️B) · 3 · 🕳️ ⏳-4  →  🧱 🐁🔚
+        #                (#27 : 🧠 🚫📜 → 🧱 ; 🕳️🌀 → 🌀 4-🐾 ⊥ ⏳-2 👀)
         𓄽 = list(𓋁.𓋗𓂋)
         𓈙 = len(𓄽)
         for 𓇋 in (2, 3, 4):
             if (𓈙 >= 2 * 𓇋 and 𓄽[-𓇋:] == 𓄽[-2 * 𓇋:-𓇋]
-                    and len(set(𓄽[-𓇋:])) > 1):   # 🚫 💤 A A A (blocked ≠ cycle)
+                    and len(set(𓄽[-𓇋:])) > 1):   # 🚫 💤 A A A (⛔ ≠ 🌀)
                 return True
         return False
 
     def 𓋾(𓋁) -> bool:
-        # 🎮🔚  game over : 😻 catch or 💀 (❤️0 | ⏳0)
+        # 🎮🔚 : 😻 🎯 / 💀 (❤️0 | ⏳0)
         return 𓋁.𓄊 or 𓋁.𓋺
 
     def 𓋿(𓋁, 𓃀: int) -> None:
-        # 🔥 combo tally :  🔥+1 , 🏆 bonus += base × (min(🔥,🧢)−1)
+        # 🔥 🥞 🔢 :  🔥+1 , 🏆 ➕ += 🏁 × (⏬(🔥,🧢)−1)
         𓋁.𓋻 += 1
         𓋁.𓋼 += 𓃀 * (min(𓋁.𓋻, 𓋁.𓋻𓈎) - 1)
 
     def 𓋰(𓋁) -> None:
-        # 🧶 throw :  🎾 📍🐈  (×1 / 🎮 , 🚫🧱)  → 🐕 distract ⏳
+        # 🧶 🤾 :  🎾 📍🐈  (×1 / 🎮 , 🚫🧱)  → 🐕 🎣 ⏳
         if 𓋁.𓋯 or 𓋁.𓃠 in 𓋁.𓊵:
             return
         𓋁.𓋭 = 𓋁.𓃠
-        𓋁.𓋮 = 𓋁.𓋬                 # ⏳ armed
-        𓋁.𓋯 = True                    # ×1 spent
+        𓋁.𓋮 = 𓋁.𓋬                 # ⏳ 🔫
+        𓋁.𓋯 = True                    # ×1 🗑️
 
     def 𓃥𓎗(𓋁) -> None:
-        # 🐕🧠 :  BFS 1️⃣🐾 →🐈 .  🐕👉🐈 → 😿 :  🐈🌀 safe restart , 🐕🎲 far
-        #        🌟🧊 ❄️ → 🚫🐾 , 🚫😿 bonk  (🐈 🆓 escape)
+        # 🐕🧠 :  𓃰 1️⃣🐾 →🐈 .  🐕👉🐈 → 😿 :  🐈🌀 🔄 🛡️ , 🐕🎲 🔭
+        #        🌟🧊 ❄️ → 🚫🐾 , 🚫😿  (🐈 🆓 💨)
         if 𓋁.𓃥 is None or 𓋁.𓋕 > 0:
             return
         if 𓋁.𓋭 is not None and 𓎉(𓋁.𓃥, 𓋁.𓋭) <= 𓋁.𓋫:
-            𓋁.𓃥 = 𓋁.𓊐(𓋁.𓃥, 𓋁.𓋭)   # 🧶 distract : 💨🎾 , 🚫💨🐈
-            return                        # 🚫 bonk while 🧶
+            𓋁.𓃥 = 𓋁.𓊐(𓋁.𓃥, 𓋁.𓋭)   # 🧶 🎣 : 💨🎾 , 🚫💨🐈
+            return                        # 🚫 👉 ⏳ 🧶
         𓋁.𓃥 = 𓋁.𓊐(𓋁.𓃥, 𓋁.𓃠)
-        if 𓋁.𓃥 == 𓋁.𓃠:            # 😿  bonk!
+        if 𓋁.𓃥 == 𓋁.𓃠:            # 😿  👉 ‼️
             𓋁.𓊟 += 1
             𓋁.𓋹 -= 1                   # ❤️ −1  (🐾9️⃣)
-            𓋁.𓋻 = 0                    # 🔥 streak reset  (😻🔥)
+            𓋁.𓋻 = 0                    # 🔥 🧶 🔄  (😻🔥)
             if 𓋁.𓋹 <= 0:              # 💀 0 ❤️ → 🎮🔚
                 𓋁.𓋺 = True
                 return
             𓋁.𓃠 = 𓋁.𓆙((𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥, 𓋁.𓋔, 𓋁.𓋤, *𓋁.𓎜()))  # 🐈🌀
-            𓋁.𓃥 = 𓋁.𓃥𓆙()         # 🐕🎲 far
+            𓋁.𓃥 = 𓋁.𓃥𓆙()         # 🐕🎲 🔭
 
     def 𓅓𓎗(𓋁, 𓇋: int = 0) -> tuple[int, int]:
-        # 🐭🧠 :  🐈👀 near → 💨(max BFS📏🐈) ; 😮‍💨💤 rest ; else → 🧀😋(min BFS📏🧀)
-        #        𓇋 = 🐭 index in 🐭🐭 pack  (∀🐭 own 🧠 + 😮‍💨)
-        #        🚫🥞 (#30) :  📍 of 🐭 others = 🚫 tile  → ∀🐭 📍 distinct
+        # 🐭🧠 :  🐈👀 👉 → 💨(⏫ 𓃰📏🐈) ; 😮‍💨💤 ; 🚫 → 🧀😋(⏬ 𓃰📏🧀)
+        #        𓇋 = 🐭 № ∈ 🐭🐭 👥  (∀🐭 🪞 🧠 + 😮‍💨)
+        #        🚫🥞 (#30) :  📍 🐭 👯 = 🚷 🀫  → ∀🐭 📍 ≠
         𓅐 = 𓋁.𓁉𓂋[𓇋]
         𓆊 = {𓅘 for 𓇌, 𓅘 in enumerate(𓋁.𓁉𓂋) if 𓇌 != 𓇋}
         𓂭 = 𓋁.𓃰(𓋁.𓃠)             # 📏→🐈
@@ -530,12 +530,12 @@ class 𓉔:
         return 𓋁.𓊐(𓅐, 𓋁.𓇬, 𓆊)
 
     def 𓅱𓎗(𓋁) -> None:
-        # 🐦🧠 :  🕊️ fly 8🧭 , 🚫🧱 perch , 💨 max 📐(chebyshev)→🐈 , ≠ 🐭🐕🧀🐟🥛
+        # 🐦🧠 :  🕊️ 8🧭 , 🚫 🪶 @ 🧱 , 💨 ⏫ 📐(👑)→🐈 , ≠ 🐭🐕🧀🐟🥛
         if 𓋁.𓅱 is None:
             return
         𓆊 = {*𓋁.𓁉𓂋, 𓋁.𓃥, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮}
         𓅑 = 𓋁.𓅱
-        𓅒 = 𓎉(𓋁.𓅱, 𓋁.𓃠)             # 📐 now
+        𓅒 = 𓎉(𓋁.𓅱, 𓋁.𓃠)             # 📐 ⏱️
         for 𓂄𓊪 in (-1, 0, 1):
             for 𓂄𓏏 in (-1, 0, 1):
                 𓆓 = (𓎘(𓋁.𓅱[0] + 𓂄𓊪, 𓈖𓊪), 𓎘(𓋁.𓅱[1] + 𓂄𓏏, 𓈖𓏏))
@@ -548,25 +548,25 @@ class 𓉔:
         𓋁.𓅱 = 𓅑
 
     def 𓊙(𓋁) -> int:
-        # 🏆  ⚡fast + 🐟bonus + 🥛bonus + 🐦bonus + 🔥combo + ⏳leftover − 😿penalty
+        # 🏆  ⚡ + 🐟➕ + 🥛➕ + 🐦➕ + 🔥🥞 + ⏳↩️ − 😿
         return (max(0, 100 - 𓋁.𓏰 - 10 * 𓋁.𓊟)
                 + 5 * 𓋁.𓊛 + 3 * 𓋁.𓊳 + 𓋁.𓅯 * 𓋁.𓅮 + 𓋁.𓋼
                 + (max(0, 𓋁.𓋂) if 𓋁.𓋃𓁋 else 0))
 
     def 𓁑(𓋁) -> str:
-        # 🖼️ HUD :  ❤️×N + 🐭×N + 🔥×N (≥3 → ✨) + ❄️×N + 🚀×N + ⏳×N (⚑ , ≤5 → 🟥)
-        #        🀄 : ⏳ = budget left  ≠  ⏱️ = 𓏰 turns  (🚫 collide ‼️)
+        # 🖼️ 🎛️ :  ❤️×N + 🐭×N + 🔥×N (≥3 → ✨) + ❄️×N + 🚀×N + ⏳×N (⚑ , ≤5 → 🟥)
+        #        🀄 : ⏳ = 💰 ↩️  ≠  ⏱️ = 𓏰 🐾  (🚫 ↔️😵‍💫 ‼️)
         𓋠 = f"❤️×{𓋁.𓋹}  🐭×{len(𓋁.𓁉𓂋)}  🔥×{𓋁.𓋻}"
         if 𓋁.𓋻 >= 3:
             𓋠 += "✨"
-        if 𓋁.𓋕 > 0:                    # 🌟🧊 ❄️ on → ⏳ left  (🚫❄️ → 🙈)
+        if 𓋁.𓋕 > 0:                    # 🌟🧊 ❄️ 🟢 → ⏳ ↩️  (🚫❄️ → 🙈)
             𓋠 += f"  ❄️×{𓋁.𓋕}"
-        if 𓋁.𓋥 > 0:                    # 🌟🚀 💨 charges  (🚫💨 → 🙈)
+        if 𓋁.𓋥 > 0:                    # 🌟🚀 💨 🔋  (🚫💨 → 🙈)
             𓋠 += f"  🚀×{𓋁.𓋥}"
-        if 𓋁.𓋃𓁋:                      # ⏱️ ⚑ on → ⏳ left  (🚫⚑ → 📺 ↔️)
+        if 𓋁.𓋃𓁋:                      # ⏱️ ⚑ 🟢 → ⏳ ↩️  (🚫⚑ → 📺 ↔️)
             𓋠 += f"  ⏳×{max(0, 𓋁.𓋂)}"
             if 𓋁.𓋂 <= 𓋁.𓋃𓈎:
-                𓋠 += "🟥"                # ⏳ low → 🟥 flash
+                𓋠 += "🟥"                # ⏳ 🤏 → 🟥 ⚡
         return 𓋠
 
     def 𓁐(𓋁) -> str:
@@ -606,19 +606,19 @@ class 𓉔:
         return "\n".join(𓂏)
 
 
-# 🐈🧠  🐾9️⃣ caution :  ❤️ low + 🐕 near → 💨 flee mode  (🚫💀⚰️ , 🚫 livelock)
-𓊄𓋹 = 3   # ❤️ ≤ this → cautious
-𓊄𓃥 = 2   # 🐕 BFS 📏 ≤ this → 💨 flee trigger
-𓊄𓎿 = 3   # 🐕 📏 🧢 :  far 🐕 → 🚫 tie-break noise  (🚫 🕳️🌀 livelock)
-𓊄𓋬 = 2   # 🐕 📏 ≤ this + 🧶 unspent → 🎾 throw  (🐕 distract → 🐈🎯🐭)
-𓊄𓋔 = 1   # 🌟🧊 🚧 : 🏃🧊 ⇔ 📏🧊(🐈) + this < 📏🧊(🐕)  (🐈 🥇 arrives , 🚫😿💀)
-          #          📊 360🎲 : margin 0 → 💀3 ; 1 → 💀0 🙀7 🥇 ; 2 → 🙀12
-𓊄𓋹𓈎 = 1  # 🧱 stalemate gamble ⇔ ❤️ > this  (🚫 gamble 🔚 ❤️ → 🚫💀)
-𓊄𓋚 = 6   # 🧱 📜 break ⇔ cycle 🔁 streak ≥ this  (transient 🌀 ≠ 🧱 → 🚫 divert 🎯)
+# 🐈🧠  🐾9️⃣ 🛡️ :  ❤️ 🤏 + 🐕 👉 → 💨 🀄  (🚫💀⚰️ , 🚫 ↔️↔️ ♾️)
+𓊄𓋹 = 3   # ❤️ ≤ 👇 → 🛡️
+𓊄𓃥 = 2   # 🐕 𓃰 📏 ≤ 👇 → 💨 🔫
+𓊄𓎿 = 3   # 🐕 📏 🧢 :  🔭 🐕 → 🚫 🟰 📣  (🚫 🕳️🌀 ↔️↔️ ♾️)
+𓊄𓋬 = 2   # 🐕 📏 ≤ 👇 + 🧶 🈶 → 🎾 🤾  (🐕 🎣 → 🐈🎯🐭)
+𓊄𓋔 = 1   # 🌟🧊 🚧 : 🏃🧊 ⇔ 📏🧊(🐈) + 👇 < 📏🧊(🐕)  (🐈 🥇 🛬 , 🚫😿💀)
+          #          📊 360🎲 : 📏➕ 0 → 💀3 ; 1 → 💀0 🙀7 🥇 ; 2 → 🙀12
+𓊄𓋹𓈎 = 1  # 🧱 🐁🔚 🎲 ⇔ ❤️ > 👇  (🚫 🎲 @ 🔚 ❤️ → 🚫💀)
+𓊄𓋚 = 6   # 🧱 📜 ✂️ ⇔ 🌀 🔁 🧶 ≥ 👇  (☄️ 🌀 ≠ 🧱 → 🚫 ↔️ 🎯)
 
 
 def 𓊄𓁉(𓉔𓏤: 𓉔) -> tuple[int, int]:
-    # 🎯  nearest 🐭 of 🐭🐭 pack  (BFS 📏 from 🐈 , tie → 📍 sort)
+    # 🎯  ⏬ 🐭 ∈ 🐭🐭 👥  (𓃰 📏 ← 🐈 , 🟰 → 📍 🔢)
     𓂭 = 𓉔𓏤.𓃰(𓉔𓏤.𓃠)
     if not 𓉔𓏤.𓁉𓂋:
         return 𓉔𓏤.𓁉
@@ -626,55 +626,55 @@ def 𓊄𓁉(𓉔𓏤: 𓉔) -> tuple[int, int]:
 
 
 def 𓊄(𓉔𓏤: 𓉔) -> str:
-    # 🐈🧠  BFS →🐭 (nearest of 🐭🐭) , 🚫🐕 :  greedy (min 📏🐭 , tie max 📏🐕) ;
-    #        ❤️≤3 + 🐕📏≤2 → 💨 flee (max 📏🐕 , tie min 📏🐭)  → 🚫9️⃣😿💀
-    #        🌟🧊 (#34) : 💨 flee + 🧊 🗺️ → tie → min 📏🧊 (⚔️ 🐭)  → 🏃🧊 → 🐕❄️
-    #                     → 🚫 mutual-repel 2-cycle  (⚔️ #27 tail)
-    𓂭𓁉 = 𓉔𓏤.𓃰(𓊄𓁉(𓉔𓏤))                     # 📏→🐭 (🎯 nearest)
+    # 🐈🧠  𓃰 →🐭 (⏬ ∈ 🐭🐭) , 🚫🐕 :  🤑 (⏬ 📏🐭 , 🟰 ⏫ 📏🐕) ;
+    #        ❤️≤3 + 🐕📏≤2 → 💨 (⏫ 📏🐕 , 🟰 ⏬ 📏🐭)  → 🚫9️⃣😿💀
+    #        🌟🧊 (#34) : 💨 + 🧊 🗺️ → 🟰 → ⏬ 📏🧊 (⚔️ 🐭)  → 🏃🧊 → 🐕❄️
+    #                     → 🚫 ↔️↔️ 🌀 ⏳-2  (⚔️ #27 🍂)
+    𓂭𓁉 = 𓉔𓏤.𓃰(𓊄𓁉(𓉔𓏤))                     # 📏→🐭 (🎯 ⏬)
     𓂭𓃥 = 𓉔𓏤.𓃰(𓉔𓏤.𓃥) if 𓉔𓏤.𓃥 is not None else {}   # 📏→🐕
     𓂘𓃥 = 𓂭𓃥.get(𓉔𓏤.𓃠, 10 ** 9)             # 📏 🐈↔️🐕
-    𓋞 = (𓉔𓏤.𓃥 is not None                    # 💨 flee❓  ❤️⬇️ + 🐕📏🤏
+    𓋞 = (𓉔𓏤.𓃥 is not None                    # 💨 ❓  ❤️⬇️ + 🐕📏🤏
           and 𓉔𓏤.𓋹 <= 𓊄𓋹
           and 𓂘𓃥 <= 𓊄𓃥)
     if 𓉔𓏤.𓃥 is not None and not 𓉔𓏤.𓋯 and 𓂘𓃥 <= 𓊄𓋬:
-        return "🧶"                            # 🎾 throw → 🐕💨🎾 ⏳ , 🐈🎯🐭 free
-    # 🌟🧊  💨 flee + 🧊 🗺️ + 🚫❄️ yet → 🏃🧊 grab  (→ 🐕❄️ → 🆓 escape)
-    # 🚧 guard ‼️ : only if 📏🧊(🐈) + 𓊄𓋔 < 📏🧊(🐕)  (🐈 🥇 arrives)
-    #              else 🏃🧊 → 🐕 👉 😿💀  (📊 🚫🚧 → 💀 0→12 🙀)
-    # 🧱 stalemate (📜 2-cycle , #27) → 🚧 relax : 😿 gamble ≫ ∞ 🙀  (🐈🌀 → 🆓 cycle)
+        return "🧶"                            # 🎾 🤾 → 🐕💨🎾 ⏳ , 🐈🎯🐭 🆓
+    # 🌟🧊  💨 + 🧊 🗺️ + 🚫❄️ ⏳ → 🏃🧊  (→ 🐕❄️ → 🆓 💨)
+    # 🚧 ‼️ : ⇔ 📏🧊(🐈) + 𓊄𓋔 < 📏🧊(🐕)  (🐈 🥇 🛬)
+    #        🚫 → 🏃🧊 → 🐕 👉 😿💀  (📊 🚫🚧 → 💀 0→12 🙀)
+    # 🧱 🐁🔚 (📜 🌀 ⏳-2 , #27) → 🚧 🧘 : 😿 🎲 ≫ ∞ 🙀  (🐈🌀 → 🆓 🌀)
     𓂭𓋔 = 𓉔𓏤.𓃰(𓉔𓏤.𓋔) if (𓋞 and 𓉔𓏤.𓋔 is not None) else {}   # 📏→🧊
     𓋖 = (𓋞 and 𓉔𓏤.𓋔 is not None and 𓉔𓏤.𓋕 == 0
-          and ((𓉔𓏤.𓋗() and 𓉔𓏤.𓋹 > 𓊄𓋹𓈎)   # 🧱 → gamble , 🚫 @ 🔚 ❤️
+          and ((𓉔𓏤.𓋗() and 𓉔𓏤.𓋹 > 𓊄𓋹𓈎)   # 🧱 → 🎲 , 🚫 @ 🔚 ❤️
                or 𓂭𓋔.get(𓉔𓏤.𓃠, 10 ** 9) + 𓊄𓋔 < 𓂭𓋔.get(𓉔𓏤.𓃥, 10 ** 9)))
-    # 🧱 📜 memory  (#27 tail , 🌙7️⃣) : cycle 👀 + 🚫🧊 gamble → 🈴 mode-agnostic break
-    #   📊 ∀ 🧩 🙀 : `𓋗()`=✅ but 🧠 🙈 → chase 🈳 relax , flee ❤️≤1 gamble-gated
-    #   🔧 : 📜 recency 🥇 key (🆕 visited = 🚫 , 🈳/👴 = 😻) → 🐈 drift → 🧱 ✂️
-    #        🥈 key = mode's own (💨 flee : max 📏🐕 ; 🎯 chase : min 📏🐭)  → 🚫 regress
+    # 🧱 📜 🧠  (#27 🍂 , 🌙7️⃣) : 🌀 👀 + 🚫🧊 🎲 → ✂️ ∀🀄
+    #   📊 ∀ 🧩 🙀 : `𓋗()`=✅ ⊥ 🧠 🙈 → 🎯 🈳 🧘 , 💨 ❤️≤1 🎲 🚧
+    #   🔧 : 📜 ⏳ 🥇 🔑 (🆕 👣 = 🚫 , 🈳/👴 = 😻) → 🐈 ↔️ → 🧱 ✂️
+    #        🥈 🔑 = 🀄 🪞 (💨 : ⏫ 📏🐕 ; 🎯 : ⏬ 📏🐭)  → 🚫 ↩️
     𓋘 = 𓉔𓏤.𓋚 >= 𓊄𓋚 and not 𓋖
     𓋙: dict[tuple[int, int], int] = {}
     if 𓋘:
         for 𓇋, 𓆓 in enumerate(𓉔𓏤.𓋗𓂋):
-            𓋙[𓆓] = 𓇋                        # ⏫ 𓇋 = 🆕 visited  (🈳 → −1)
+            𓋙[𓆓] = 𓇋                        # ⏫ 𓇋 = 🆕 👣  (🈳 → −1)
     𓅑 = 𓉔𓏤.𓃠
     𓅒 = None
     for 𓆓 in [𓉔𓏤.𓃠] + sorted(𓉔𓏤.𓊇𓈎(𓉔𓏤.𓃠)):
         if 𓆓 == 𓉔𓏤.𓃥:                        # 🚫🐕
             continue
-        𓂚 = 𓉔𓏤.𓎚(𓆓, 𓉔𓏤.𓃠)                 # 🕳️ landing  (portal shortcut)
-        if 𓂚 == 𓉔𓏤.𓃥:                        # 🚫🐕 land
+        𓂚 = 𓉔𓏤.𓎚(𓆓, 𓉔𓏤.𓃠)                 # 🕳️ 🛬  (🌀 → 🛣️ ✂️)
+        if 𓂚 == 𓉔𓏤.𓃥:                        # 🚫🐕 🛬
             continue
         𓃀𓁉 = 𓂭𓁉.get(𓂚, 10 ** 9)              # 📏🐭
-        𓃀𓃥 = 𓂭𓃥.get(𓂚, 10 ** 9)              # 📏🐕  (raw : 💨 flee → 🕳️🌀 far ✅)
-        # 🎯 chase : 🧢 📏🐕 → 🐕📏⬆️ = 🚫 tie-break noise  (🚫 ↔️↔️ livelock)
-        # 💨 flee + 🧊 (#34) : 🏃🧊 🥇 (min 📏🧊) , tie → max 📏🐕 🥈  → grab → ❄️
-        # 💨 flee 🚫🧊      : max 📏🐕 🥇 , tie → min 📏🐭 🥈
+        𓃀𓃥 = 𓂭𓃥.get(𓂚, 10 ** 9)              # 📏🐕  (🥩 : 💨 → 🕳️🌀 🔭 ✅)
+        # 🎯 : 🧢 📏🐕 → 🐕📏⬆️ = 🚫 🟰 📣  (🚫 ↔️↔️ ♾️)
+        # 💨 + 🧊 (#34) : 🏃🧊 🥇 (⏬ 📏🧊) , 🟰 → ⏫ 📏🐕 🥈  → 😋 → ❄️
+        # 💨 🚫🧊      : ⏫ 📏🐕 🥇 , 🟰 → ⏬ 📏🐭 🥈
         if 𓋖:
             𓊈 = (𓂭𓋔.get(𓂚, 10 ** 9), -𓃀𓃥)
         elif 𓋞:
             𓊈 = (-𓃀𓃥, 𓃀𓁉)
         else:
             𓊈 = (𓃀𓁉, -min(𓃀𓃥, 𓊄𓎿))
-        if 𓋘:                                  # 🧱 → 📜 recency 🥇 , mode key 🥈
+        if 𓋘:                                  # 🧱 → 📜 ⏳ 🥇 , 🀄 🔑 🥈
             𓊈 = (𓋙.get(𓂚, -1), *𓊈)
         if 𓅒 is None or 𓊈 < 𓅒:
             𓅒 = 𓊈
@@ -683,28 +683,28 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
 
 
 def 𓎎(𓉔𓏤: 𓉔) -> dict:
-    # 📇  🎮 → 📜 record  ( ⏱️ 🏁 → ➕ ⏳ leftover marker )
+    # 📇  🎮 → 📜  ( ⏱️ 🏁 → ➕ ⏳ ↩️ 🔑 )
     𓆳 = {
         "🏆": 𓉔𓏤.𓊙(), "🎚️": 𓉔𓏤.𓊍, "⏱️": 𓉔𓏤.𓏰, "🐟": 𓉔𓏤.𓊛,
         "🥛": 𓉔𓏤.𓊳, "🐦": 𓉔𓏤.𓅮, "😿": 𓉔𓏤.𓊟,
     }
     if 𓉔𓏤.𓋃𓁋:
-        𓆳["⏳"] = max(0, 𓉔𓏤.𓋂)          # ⏱️ 🏁 tag  (🚫⚑ → 🚫 key)
+        𓆳["⏳"] = max(0, 𓉔𓏤.𓋂)          # ⏱️ 🏁 🏷️  (🚫⚑ → 🚫 🔑)
     if 𓉔𓏤.𓋱𓉏 is not None:
-        𓆳["🌱"] = 𓉔𓏤.𓋱𓉏                # 🌱 daily tag  (🚫⚑ → 🚫 key)
+        𓆳["🌱"] = 𓉔𓏤.𓋱𓉏                # 🌱 🌞 🏷️  (🚫⚑ → 🚫 🔑)
     return 𓆳
 
 
 def 𓎋𓉏(𓉔𓏤: 𓉔) -> str:
-    # 💾 🛤️  by 🏁 mode :  🌱 → 🏆📜🌱.json  ;  ⏱️ → 🏆📜⏳.json  ;  classic → 🏆📜.json
-    # 🚫 pollute : 🌱 fixed 🗺️ + ⏱️ 🏆 ➕ ⏳ bonus ≫ classic 🏆 → 📜🔝 split ‼️
+    # 💾 🛤️ ← 🏁 🀄 :  🌱 → 🏆📜🌱.json  ;  ⏱️ → 🏆📜⏳.json  ;  🏛️ → 🏆📜.json
+    # 🚫 🦠 : 🌱 🗺️ 🗿 + ⏱️ 🏆 ➕ ⏳ ≫ 🏛️ 🏆 → 📜🔝 ✂️ ‼️
     if 𓉔𓏤.𓋱𓉏 is not None:
         return 𓎋𓊪𓋱
     return 𓎋𓊪𓋃 if 𓉔𓏤.𓋃𓁋 else 𓎋𓊪
 
 
 def 𓎋𓎗(𓉔𓏤: 𓉔) -> str:
-    # 💾→📜🔝  :  🌱 daily → per-🌞 track + 🌞 filter ;  else 🏁 mode 🛤️
+    # 💾→📜🔝  :  🌱 → 🪣/🌞 + 🌞 🕸️ ;  🚫 → 🏁 🀄 🛤️
     𓆳 = 𓎎(𓉔𓏤)
     if 𓉔𓏤.𓋱𓉏 is not None:
         return 𓎍(𓎌𓋱(𓆳, 𓉔𓏤.𓋱𓉏), 𓉔𓏤.𓋱𓉏)
@@ -712,18 +712,18 @@ def 𓎋𓎗(𓉔𓏤: 𓉔) -> str:
 
 
 # ─────────── 🌈 🎨📺 ───────────
-𓋊𓊞 = {   # 🀄 → ANSI 🎨  (🟩🌿 , 🟥🐕 , 🟦🥛 , 🟨🧀 …)
+𓋊𓊞 = {   # 🀄 → 🎨🔣  (🟩🌿 , 🟥🐕 , 🟦🥛 , 🟨🧀 …)
     "🐈": "35", "🐭": "37", "🐕": "31", "🐦": "36", "🎾": "95",
     "🧀": "33", "🐟": "94", "🥛": "34", "🕳️": "95", "🧱": "90", "🟩": "32",
-    "❤️": "91", "🔥": "93",   # 🟥❤️ lives , 🟧🔥 streak
-    "⏳": "96", "🟥": "91",   # 🟦⏳ budget , 🟥 flash  (⏳ ≤ 𓋃𓈎)
-    "🧊": "96", "❄️": "96",   # 🌟🧊 freeze  (🧊 tile , ❄️ HUD → cyan)
-    "🚀": "93",              # 🌟🚀 dash  (🟨 burst)
+    "❤️": "91", "🔥": "93",   # 🟥❤️ , 🟧🔥 🧶
+    "⏳": "96", "🟥": "91",   # 🟦⏳ 💰 , 🟥 ⚡  (⏳ ≤ 𓋃𓈎)
+    "🧊": "96", "❄️": "96",   # 🌟🧊 ❄️  (🧊 🀫 , ❄️ 🎛️ → 🩵)
+    "🚀": "93",              # 🌟🚀 💨  (🟨 ⚡)
 }
 
 
 def 𓋊(𓊞: str, 𓋉: bool = False) -> str:
-    # 🌈  🀄 → ANSI wrap  (🚫⚑ → 📺 ↔️ plain , 🚫💥 🖼️👴)
+    # 🌈  🀄 → 🎨🔣 🎁  (🚫⚑ → 📺 ↔️ 🗿 , 🚫💥 🖼️👴)
     if not 𓋉:
         return 𓊞
     for 𓅕, 𓂭 in 𓋊𓊞.items():
@@ -731,19 +731,19 @@ def 𓋊(𓊞: str, 𓋉: bool = False) -> str:
     return 𓊞
 
 
-# ─────────── 🎚️ 🌊 difficulty ───────────
-𓊆𓈖 = 9   # 🌊 max 🎚️  (levels 1️⃣..9️⃣)
-𓁉𓈎 = 4   # 🐭🐭 pack 🧢 cap
-𓁉𓊞 = 5   # 🐭🐭 pack @ 🌊 ≥ this  (🌊< → solo 🐭)
+# ─────────── 🎚️ 🌊 ───────────
+𓊆𓈖 = 9   # 🌊 ⏫ 🎚️  (1️⃣..9️⃣)
+𓁉𓈎 = 4   # 🐭🐭 👥 🧢
+𓁉𓊞 = 5   # 🐭🐭 👥 @ 🌊 ≥ 👇  (🌊< → 1️⃣ 🐭)
 
 
 def 𓋃𓈖(𓊍: int) -> int:
-    # ⏱️  ⏳ budget @ 🌊 :  40 + 8×🌊   (🌊⬆️ → ⏳⬆️ , 🧱⬆️🐭🐭⬆️ 🤝)
+    # ⏱️  ⏳ 💰 @ 🌊 :  40 + 8×🌊   (🌊⬆️ → ⏳⬆️ , 🧱⬆️🐭🐭⬆️ 🤝)
     return 𓉔.𓋃𓊞 + 𓉔.𓋃𓎿 * 𓊍
 
 
 def 𓁉𓈖(𓊍: int) -> int:
-    # 🐭🐭  pack size @ 🌊 :  🌊<5 → 1 ; else 1 + (🌊−4)//2  , 🧢 ×4
+    # 🐭🐭  👥 📐 @ 🌊 :  🌊<5 → 1 ; 🚫 → 1 + (🌊−4)//2  , 🧢 ×4
     if 𓊍 < 𓁉𓊞:
         return 1
     return min(𓁉𓈎, 1 + (𓊍 - (𓁉𓊞 - 1)) // 2)
@@ -751,12 +751,12 @@ def 𓁉𓈖(𓊍: int) -> int:
 
 def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = False,
       𓋦𓁋: bool = False, 𓋱𓉏: str | None = None) -> 𓉔:
-    # 🎚️  🌊 1..9 → scaled 🏠🎮 :  🧱↑ , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 👀🐭@≥5 ,
+    # 🎚️  🌊 1..9 → ⚖️ 🏠🎮 :  🧱↑ , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 👀🐭@≥5 ,
     #                              🐭🐭@≥5 , 💨🐕@≥7  ;  ⏱️ ⚑ → ⏳=40+8×🌊
-    #                              🚀 ⚑ → 🌊≥3  (🚫⚑ → 🚫🚀 : 🚫 regress 🏁 base)
-    #      🌱 code ⚑ → seed + 🌊 = f(🌞)  (∀🐈 🟰 🗺️ , 🚫⚑ → 🎲 random : 🚫 regress)
+    #                              🚀 ⚑ → 🌊≥3  (🚫⚑ → 🚫🚀 : 🚫 ↩️ 🏁🏁)
+    #      🌱 🀄 ⚑ → 🎲 + 🌊 = f(🌞)  (∀🐈 🟰 🗺️ , 🚫⚑ → 🎰 : 🚫 ↩️)
     if 𓋱𓉏 is not None:
-        𓊈, 𓊍 = 𓋱(𓋱𓉏)                       # 🌱 seed + 🌊 = f(🌞)
+        𓊈, 𓊍 = 𓋱(𓋱𓉏)                       # 🌱 🎲 + 🌊 = f(🌞)
         𓊃 = random.Random(𓊈)
     𓊍 = 𓎘(𓊍 - 1, 𓊆𓈖) + 1                  # 🚧 1..9
     𓉔𓏤 = 𓉔(
@@ -765,25 +765,25 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = Fals
         𓃥𓁋=𓊍 >= 2,                          # 🐕 @ ≥2
         𓅱𓁋=𓊍 >= 3,                          # 🐦 @ ≥3
         𓎛𓁋=𓊍 >= 4,                          # 🕳️ @ ≥4
-        𓋃𓁋=𓋃𓁋,                             # ⏱️ opt-in ⚑
-        𓋦𓁋=𓋦𓁋 and 𓊍 >= 3,                  # 🚀 opt-in ⚑ , 🌊 @ ≥3
+        𓋃𓁋=𓋃𓁋,                             # ⏱️ ⚑ ☝️
+        𓋦𓁋=𓋦𓁋 and 𓊍 >= 3,                  # 🚀 ⚑ ☝️ , 🌊 @ ≥3
     )
     𓉔𓏤.𓋂 = 𓋃𓈖(𓊍)                          # ⏱️ ⏳ = f(🌊)
     if 𓊍 >= 5:
-        𓉔𓏤.𓋴 = 4                            # 🐭👀 sharper (flee sooner)
-    𓉔𓏤.𓁎(𓁉𓈖(𓊍))                           # 🐭🐭 pack  (🌊≥5 → ×K)
+        𓉔𓏤.𓋴 = 4                            # 🐭👀 🗡️ (💨 ⏪)
+    𓉔𓏤.𓁎(𓁉𓈖(𓊍))                           # 🐭🐭 👥  (🌊≥5 → ×K)
     if 𓊍 >= 7:
-        𓉔𓏤.𓃥𓎿 = 1                          # 🐕💨 full-speed (🚫 half)
-    𓉔𓏤.𓊍 = 𓊍                               # 🎚️ tag
-    𓉔𓏤.𓋱𓉏 = 𓋱𓉏                            # 🌱 daily tag  (📇 + 🛤️ split)
+        𓉔𓏤.𓃥𓎿 = 1                          # 🐕💨 ⏩🈵 (🚫 ½)
+    𓉔𓏤.𓊍 = 𓊍                               # 🎚️ 🏷️
+    𓉔𓏤.𓋱𓉏 = 𓋱𓉏                            # 🌱 🌞 🏷️  (📇 + 🛤️ ✂️)
     return 𓉔𓏤
 
 
 def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
       𓋃𓁋: bool = False, 𓋦𓁋: bool = False, 𓋱𓉏: str | None = None) -> 𓉔:
-    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional , 🚀 optional , 🌱 optional
+    # 🤖🎬  🐈💨🐭🐭  @ 🎚️ 🌊  ·  🌈 · ⏱️ · 🚀 · 🌱 → ⚑ ☝️
     𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋, 𓋦𓁋, 𓋱𓉏)
-    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 share code
+    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 🀄 🤝
     print(f"😺🎬  🎚️{𓉔𓏤.𓊍}{𓅔}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}")
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     for _ in range(𓏲):
@@ -795,11 +795,11 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  🏆={𓉔𓏤.𓊙()}  prrr~")
         print("┈┈┈┈┈┈┈┈┈┈┈")
-        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 daily → per-🌞 filter , else 🏁 🛤️)
+        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 → 🌞 🕸️ , 🚫 → 🏁 🛤️)
     elif 𓉔𓏤.𓋺:
-        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
+        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 | ❤️0
         print("┈┈┈┈┈┈┈┈┈┈┈")
-        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (💀 also 📜)
+        print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (💀 🤝 📜)
     else:
         print("🙀💨  meow…")
     return 𓉔𓏤
@@ -807,7 +807,7 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
 
 def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
     # 💀 🖼️ :  🐕 ❤️0  🥇  |  ⏳0 ⏱️  (🀄 ⏳ ≠ ⏱️)
-    if 𓉔𓏤.𓋹 <= 0:                    # ❤️0 🥇  (⚔️ ⏳0 🀄 🐾 → 🐕 wins)
+    if 𓉔𓏤.𓋹 <= 0:                    # ❤️0 🥇  (⚔️ ⏳0 🀄 🐾 → 🐕 🥇)
         return (f"💀🐕  ❤️×0  ⏱️={𓉔𓏤.𓏰}  😿×{𓉔𓏤.𓊟}"
                 f"  🏆={𓉔𓏤.𓊙()}  meow…")
     return (f"💀⏳  ⏳×0  🐭×{len(𓉔𓏤.𓁉𓂋)}  ⏱️={𓉔𓏤.𓏰}"
@@ -816,9 +816,9 @@ def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
 
 def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋: bool = False,
         𓋱𓉏: str | None = None):
-    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ , 🚀 , 🌱 optional
+    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=🤾   🙀=🚪   @ 🎚️ 🌊  ·  🌈 · ⏱️ · 🚀 · 🌱 → ⚑ ☝️
     𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋, 𓋦𓁋, 𓋱𓉏)
-    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 share code
+    𓅔 = f"  🌱{𓉔𓏤.𓋱𓉏}" if 𓉔𓏤.𓋱𓉏 else ""   # 🌱 🀄 🤝
     print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}{𓅔}  ⌨️⬆️⬇️⬅️➡️ | 🀄⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
@@ -833,7 +833,7 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋
         if not 𓊾𓏤:
             print("🤔❓")
             continue
-        for 𓊍 in 𓊾𓏤:                  # ⌨️⌨️ hold → 🐾🐾
+        for 𓊍 in 𓊾𓏤:                  # ⌨️⌨️ 🤏⏳ → 🐾🐾
             if 𓊍 in ("🙀", "🚪", "q"):
                 print("👋😼")
                 return
@@ -841,34 +841,34 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋
                 print("🤔❓")
                 break
             𓉔𓏤.𓂷(𓊍)
-            if 𓉔𓏤.𓋾():               # 🎮🔚 mid-📜 → ✂️
+            if 𓉔𓏤.𓋾():               # 🎮🔚 ⏳📜 → ✂️
                 break
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  🏆={𓉔𓏤.𓊙()}  prrr~")
     else:
-        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
+        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 | ❤️0
     print("┈┈┈┈┈┈┈┈┈┈┈")
-    print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 daily → per-🌞 filter , else 🏁 🛤️)
+    print(𓎋𓎗(𓉔𓏤))                  # 💾🏆 → 📜🔝  (🌱 → 🌞 🕸️ , 🚫 → 🏁 🛤️)
 
 
-# ─────────── ⌨️ 🕹️ 🐾 reader ───────────
+# ─────────── ⌨️ 🕹️ 🐾 👀🔤 ───────────
 𓎏𓊞 = {"A": "⬆️", "B": "⬇️", "C": "➡️", "D": "⬅️"}   # ⎋[𓅕 / ⎋O𓅕 → 🧭
-𓎏𓉏 = "\x1b"                                        # ⎋  ESC
+𓎏𓉏 = "\x1b"                                        # ⎋
 
 
 def 𓎏(𓅕: str) -> list[str]:
-    # ⌨️ 🐾 reader :  ⎋[A ⎋[B ⎋[C ⎋[D  (+ ⎋O𓅕 app-mode , `^[` 📺 echo)
-    #                → 🔼🔽▶️◀️  , ∀ seq in 📜 (⌨️⌨️ hold → 🐾🐾)
-    #                🚫⎋ → 🔤 as-is  (🀄 emoji ↔️ , 🚫💥)
+    # ⌨️ 🐾 👀🔤 :  ⎋[A ⎋[B ⎋[C ⎋[D  (+ ⎋O𓅕 🖱️📺 , `^[` 📺 🦜)
+    #                → 🔼🔽▶️◀️  , ∀ ⛓️ ∈ 📜 (⌨️⌨️ 🤏⏳ → 🐾🐾)
+    #                🚫⎋ → 🔤 ↔️ 🗿  (🀄 😺 ↔️ , 🚫💥)
     𓂺 = 𓅕.replace("^[", 𓎏𓉏).strip()
     if 𓎏𓉏 not in 𓂺:
         return [𓂺] if 𓂺 else []
     𓊾: list[str] = []
-    𓋏: list[str] = []                              # 🀄 buffer  (🚫⎋ 🔤)
+    𓋏: list[str] = []                              # 🀄 🪣  (🚫⎋ 🔤)
 
     def 𓋐() -> None:
-        # 🚿 buffer → 🀄 token  (🀄 kept ‼️ : ⎋[C🙀 → ▶️ + 🚪)
+        # 🚿 🪣 → 🀄  (🀄 💾 ‼️ : ⎋[C🙀 → ▶️ + 🚪)
         𓅔 = "".join(𓋏).strip()
         𓋏.clear()
         if 𓅔:
@@ -880,22 +880,22 @@ def 𓎏(𓅕: str) -> list[str]:
             𓋏.append(𓂺[𓇋])
             𓇋 += 1
             continue
-        𓋐()                                        # ⎋ boundary → 🚿
-        if 𓂺[𓇋 + 1:𓇋 + 2] not in ("[", "O"):      # solo ⎋ → 🚮
+        𓋐()                                        # ⎋ 📐 → 🚿
+        if 𓂺[𓇋 + 1:𓇋 + 2] not in ("[", "O"):      # ☝️ ⎋ → 🚮
             𓇋 += 1
             continue
         𓆇 = 𓇋 + 2
         while 𓆇 < len(𓂺) and 𓂺[𓆇] != 𓎏𓉏 and not 𓂺[𓆇].isalpha():
-            𓆇 += 1                                 # ⏭️ params  (⎋[1;5C …)
+            𓆇 += 1                                 # ⏭️ 🎛️  (⎋[1;5C …)
         if 𓆇 == 𓇋 + 2 and 𓆇 < len(𓂺) and 𓂺[𓆇] in 𓎏𓊞:
             𓊾.append(𓎏𓊞[𓂺[𓆇]])                  # 🧭 ✅  (⎋[A..D , ⎋OA..D)
-        𓇋 = 𓆇 + 1 if 𓆇 < len(𓂺) and 𓂺[𓆇] != 𓎏𓉏 else 𓆇   # 🚮 🚫🧭 seq
+        𓇋 = 𓆇 + 1 if 𓆇 < len(𓂺) and 𓂺[𓆇] != 𓎏𓉏 else 𓆇   # 🚮 🚫🧭 ⛓️
     𓋐()
     return 𓊾
 
 
 def 𓊆𓂺(𓊾: list[str]) -> int:
-    # 🎚️  parse 🌊 level from 🏁 args  (digits or 1️⃣…9️⃣) → 1..9  (default 1)
+    # 🎚️  👀🔤 🌊 ← 🏁 🎛️  (🔢 / 1️⃣…9️⃣) → 1..9  (🏁🏁 1)
     𓅔 = {"1️⃣": 1, "2️⃣": 2, "3️⃣": 3, "4️⃣": 4, "5️⃣": 5,
           "6️⃣": 6, "7️⃣": 7, "8️⃣": 8, "9️⃣": 9}
     for 𓅕 in 𓊾:
@@ -910,9 +910,9 @@ if __name__ == "__main__":
     𓊾 = sys.argv[1:]
     𓊍𓏤 = 𓊆𓂺(𓊾)
     𓋉𓏤 = "🌈" in 𓊾                                    # ⚑🌈
-    𓋃𓏤 = "⏱️" in 𓊾 or "⏳" in 𓊾                       # ⚑⏱️  time-attack
-    𓋦𓏤 = "🚀" in 𓊾 or "💨" in 𓊾                       # ⚑🚀  dash power-up
-    𓋱𓏤 = 𓋱𓊞() if ("🌱" in 𓊾 or "🌞" in 𓊾) else None  # ⚑🌱  daily seed → 🌞 code
+    𓋃𓏤 = "⏱️" in 𓊾 or "⏳" in 𓊾                       # ⚑⏱️  ⏳⚔️
+    𓋦𓏤 = "🚀" in 𓊾 or "💨" in 𓊾                       # ⚑🚀  🦘 🌟
+    𓋱𓏤 = 𓋱𓊞() if ("🌱" in 𓊾 or "🌞" in 𓊾) else None  # ⚑🌱  🎲 ← 🌞🀄
     if any(𓅕 in ("🤖", "🎬", "--🤖") for 𓅕 in 𓊾):
         𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤, 𓋦𓁋=𓋦𓏤, 𓋱𓉏=𓋱𓏤)
     else:
