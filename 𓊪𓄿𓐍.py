@@ -1,7 +1,8 @@
-# 🐈✅🐭 — 𓊪𓄿  ✨  🧱 + 🧭 BFS + 🪝😾 + 💾🏆
+# 🐈✅🐭 — 𓊪𓄿  ✨  🧱 + 🧭 𓃰 + 🪝😾 + 💾🏆
 import importlib.util as 𓇓
 import json
 import os
+import pathlib
 import random
 import subprocess
 import sys
@@ -15,53 +16,57 @@ import tempfile
 𓆦 = 𓇓.module_from_spec(𓊓)
 𓊓.loader.exec_module(𓆦)
 
+𓊔 = 𓇓.spec_from_file_location("𓊪𓂀𓅓", ".github/𓊪𓂀𓅓.py")
+𓆧 = 𓇓.module_from_spec(𓊔)
+𓊔.loader.exec_module(𓆧)
+
 
 def 𓊪𓎘():
-    # 🚧  clamp
+    # 🚧  0 … 𓊝-1
     assert 𓅓.𓎘(-5, 10) == 0
     assert 𓅓.𓎘(99, 10) == 9
     assert 𓅓.𓎘(3, 10) == 3
 
 
 def 𓊪𓐍():
-    # 📏  manhattan
+    # 📏  🏙️  (|Δ↔️| + |Δ↕️|)
     assert 𓅓.𓐍((0, 0), (3, 4)) == 7
     assert 𓅓.𓐍((2, 2), (2, 2)) == 0
 
 
 def 𓊪𓎗():
-    # 🐾  🚧 edges  (🚫🧱)
+    # 🐾  🚧 🗺️📐  (🚫🧱)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (0, 0)
-    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬅️"]) == (0, 0)     # 🧱edge
-    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬆️"]) == (0, 0)     # 🧱edge
+    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬅️"]) == (0, 0)     # 🗺️📐 ⛔
+    assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬆️"]) == (0, 0)     # 🗺️📐 ⛔
     assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["➡️"]) == (1, 0)
     assert 𓋁.𓎗(𓋁.𓃠, 𓅓.𓂃["⬇️"]) == (0, 1)
 
 
 def 𓊪𓊵():
-    # 🧱  block  →  stay
+    # 🧱  ⛔  →  💤
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓊵 = {(3, 3)}
     assert 𓋁.𓎗((2, 3), 𓅓.𓂃["➡️"]) == (2, 3)     # 🧱 → 🚫
     assert 𓋁.𓎗((2, 3), 𓅓.𓂃["⬅️"]) == (1, 3)     # 🟩 → ✅
-    # 🧭 neighbors skip 🧱
+    # 🧭 𓊇𓈎 → 🧱 🙈
     assert (3, 3) not in 𓋁.𓊇𓈎((2, 3))
-    # 🔗  BFS connected  (no 🧱)
+    # 🔗  𓃰 ∀🀫  (🚫🧱 🗺️)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓂭 = 𓋂.𓃰((0, 0))
     assert len(𓂭) == 𓅓.𓈖𓊪 * 𓅓.𓈖𓏏
 
 
 def 𓊪𓎘𓁉():
-    # 🔗  🐈 ↔️ 🐭 always reachable  (🧱🎲)
+    # 🔗  🐈 ↔️ 🐭 ∞ 🛣️  (🧱🎲)
     for 𓊃 in range(50):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
         assert 𓋁.𓁉 in 𓋁.𓃰(𓋁.𓃠), f"🙀🔗 seed={𓊃}"
 
 
 def 𓊪𓂷():
-    # 🐈👉🐭  adjacent → 😻
+    # 🐈👉🐭  📏=1 → 😻
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 5)
     𓋁.𓁉 = (6, 5)
@@ -71,9 +76,9 @@ def 𓊪𓂷():
 
 
 def 𓊪𓇬():
-    # 🧀😋  → 🎲 new 🧀
+    # 🧀😋  → 🎲 🆕 🧀
     𓋁 = 𓅓.𓉔(random.Random(3), 𓊵𓈖=0)
-    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓁉 = (0, 7)         # 🐭 🔭
     𓋁.𓃠 = (2, 2)
     𓋁.𓇬 = (3, 2)         # 🧀 →➡️
     𓋁.𓂷("➡️")
@@ -81,7 +86,7 @@ def 𓊪𓇬():
 
 
 def 𓊪𓄊():
-    # 🤖  🐈 always 😻  (many 🎲 + 🧱)
+    # 🤖  🐈 🏁🏁 😻  (🎲🎲 + 🧱)
     for 𓊃 in range(60):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
         for _ in range(500):
@@ -91,19 +96,19 @@ def 𓊪𓄊():
 
 
 def 𓊪𓆛():
-    # 🐟😋  → 🎲 new 🐟  + 🏆 bonus
+    # 🐟😋  → 🎲 🆕 🐟  + 🏆 🎁
     𓋁 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
-    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓁉 = (0, 7)         # 🐭 🔭
     𓋁.𓃠 = (2, 2)
-    𓋁.𓇬 = (9, 0)         # 🧀 elsewhere
+    𓋁.𓇬 = (9, 0)         # 🧀 📍≠
     𓋁.𓆛 = (3, 2)         # 🐟 →➡️
     𓋁.𓂷("➡️")
     assert 𓋁.𓊛 == 1          # 😋+1
-    assert 𓋁.𓆛 != (3, 2)     # 🎲 respawn
+    assert 𓋁.𓆛 != (3, 2)     # 🎲 🔄
 
 
 def 𓊪𓊙():
-    # 🏆  ⚡fast + 🐟 + 🥛 − 😿
+    # 🏆  ⚡💨 + 🐟 + 🥛 − 😿
     𓋁 = 𓅓.𓉔(random.Random(0))
     𓋁.𓏰 = 10
     𓋁.𓊛 = 3
@@ -115,14 +120,14 @@ def 𓊪𓊙():
     𓋁.𓅮 = 2                        # 🐦×2 → +14
     assert 𓋁.𓊙() == 70 + 15 + 6 + 14
     𓋁.𓏰 = 250
-    assert 𓋁.𓊙() == 0 + 15 + 6 + 14   # 🚧 ≥0 (base) , 🎁 stay
+    assert 𓋁.𓊙() == 0 + 15 + 6 + 14   # 🚧 ≥0 (🏠) , 🎁 🗿
 
 
 def 𓊪𓃥():
-    # 🐕🎲  spawn : 🔗 , ≠🐈🐭🧀🐟🥛 , 📏🐈 ≥ 𓃥𓊞  (🚫🧱 map)
+    # 🐕🎲  📍 : 🔗 , ≠🐈🐭🧀🐟🥛 , 📏🐈 ≥ 𓃥𓊞  (🚫🧱 🗺️)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     assert 𓋂.𓃥 is not None
-    assert 𓋂.𓃰(𓋂.𓃠)[𓋂.𓃥] >= 𓅓.𓉔.𓃥𓊞      # 📏 far
+    assert 𓋂.𓃰(𓋂.𓃠)[𓋂.𓃥] >= 𓅓.𓉔.𓃥𓊞      # 📏 🔭
     for 𓊃 in range(30):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
         assert 𓋁.𓃥 is not None
@@ -131,45 +136,45 @@ def 𓊪𓃥():
 
 
 def 𓊪𓃥𓎗():
-    # 🐕💨🐈  : BFS 1️⃣🐾 → 📏 shrinks
+    # 🐕💨🐈  : 𓃰 1️⃣🐾 → 📏 ⬇️
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 4)
     𓋁.𓃥 = (5, 7)                              # 📏=3
     𓅐 = 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥]
     𓋁.𓃥𓎗()
-    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] < 𓅐              # 🔽 closer
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] < 𓅐              # 🔽 👉
 
 
 def 𓊪𓊟():
-    # 😿  bonk : 🐕👉🐈 → 𓊟+1 , 🐈🌀 relocate , 🐕🎲 respawn
+    # 😿  👉 : 🐕👉🐈 → 𓊟+1 , 🐈🌀 🔄 , 🐕🎲 🔭
     𓋁 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 5)
-    𓋁.𓃥 = (5, 6)                              # adjacent → catches
+    𓋁.𓃥 = (5, 6)                              # 📏=1 → 👉
     𓋁.𓃥𓎗()
     assert 𓋁.𓊟 == 1                           # 😿+1
     assert 𓋁.𓃥 is not None
-    assert 𓋁.𓃠 != 𓋁.𓃥                        # 🐈≠🐕 after 🌀
-    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞     # 🐕🎲 far again
+    assert 𓋁.𓃠 != 𓋁.𓃥                        # 🐈≠🐕 ⏭️ 🌀
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞     # 🐕🎲 🔭 🔁
 
 
 def 𓊪𓃥𓎿():
-    # 🐕💨  half-speed : 🐾 odd → 💤 , even → 💨
+    # 🐕💨  🐌 ½ : 🐾 1️⃣3️⃣5️⃣ → 💤 , 🐾 2️⃣4️⃣6️⃣ → 💨
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (0, 0)
-    𓋁.𓁉 = (10, 7)                             # 🐭 far
+    𓋁.𓁉 = (10, 7)                             # 🐭 🔭
     𓋁.𓇬 = (0, 5)
     𓋁.𓆛 = (1, 5)
     𓋁.𓊮 = (2, 5)
-    𓋁.𓃥 = (10, 0)                             # 🐕 far
+    𓋁.𓃥 = (10, 0)                             # 🐕 🔭
     𓅐 = 𓋁.𓃥
-    𓋁.𓂷("🐾")                                # 𓏰=1 odd → 🐕💤
+    𓋁.𓂷("🐾")                                # 𓏰=1 → 🐕💤
     assert 𓋁.𓃥 == 𓅐
-    𓋁.𓂷("🐾")                                # 𓏰=2 even → 🐕💨
+    𓋁.𓂷("🐾")                                # 𓏰=2 → 🐕💨
     assert 𓋁.𓃥 != 𓅐
 
 
 def 𓊪𓁋():
-    # 🚫🐕  off : 𓃥=None , 🚫 render , 🐈 still 😻
+    # 🚫🐕  ⚑🚫 : 𓃥=None , 🚫 🖼️ , 🐈 😻 🗿
     𓋁 = 𓅓.𓉔(random.Random(0), 𓃥𓁋=False)
     assert 𓋁.𓃥 is None
     assert "🐕" not in 𓋁.𓁐()
@@ -187,51 +192,51 @@ def 𓊪𓁐():
     assert len(𓋀) == 𓅓.𓈖𓏏
     assert "🐈" in 𓋁.𓁐()
     assert "🐭" in 𓋁.𓁐()
-    assert "🧱" in 𓋁.𓁐()      # 🧱 drawn
-    assert "🐟" in 𓋁.𓁐()      # 🐟 drawn
-    assert "🥛" in 𓋁.𓁐()      # 🥛 drawn
-    assert "🐕" in 𓋁.𓁐()      # 🐕 drawn
-    assert "🐦" in 𓋁.𓁐()      # 🐦 drawn
-    assert "🕳️" in 𓋁.𓁐()      # 🕳️ drawn
+    assert "🧱" in 𓋁.𓁐()      # 🧱 ✏️
+    assert "🐟" in 𓋁.𓁐()      # 🐟 ✏️
+    assert "🥛" in 𓋁.𓁐()      # 🥛 ✏️
+    assert "🐕" in 𓋁.𓁐()      # 🐕 ✏️
+    assert "🐦" in 𓋁.𓁐()      # 🐦 ✏️
+    assert "🕳️" in 𓋁.𓁐()      # 🕳️ ✏️
 
 
 def 𓊪𓋴():
-    # 😮‍💨  🐭 tires → 💤 (stay) → 🐈 gains
+    # 😮‍💨  🐭 🫁 → 💤 (🗿) → 🐈 ⏫
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 4)
     𓋁.𓁉 = (5, 6)        # 📏=2 ≤ 𓋴
-    𓋁.𓊚 = 𓅓.𓉔.𓎿      # 😵 spent
+    𓋁.𓊚 = 𓅓.𓉔.𓎿      # 😵 🈵
     𓋂 = 𓋁.𓅓𓎗()
-    assert 𓋂 == (5, 6)   # 💤 stay
+    assert 𓋂 == (5, 6)   # 💤 🗿
     assert 𓋁.𓊚 == 0     # 🔄
 
 
 def 𓊪𓊮():
-    # 🥛😋  → 🎲 new 🥛 + ⚡ pounce armed
+    # 🥛😋  → 🎲 🆕 🥛 + ⚡ 😼 🟢
     𓋁 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
-    𓋁.𓁉 = (0, 7)         # 🐭 far
+    𓋁.𓁉 = (0, 7)         # 🐭 🔭
     𓋁.𓃠 = (2, 2)
-    𓋁.𓇬 = (0, 0)         # 🧀 elsewhere
-    𓋁.𓆛 = (0, 1)         # 🐟 elsewhere
+    𓋁.𓇬 = (0, 0)         # 🧀 📍≠
+    𓋁.𓆛 = (0, 1)         # 🐟 📍≠
     𓋁.𓊮 = (3, 2)         # 🥛 →➡️
     𓋁.𓂷("➡️")
     assert 𓋁.𓊳 == 1                 # 😋+1
-    assert 𓋁.𓊰 == 𓅓.𓉔.𓋨          # ⚡ armed
-    assert 𓋁.𓊮 != (3, 2)           # 🎲 respawn
+    assert 𓋁.𓊰 == 𓅓.𓉔.𓋨          # ⚡ 🟢
+    assert 𓋁.𓊮 != (3, 2)           # 🎲 🔄
 
 
 def 𓊪𓊰():
-    # 🥛⚡  🐈🎯🐭 from 📏≤reach  (no adjacency)
+    # 🥛⚡  🐈🎯🐭 ← 📏≤𓋩  (🚫 👉 ‼️)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓇬 = (0, 0)
     𓋁.𓆛 = (0, 1)
     𓋁.𓊮 = (0, 2)
     𓋁.𓃠 = (5, 5)
     𓋁.𓁉 = (5, 7)         # 📏=2 == 𓋩
-    𓋁.𓊰 = 2              # ⚡ (tick → 1, still on)
-    assert 𓋁.𓂷("🐾") is True     # 😼 pounce
+    𓋁.𓊰 = 2              # ⚡ (🐾 → 1 , 🟢 🗿)
+    assert 𓋁.𓂷("🐾") is True     # 😼 🔭
     assert 𓋁.𓄊 is True
-    # 🚫⚡ → 🚫 afar catch
+    # 🚫⚡ → 🚫 🔭 🎯
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋂.𓇬 = (0, 0)
     𓋂.𓆛 = (0, 1)
@@ -244,41 +249,41 @@ def 𓊪𓊰():
 
 
 def 𓊪𓅱():
-    # 🐦🎲  spawn : 🔗 , ≠🐈🐭🧀🐟🥛🐕  (🚫🧱 map)
+    # 🐦🎲  📍 : 🔗 , ≠🐈🐭🧀🐟🥛🐕  (🚫🧱 🗺️)
     for 𓊃 in range(30):
         𓋁 = 𓅓.𓉔(random.Random(𓊃))
         assert 𓋁.𓅱 is not None
-        assert 𓋁.𓅱 in 𓋁.𓃰(𓋁.𓃠)              # 🔗 green
+        assert 𓋁.𓅱 in 𓋁.𓃰(𓋁.𓃠)              # 🔗 🌿
         assert 𓋁.𓅱 not in (𓋁.𓃠, 𓋁.𓁉, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓃥)
 
 
 def 𓊪𓎉():
-    # 📐  chebyshev
+    # 📐  ⏫(|Δ↔️| , |Δ↕️|)  (👑 🚶)
     assert 𓅓.𓎉((0, 0), (3, 4)) == 4
     assert 𓅓.𓎉((2, 2), (2, 2)) == 0
     assert 𓅓.𓎉((1, 1), (2, 3)) == 2
 
 
 def 𓊪𓅱𓎗():
-    # 🐦🕊️  flee : 8🧭 → 📐→🐈 grows  (🚫🧱 perch)
+    # 🐦🕊️  💨 : 8🧭 → 📐→🐈 ⏫  (🚫🧱 🪶)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 5)
     𓋁.𓅱 = (5, 6)                              # 📐=1
-    𓋁.𓁉 = (0, 0)                              # 🐭 elsewhere
-    𓋁.𓃥 = (10, 0)                             # 🐕 elsewhere
+    𓋁.𓁉 = (0, 0)                              # 🐭 📍≠
+    𓋁.𓃥 = (10, 0)                             # 🐕 📍≠
     𓋁.𓇬 = (0, 7)
     𓋁.𓆛 = (1, 7)
     𓋁.𓊮 = (2, 7)
     𓅐 = 𓅓.𓎉(𓋁.𓅱, 𓋁.𓃠)
     𓋁.𓅱𓎗()
-    assert 𓅓.𓎉(𓋁.𓅱, 𓋁.𓃠) > 𓅐             # 🔼 farther
-    assert 𓋁.𓅱 not in 𓋁.𓊵                    # 🚫🧱 perch
+    assert 𓅓.𓎉(𓋁.𓅱, 𓋁.𓃠) > 𓅐             # 🔼 🔭
+    assert 𓋁.𓅱 not in 𓋁.𓊵                    # 🚫🧱 🪶
 
 
 def 𓊪𓅱𓎗𓊵():
-    # 🐦  🚫🧱 :  🕊️ never lands on 🧱
+    # 🐦  🚫🧱 :  🕊️ 🚫 🪶 @ ⛔
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    𓋁.𓊵 = {(5, 7), (6, 6), (6, 7), (4, 7), (4, 6)}   # 🧱 ring far side
+    𓋁.𓊵 = {(5, 7), (6, 6), (6, 7), (4, 7), (4, 6)}   # 🧱 ⭕ ⏭️ 🐦
     𓋁.𓃠 = (5, 5)
     𓋁.𓅱 = (5, 6)
     𓋁.𓁉 = (0, 0)
@@ -292,10 +297,10 @@ def 𓊪𓅱𓎗𓊵():
 
 
 def 𓊪𓅲():
-    # 🐦😋  → 𓅮+1 , 🎲 respawn , 🏆 bonus
+    # 🐦😋  → 𓅮+1 , 🎲 🔄 , 🏆 🎁
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    𓋁.𓁉 = (0, 7)         # 🐭 far
-    𓋁.𓃥 = (10, 0)        # 🐕 far
+    𓋁.𓁉 = (0, 7)         # 🐭 🔭
+    𓋁.𓃥 = (10, 0)        # 🐕 🔭
     𓋁.𓇬 = (9, 0)
     𓋁.𓆛 = (9, 1)
     𓋁.𓊮 = (9, 2)
@@ -303,12 +308,12 @@ def 𓊪𓅲():
     𓋁.𓅱 = (3, 2)         # 🐦 →➡️
     𓋁.𓂷("➡️")
     assert 𓋁.𓅮 == 1          # 😋+1
-    assert 𓋁.𓅱 != (3, 2)     # 🎲 respawn
-    assert 𓋁.𓄊 is False      # 🚫🎯 (🐭 far)
+    assert 𓋁.𓅱 != (3, 2)     # 🎲 🔄
+    assert 𓋁.𓄊 is False      # 🚫🎯 (🐭 🔭)
 
 
 def 𓊪𓅱𓁋():
-    # 🚫🐦  off : 𓅱=None , 🚫 render , 🐈 still 😻
+    # 🚫🐦  ⚑🚫 : 𓅱=None , 🚫 🖼️ , 🐈 😻 🗿
     𓋁 = 𓅓.𓉔(random.Random(0), 𓅱𓁋=False)
     assert 𓋁.𓅱 is None
     assert "🐦" not in 𓋁.𓁐()
@@ -320,22 +325,22 @@ def 𓊪𓅱𓁋():
 
 
 def 𓊪𓎛():
-    # 🕳️➡️🕳️  teleport : 🐈 steps on 🕳️ → 🕳️ twin , 🚫 re-teleport standing
+    # 🕳️➡️🕳️  🛸 : 🐈 🚶 🕳️ → 🕳️ 👯 , 💤 @ 🕳️ → 🚫 🔁🛸
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
-    𓋁.𓁉 = (0, 7)                              # 🐭 far
+    𓋁.𓁉 = (0, 7)                              # 🐭 🔭
     𓋁.𓇬 = (9, 0)
     𓋁.𓆛 = (9, 1)
     𓋁.𓊮 = (9, 2)
     𓋁.𓎛 = ((5, 5), (1, 1))                    # 🕳️↔️🕳️
     𓋁.𓃠 = (4, 5)                              # →➡️ 🕳️(5,5)
     𓋁.𓂷("➡️")
-    assert 𓋁.𓃠 == (1, 1)                      # 🕳️ twin
-    𓋁.𓂷("🐾")                                # 💤 on 🕳️ → 🚫 re-teleport
+    assert 𓋁.𓃠 == (1, 1)                      # 🕳️ 👯
+    𓋁.𓂷("🐾")                                # 💤 @ 🕳️ → 🚫 🔁🛸
     assert 𓋁.𓃠 == (1, 1)
 
 
 def 𓊪𓎛𓁋():
-    # 🚫🕳️  off : 𓎛=None , 🚫 render , 🐈 still 😻
+    # 🚫🕳️  ⚑🚫 : 𓎛=None , 🚫 🖼️ , 🐈 😻 🗿
     𓋁 = 𓅓.𓉔(random.Random(0), 𓎛𓁋=False)
     assert 𓋁.𓎛 is None
     assert "🕳️" not in 𓋁.𓁐()
@@ -346,62 +351,62 @@ def 𓊪𓎛𓁋():
 
 
 def 𓊪𓋭():
-    # 🧶🎾  throw : 🎾 📍🐈 , 🐾 stay , ⏳ armed , ×1 flag , 🖼️ render
+    # 🧶🎾  🤾 : 🎾 📍🐈 , 🐾 💤 , ⏳ 🟢 , ×1 ⚑ , 🖼️ ✏️
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
-    𓋁.𓁉 = (0, 7)          # 🐭 far
+    𓋁.𓁉 = (0, 7)          # 🐭 🔭
     𓋁.𓇬 = (9, 0)
     𓋁.𓆛 = (9, 1)
     𓋁.𓊮 = (9, 2)
     𓋁.𓃠 = (5, 5)
     𓋁.𓂷("🧶")
     assert 𓋁.𓋭 == (5, 5)              # 🎾 📍🐈
-    assert 𓋁.𓋯 is True                # ×1 spent
-    assert 𓋁.𓋮 == 𓅓.𓉔.𓋬             # ⏳ armed (🚫 tick on throw turn)
-    assert 𓋁.𓃠 == (5, 5)              # 🐾 stay
-    𓋁.𓃠 = (6, 5)                      # 🐈 step off
-    assert "🎾" in 𓋁.𓁐()              # 🖼️ 🎾 drawn
+    assert 𓋁.𓋯 is True                # ×1 🈵
+    assert 𓋁.𓋮 == 𓅓.𓉔.𓋬             # ⏳ 🟢 (🚫 −1 @ 🤾 🐾)
+    assert 𓋁.𓃠 == (5, 5)              # 🐾 💤
+    𓋁.𓃠 = (6, 5)                      # 🐈 🚶 ⏭️
+    assert "🎾" in 𓋁.𓁐()              # 🖼️ 🎾 ✏️
 
 
 def 𓊪𓋮():
-    # 🧶🐕🌀  distract : 🐕👀🎾 📐≤𓋫 → 💨🎾 (🚫💨🐈)
+    # 🧶🐕🌀  🎣 : 🐕👀🎾 📐≤𓋫 → 💨🎾 (🚫💨🐈)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    𓋁.𓃠 = (0, 5)          # 🐈 far left
-    𓋁.𓋭 = (10, 5)         # 🎾 far right
+    𓋁.𓃠 = (0, 5)          # 🐈 🔭 ◀️
+    𓋁.𓋭 = (10, 5)         # 🎾 🔭 ▶️
     𓋁.𓋮 = 3
     𓋁.𓃥 = (6, 5)          # 🐕 : 📐→🎾=4≤4 , 📐→🐈=6
     𓅐 = 𓋁.𓃰(𓋁.𓋭)[𓋁.𓃥]   # 📏 🐕→🎾
     𓋁.𓃥𓎗()
-    assert 𓋁.𓃰(𓋁.𓋭)[𓋁.𓃥] < 𓅐     # 🔽 💨🎾 not 🐈
-    assert 𓋁.𓊟 == 0                  # 🚫 bonk while 🧶
+    assert 𓋁.𓃰(𓋁.𓋭)[𓋁.𓃥] < 𓅐     # 🔽 💨🎾 ≠ 🐈
+    assert 𓋁.𓊟 == 0                  # 🚫 😿 ⏳ 🧶
 
 
 def 𓊪𓋯():
-    # 🧶⏳0😾  resume : ⏳ expire → 🎾💨 → 🐕😾 chase 🐈 again
+    # 🧶⏳0😾  ↩️ : ⏳ 0️⃣ → 🎾💨 → 🐕😾 💨🐈 🔁
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋁.𓃠 = (5, 5)
-    𓋁.𓁉 = (0, 7)          # 🐭 far
+    𓋁.𓁉 = (0, 7)          # 🐭 🔭
     𓋁.𓅱 = None
-    # 🧶 active , 🐕 near 🎾 → distract , 🚫 bonk
+    # 🧶 🟢 , 🐕 👉 🎾 → 🎣 , 🚫 😿
     𓋁.𓋭 = (5, 6)
     𓋁.𓋮 = 1
     𓋁.𓃥 = (5, 7)          # 📐→🎾=1
     𓋁.𓃥𓎗()
-    assert 𓋁.𓊟 == 0                  # 🚫 bonk while 🧶
-    # ⏳ expire (🧶⏳ tick via 𓂷) → 🎾💨
+    assert 𓋁.𓊟 == 0                  # 🚫 😿 ⏳ 🧶
+    # ⏳ 0️⃣ (🧶⏳ −1 ← 𓂷) → 🎾💨
     𓋁.𓋮 = 1
-    𓋁.𓋭 = (9, 9)          # dummy , will 💨
+    𓋁.𓋭 = (9, 9)          # 🎭 , → 💨
     𓋁.𓃥 = (9, 9)
     𓋁.𓂷("🐾")
-    assert 𓋁.𓋭 is None               # 🎾💨 gone
-    # 🐕😾 resume : adjacent → bonk
+    assert 𓋁.𓋭 is None               # 🎾💨 🚮
+    # 🐕😾 ↩️ : 📏=1 → 😿
     𓋁.𓃠 = (5, 5)
     𓋁.𓃥 = (5, 6)
     𓋁.𓃥𓎗()
-    assert 𓋁.𓊟 == 1                  # 😾 bonk resumes
+    assert 𓋁.𓊟 == 1                  # 😾 😿 ↩️
 
 
 def 𓊪𓋰():
-    # 🧶×1🚧  limit : 2nd throw → 🚫 new 🎾
+    # 🧶×1🚧  : 🤾 2️⃣ → 🚫 🆕 🎾
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
     𓋁.𓁉 = (0, 7)
     𓋁.𓇬 = (9, 0)
@@ -409,27 +414,27 @@ def 𓊪𓋰():
     𓋁.𓊮 = (9, 2)
     𓋁.𓃠 = (3, 3)
     𓋁.𓂷("🧶")
-    assert 𓋁.𓋭 == (3, 3)              # 1st 🎾
+    assert 𓋁.𓋭 == (3, 3)              # 🎾 1️⃣
     𓋁.𓃠 = (6, 6)
-    𓋁.𓂷("🧶")                         # 2nd → 🚧
-    assert 𓋁.𓋭 != (6, 6)              # 🚫 new 🎾
-    assert 𓋁.𓋯 is True                # still spent
+    𓋁.𓂷("🧶")                         # 🤾 2️⃣ → 🚧
+    assert 𓋁.𓋭 != (6, 6)              # 🚫 🆕 🎾
+    assert 𓋁.𓋯 is True                # 🈵 🗿
 
 
 def 𓊪𓋹():
-    # 🐾9️⃣  nine-lives : 🏁 ❤️×9 , 😿 −1 , 0 → 💀🎮🔚 , 🖼️ HUD , 🔗✅ 🚫💀
+    # 🐾9️⃣  ❤️×9 : 🏁 ❤️×9 , 😿 −1 , 0 → 💀🎮🔚 , 🖼️ 🎛️ , 🔗✅ 🚫💀
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    assert 𓋁.𓋹 == 9                          # 🏁 start ❤️×9
+    assert 𓋁.𓋹 == 9                          # 🏁 ❤️×9
     assert 𓋁.𓋺 is False                      # 🚫💀
-    assert 𓋁.𓋾() is False                    # 🎮 on
-    # 😿 bonk → ❤️ 8 + 🐈🌀 restart + still alive
+    assert 𓋁.𓋾() is False                    # 🎮 🟢
+    # 😿 → ❤️ 8 + 🐈🌀 🔄 + 🚫💀
     𓋁.𓃠 = (5, 5)
-    𓋁.𓃥 = (5, 6)                             # adjacent → bonk
+    𓋁.𓃥 = (5, 6)                             # 📏=1 → 😿
     𓋁.𓃥𓎗()
     assert 𓋁.𓋹 == 8                          # ❤️ −1
-    assert 𓋁.𓊟 == 1                          # 😿 tally = 9−❤️
-    assert 𓋁.𓋺 is False                      # still alive
-    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞    # 🐕🎲 far after 🌀
+    assert 𓋁.𓊟 == 1                          # 😿 🔢 = 9−❤️
+    assert 𓋁.𓋺 is False                      # 🚫💀
+    assert 𓋁.𓃰(𓋁.𓃠)[𓋁.𓃥] >= 𓅓.𓉔.𓃥𓊞    # 🐕🎲 🔭 ⏭️ 🌀
     # ❤️ 1 → 😿 → 0 → 💀 🎮🔚
     𓋂 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
     𓋂.𓋹 = 1
@@ -437,53 +442,53 @@ def 𓊪𓋹():
     𓋂.𓃥 = (5, 6)
     𓋂.𓃥𓎗()
     assert 𓋂.𓋹 == 0                          # 0 ❤️
-    assert 𓋂.𓋺 is True                       # 💀 lose flag
+    assert 𓋂.𓋺 is True                       # 💀 ⚑
     assert 𓋂.𓋾() is True                     # 🎮🔚
-    # 💀 propagates : 𓂷 returns 🎮🔚 True
+    # 💀 📣 : 𓂷 ↩️ 🎮🔚 True
     𓋃 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0)
     𓋃.𓋹 = 1
-    𓋃.𓃥𓎿 = 1                                 # 🐕💨 full-speed (move this turn)
+    𓋃.𓃥𓎿 = 1                                 # 🐕💨 ⏩🈵 (🐾 ☝️ → 💨)
     𓋃.𓃠 = (5, 5)
-    𓋃.𓁉 = (0, 7)                             # 🐭 far (🚫 catch)
+    𓋃.𓁉 = (0, 7)                             # 🐭 🔭 (🚫🎯)
     𓋃.𓅱 = None
-    𓋃.𓃥 = (5, 6)                             # 🐕 adjacent → fatal bonk on 𓃥𓎗
-    assert 𓋃.𓂷("🐾") is True                 # 🎮🔚 via 💀
+    𓋃.𓃥 = (5, 6)                             # 🐕 📏=1 → 💀😿 @ 𓃥𓎗
+    assert 𓋃.𓂷("🐾") is True                 # 🎮🔚 ← 💀
     assert 𓋃.𓋺 is True and 𓋃.𓄊 is False
-    # 🏆 −10 ×😿 (9−❤️) tally kept
+    # 🏆 −10 ×😿 (9−❤️) 🔢 🗿
     𓋄 = 𓅓.𓉔(random.Random(0))
     𓋄.𓏰 = 10
     𓋄.𓊟 = 3
-    assert 𓋄.𓊙() == max(0, 100 - 10 - 30)     # −10×3 bonks
-    # 🖼️ HUD ❤️×N  (plain + 🌈)
+    assert 𓋄.𓊙() == max(0, 100 - 10 - 30)     # −10×3 😿
+    # 🖼️ 🎛️ ❤️×N  (🗿 + 🌈)
     assert "❤️×9" in 𓋄.𓁑()
     𓂮 = 𓅓.𓋊(𓋄.𓁑(), True)
-    assert "\033[" in 𓂮 and "❤️" in 𓂮         # 🌈 wrap
+    assert "\033[" in 𓂮 and "❤️" in 𓂮         # 🌈 🎨
     assert 𓅓.𓋊(𓋄.𓁑(), False) == 𓋄.𓁑()      # 🚫⚑ ↔️
-    # 🔗✅ 120🎲 ↔️ 🚫💥  + 🚫💀 (🐾9️⃣ cat survives , always 😻)
+    # 🔗✅ 120🎲 ↔️ 🚫💥  + 🚫💀 (🐾9️⃣ 🐈 ❤️ , 🏁🏁 😻)
     for 𓊃 in range(120):
         𓋅 = 𓅓.𓉔(random.Random(𓊃))
         for _ in range(500):
             if 𓋅.𓂷(𓅓.𓊄(𓋅)):
                 break
-        assert 𓋅.𓄊 is True, f"🙀 seed={𓊃}"     # 😻
-        assert 𓋅.𓋺 is False, f"💀 seed={𓊃}"    # 🚫9️⃣😿 death
+        assert 𓋅.𓄊 is True, f"🙀 🎲={𓊃}"       # 😻
+        assert 𓋅.𓋺 is False, f"💀 🎲={𓊃}"      # 🚫 9️⃣😿 ⚰️
         assert 𓋅.𓋹 == 9 - 𓋅.𓊟                 # ❤️ = 9 − 😿
 
 
 def 𓊪𓋻():
-    # 😻🔥  combo streak : 🎯 → 🔥+1 , 🏆 ×min(🔥,5) , 😿 reset , 🖼️ HUD✨
+    # 😻🔥  🥞 : 🎯 → 🔥+1 , 🏆 ×⏬(🔥,5) , 😿 🔄 , 🖼️ 🎛️✨
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    assert 𓋁.𓋻 == 0 and 𓋁.𓋼 == 0            # 🏁 clean
-    # 🔥 tally math :  🔥+1 , bonus += base×(min(🔥,5)−1)
+    assert 𓋁.𓋻 == 0 and 𓋁.𓋼 == 0            # 🏁 0️⃣
+    # 🔥 🔢 :  🔥+1 , 🎁 += 🏠×(⏬(🔥,5)−1)
     𓋁.𓋿(5)                                   # 🔥1 → ×1 , +0
     assert 𓋁.𓋻 == 1 and 𓋁.𓋼 == 0
     𓋁.𓋿(5)                                   # 🔥2 → ×2 , +5
     assert 𓋁.𓋻 == 2 and 𓋁.𓋼 == 5
     𓅐 = 𓋁.𓋼
-    𓋁.𓋿(5)                                   # 🔥3 → ×3 , +10  (🎯 total = base×3)
+    𓋁.𓋿(5)                                   # 🔥3 → ×3 , +10  (🎯 Σ = 🏠×3)
     assert 𓋁.𓋻 == 3
-    assert 𓋁.𓋼 - 𓅐 == 10                     # bonus×2 + base×1 = base×3
-    # 🔥 🧢 cap ×5  (6th 🎯 still ×5)
+    assert 𓋁.𓋼 - 𓅐 == 10                     # 🎁×2 + 🏠×1 = 🏠×3
+    # 🔥 🧢 ×5  (🎯 6️⃣ → ×5 🗿)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     for _ in range(4):
         𓋂.𓋿(10)                              # 🔥1..4
@@ -493,31 +498,31 @@ def 𓊪𓋻():
     𓅐 = 𓋂.𓋼
     𓋂.𓋿(10)                                  # 🔥6 → 🧢 ×5 , +40 (🚫×6)
     assert 𓋂.𓋻 == 6
-    assert 𓋂.𓋼 - 𓅐 == 40                     # 🧢 cap held
-    # 😿 bonk → 🔥 0 reset
+    assert 𓋂.𓋼 - 𓅐 == 40                     # 🧢 🗿
+    # 😿 → 🔥 0️⃣ 🔄
     𓋃 = 𓅓.𓉔(random.Random(2), 𓊵𓈖=0)
     𓋃.𓋻 = 4
     𓋃.𓃠 = (5, 5)
-    𓋃.𓃥 = (5, 6)                             # adjacent → bonk
+    𓋃.𓃥 = (5, 6)                             # 📏=1 → 😿
     𓋃.𓃥𓎗()
     assert 𓋃.𓊟 == 1
-    assert 𓋃.𓋻 == 0                          # 🔥 reset
-    # 🏆 folds 🔥 combo bonus
+    assert 𓋃.𓋻 == 0                          # 🔥 🔄
+    # 🏆 ➕ 🔥 🥞 🎁
     𓋄 = 𓅓.𓉔(random.Random(0))
     𓋄.𓏰 = 10
     𓋄.𓊛 = 2
     𓋄.𓋼 = 17
     assert 𓋄.𓊙() == max(0, 100 - 10) + 5 * 2 + 17
-    # 🎯 integration : 🐟😋 via 𓂷 → 🔥+1 , 🥛😋 → 🔥+1
+    # 🎯 🤝 : 🐟😋 ← 𓂷 → 🔥+1 , 🥛😋 → 🔥+1
     𓋅 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False)
-    𓋅.𓁉 = (0, 7)         # 🐭 far
-    𓋅.𓇬 = (9, 0)         # 🧀 elsewhere
-    𓋅.𓊮 = (9, 2)         # 🥛 elsewhere
+    𓋅.𓁉 = (0, 7)         # 🐭 🔭
+    𓋅.𓇬 = (9, 0)         # 🧀 📍≠
+    𓋅.𓊮 = (9, 2)         # 🥛 📍≠
     𓋅.𓃠 = (2, 2)
     𓋅.𓆛 = (3, 2)         # 🐟 →➡️
     𓋅.𓂷("➡️")
     assert 𓋅.𓊛 == 1 and 𓋅.𓋻 == 1            # 🐟😋 → 🔥1
-    # 🖼️ HUD 🔥×N  (plain + 🌈 , 🔥≥3 → ✨)
+    # 🖼️ 🎛️ 🔥×N  (🗿 + 🌈 , 🔥≥3 → ✨)
     𓋆 = 𓅓.𓉔(random.Random(0))
     𓋆.𓋻 = 2
     assert "🔥×2" in 𓋆.𓁑()
@@ -525,8 +530,8 @@ def 𓊪𓋻():
     𓋆.𓋻 = 3
     assert "🔥×3✨" in 𓋆.𓁑()                  # ≥3 → ✨
     𓂮 = 𓅓.𓋊(𓋆.𓁑(), True)
-    assert "\033[" in 𓂮 and "🔥" in 𓂮         # 🌈 wrap
-    # 🔗✅ 120🎲 ↔️ 🚫💥  (🏁 clean streak ∀)
+    assert "\033[" in 𓂮 and "🔥" in 𓂮         # 🌈 🎨
+    # 🔗✅ 120🎲 ↔️ 🚫💥  (🏁 🔥 0️⃣ ∀)
     for 𓊃 in range(120):
         𓋇 = 𓅓.𓉔(random.Random(𓊃))
         assert 𓋇.𓋻 == 0 and 𓋇.𓋼 == 0
@@ -534,39 +539,39 @@ def 𓊪𓋻():
 
 
 def 𓊪𓁉𓂋():
-    # 🐭🐭  pack : K = f(🌊) 🧢 , 🏦 𓁉𓂋 list , 🚧 back-compat 𓁉 ↔️ [0]
-    assert 𓅓.𓁉𓈖(1) == 1 and 𓅓.𓁉𓈖(4) == 1      # 🌊<5 → solo 🐭
+    # 🐭🐭  👥 : K = f(🌊) 🧢 , 🏦 𓁉𓂋 📃 , 🚧 👴🤝 𓁉 ↔️ [0]
+    assert 𓅓.𓁉𓈖(1) == 1 and 𓅓.𓁉𓈖(4) == 1      # 🌊<5 → 1️⃣ 🐭
     assert 𓅓.𓁉𓈖(5) == 1                        # 🌊5️⃣ → K=1
     assert 𓅓.𓁉𓈖(6) == 2 and 𓅓.𓁉𓈖(7) == 2      # 🌊7️⃣ → K=2
     assert 𓅓.𓁉𓈖(9) == 3                        # 🌊9️⃣ → K=3
-    assert 𓅓.𓁉𓈖(99) == 𓅓.𓁉𓈎                   # 🧢 cap ×4
-    # 🚧 back-compat :  𓁉 ↔️ 𓁉𓂋[0]
+    assert 𓅓.𓁉𓈖(99) == 𓅓.𓁉𓈎                   # 🧢 ×4
+    # 🚧 👴🤝 :  𓁉 ↔️ 𓁉𓂋[0]
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     assert 𓋁.𓁉𓂋 == [𓋁.𓁉] and len(𓋁.𓊚𓂋) == 1
     𓋁.𓁉 = (4, 4)
     assert 𓋁.𓁉𓂋[0] == (4, 4) and 𓋁.𓁉 == (4, 4)
-    # 🐭🐭 grow → 🔗✅ ∀🐭 , ≠🐈🧀🐟🥛 , 😮‍💨 per 🐭
+    # 🐭🐭 ⬆️ → 🔗✅ ∀🐭 , ≠🐈🧀🐟🥛 , 😮‍💨 / 🐭
     𓋁.𓁎(3)
     assert len(𓋁.𓁉𓂋) == 3 and 𓋁.𓊚𓂋 == [0, 0, 0]
     𓂭 = 𓋁.𓃰(𓋁.𓃠)
     for 𓅘 in 𓋁.𓁉𓂋:
         assert 𓅘 in 𓂭                          # 🔗✅
         assert 𓅘 not in (𓋁.𓃠, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮)
-    assert len(set(𓋁.𓁉𓂋)) == 3                 # 🚫 stack
+    assert len(set(𓋁.𓁉𓂋)) == 3                 # 🚫🥞
 
 
 def 𓊪𓁏():
-    # 🎯  catch 🐭 → pop + 🔥 combo ;  😻 ⇔ ∀🐭 caught  (partial → 🚫😻)
+    # 🎯  🐭 → 🚮 + 🔥 🥞 ;  😻 ⇔ ∀🐭 🎯  (🤏 → 🚫😻)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓇬 = (0, 0)
     𓋁.𓁉𓂋 = [(5, 5), (8, 2)]
     𓋁.𓊚𓂋 = [0, 0]
     𓋁.𓃠 = (4, 5)
-    assert 𓋁.𓂷("➡️") is False                  # 🎯 1️⃣🐭 → 🚫😻 (partial)
+    assert 𓋁.𓂷("➡️") is False                  # 🎯 1️⃣🐭 → 🚫😻 (🤏)
     assert 𓋁.𓄊 is False
     assert len(𓋁.𓁉𓂋) == 1 and len(𓋁.𓊚𓂋) == 1
     assert 𓋁.𓋻 == 1                            # 🔥 +1 / 🐭
-    assert 𓋁.𓁍 == (5, 5)                       # 📍 last 🐭
+    assert 𓋁.𓁍 == (5, 5)                       # 📍 🔚 🐭
     # ∀🐭 → 😻
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋂.𓇬 = (0, 0)
@@ -575,24 +580,24 @@ def 𓊪𓁏():
     𓋂.𓃠 = (4, 5)
     assert 𓋂.𓂷("➡️") is True                   # ∀🐭 🎯 → 😻
     assert 𓋂.𓄊 is True and 𓋂.𓁉𓂋 == []
-    assert 𓋂.𓁉 == (5, 5)                       # 𓁉 → 📍 last  (🚫💥 🖼️)
-    assert 𓋂.𓁐().count("🐭") == 0              # 🖼️ 🚫🐭 left
+    assert 𓋂.𓁉 == (5, 5)                       # 𓁉 → 📍 🔚  (🚫💥 🖼️)
+    assert 𓋂.𓁐().count("🐭") == 0              # 🖼️ 🚫🐭 ↩️
 
 
 def 𓊪𓁉𓎗():
-    # 🐭🐭  ∀🐭 own 🧠 :  👀near → 💨 , far → 🧀😋 ;  😮‍💨 per 🐭
+    # 🐭🐭  ∀🐭 🪞 🧠 :  👀👉 → 💨 , 🔭 → 🧀😋 ;  😮‍💨 / 🐭
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓃠 = (5, 4)
     𓋁.𓇬 = (0, 0)
-    𓋁.𓁉𓂋 = [(5, 6), (9, 7)]                    # 🐭a near , 🐭b far
+    𓋁.𓁉𓂋 = [(5, 6), (9, 7)]                    # 🐭𓄿 👉 , 🐭𓃀 🔭
     𓋁.𓊚𓂋 = [0, 0]
     𓂭 = 𓋁.𓃰(𓋁.𓃠)
-    𓅐 = 𓋁.𓅓𓎗(0)                               # 🐭a 😱💨
-    assert 𓂭.get(𓅐, 0) > 𓂭.get((5, 6), 0)      # 💨 away
-    assert 𓋁.𓊚𓂋 == [1, 0]                      # 😮‍💨 only 🐭a
-    𓅑 = 𓋁.𓅓𓎗(1)                               # 🐭b → 🧀😋
+    𓅐 = 𓋁.𓅓𓎗(0)                               # 🐭𓄿 😱💨
+    assert 𓂭.get(𓅐, 0) > 𓂭.get((5, 6), 0)      # 💨 ⏫ 📏
+    assert 𓋁.𓊚𓂋 == [1, 0]                      # 😮‍💨 🐭𓄿 ☝️
+    𓅑 = 𓋁.𓅓𓎗(1)                               # 🐭𓃀 → 🧀😋
     assert 𓋁.𓃰(𓋁.𓇬).get(𓅑, 99) < 𓋁.𓃰(𓋁.𓇬).get((9, 7), 99)
-    # 🐭🐭 both 💨 per 🐾  (𓂷 → ∀ 🐭 move)
+    # 🐭🐭 👯 💨 / 🐾  (𓂷 → ∀ 🐭 🚶)
     𓋂 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋂.𓃠 = (5, 4)
     𓋂.𓇬 = (0, 0)
@@ -604,22 +609,22 @@ def 𓊪𓁉𓎗():
 
 
 def 𓊪𓁉𓎗𓆊():
-    # 🚫🥞 (#30) :  ∀🐭 📍 distinct  —  🐭 🚫 step on 🐭
-    # 🥇 🧠 unit :  🐭a 💨 → 🚫 tile of 🐭b  (even if max 📏🐈)
+    # 🚫🥞 (#30) :  ∀🐭 📍 ≠  —  🐭 🚫 🚶 ⏫ 🐭
+    # 🥇 🧠 :  🐭𓄿 💨 → 🚫 🀫 🐭𓃀  (⚔️ ⏫ 📏🐈)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓃠 = (5, 4)
     𓋁.𓇬 = (0, 0)
-    𓋁.𓁉𓂋 = [(5, 6), (5, 7)]                    # 🐭a 😱 , 🐭b 🀄 @ best flee tile
+    𓋁.𓁉𓂋 = [(5, 6), (5, 7)]                    # 🐭𓄿 😱 , 🐭𓃀 🀫 = 🥇 💨 🀫
     𓋁.𓊚𓂋 = [0, 0]
-    assert 𓋁.𓅓𓎗(0) != (5, 7)                   # 🚫🥞 : 🐭b tile 🚷
-    # 🧀😋 🌿 : 🐭a → 🧀 , 🐭b 🚧 on the way  → 🚫🥞
+    assert 𓋁.𓅓𓎗(0) != (5, 7)                   # 🚫🥞 : 🀫 🐭𓃀 = 🚷
+    # 🧀😋 🌿 : 🐭𓄿 → 🧀 , 🐭𓃀 🚧 🛣️  → 🚫🥞
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
-    𓋂.𓃠 = (9, 9)                               # 🐈 far → 🚫😱
+    𓋂.𓃠 = (9, 9)                               # 🐈 🔭 → 🚫😱
     𓋂.𓇬 = (0, 0)
-    𓋂.𓁉𓂋 = [(3, 3), (2, 3)]                    # 🐭b @ 🐭a ➡️🧀 step
+    𓋂.𓁉𓂋 = [(3, 3), (2, 3)]                    # 🐭𓃀 @ 🐭𓄿 ➡️🧀 🐾
     𓋂.𓊚𓂋 = [0, 0]
     assert 𓋂.𓅓𓎗(0) != (2, 3)                   # 🚫🥞
-    # 🎮 e2e :  ∀🌊 × 🎲 → 🚫🥞 ∀ 🐾
+    # 🎮 🏁→🔚 :  ∀🌊 × 🎲 → 🚫🥞 ∀ 🐾
     for 𓊍 in (6, 8, 9):
         for 𓊃 in range(6):
             𓉔𓏤 = 𓅓.𓊆(𓊍, random.Random(𓊃))
@@ -627,14 +632,14 @@ def 𓊪𓁉𓎗𓆊():
                 if 𓉔𓏤.𓂷(𓅓.𓊄(𓉔𓏤)):
                     break
                 assert len(set(𓉔𓏤.𓁉𓂋)) == len(𓉔𓏤.𓁉𓂋)   # 🚫🥞 ∀🐾
-    # 𓊐 𓊫 :  🚫 tiles honored , 🈳 𓊫 → 🚧 back-compat (🐕 🚫 touched)
+    # 𓊐 𓊫 :  🀫 🚷 ✅ , 🈳 𓊫 → 🚧 👴🤝 (🐕 🚫 Δ)
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     assert 𓋃.𓊐((3, 3), (0, 3)) == (2, 3)        # 🈳 𓊫 → ➡️🎯
     assert 𓋃.𓊐((3, 3), (0, 3), {(2, 3)}) != (2, 3)
 
 
 def 𓊪𓁉𓊆():
-    # 🎚️  🌊 → 🐭🐭 pack @ ≥5️⃣ , 🖼️ HUD 🐭×N , 🔗✅ ∀🐭
+    # 🎚️  🌊 → 🐭🐭 👥 @ ≥5️⃣ , 🖼️ 🎛️ 🐭×N , 🔗✅ ∀🐭
     for 𓊍 in range(1, 10):
         𓋁 = 𓅓.𓊆(𓊍, random.Random(𓊍))
         assert len(𓋁.𓁉𓂋) == 𓅓.𓁉𓈖(𓊍), f"🙀 🎚️={𓊍}"
@@ -642,84 +647,84 @@ def 𓊪𓁉𓊆():
         𓂭 = 𓋁.𓃰(𓋁.𓃠)
         for 𓅘 in 𓋁.𓁉𓂋:
             assert 𓅘 in 𓂭, f"🙀🔗 🎚️={𓊍}"      # 🔗✅ ∀🐭
-    # 🖼️ HUD 🐭×N remaining  (+ ❤️ + 🔥 🤝 , 🚫 collide)
+    # 🖼️ 🎛️ 🐭×N ↩️  (+ ❤️ + 🔥 🤝 , 🚫 🥞 🀄)
     𓋂 = 𓅓.𓊆(9, random.Random(0))
     assert "🐭×3" in 𓋂.𓁑()
     assert "❤️×9" in 𓋂.𓁑() and "🔥×0" in 𓋂.𓁑()
     𓋂.𓋻 = 3
     assert "🔥×3✨" in 𓋂.𓁑()
     𓂮 = 𓅓.𓋊(𓋂.𓁑(), True)
-    assert "\033[" in 𓂮 and "🐭" in 𓂮           # 🌈 wrap
+    assert "\033[" in 𓂮 and "🐭" in 𓂮           # 🌈 🎨
     assert 𓅓.𓋊(𓋂.𓁑(), False) == 𓋂.𓁑()        # 🚫⚑ ↔️
-    # 🖼️ 🗺️ → ∀🐭 drawn
+    # 🖼️ 🗺️ → ∀🐭 ✏️
     assert 𓋂.𓁐().count("🐭") == len(set(𓋂.𓁉𓂋))
 
 
 def 𓊪𓁉𓊰():
-    # 🥛⚡  pounce 📏≤2 → 🎯 nearest 🐭 of 🐭🐭  (🚫 ∀ at once)
+    # 🥛⚡  😼 📏≤2 → 🎯 ⏬ 📏 🐭 ∈ 🐭🐭  (🚫 ∀🐭 1️⃣🐾)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓇬 = (0, 0)
     𓋁.𓆛 = (0, 1)
     𓋁.𓊮 = (0, 2)
     𓋁.𓃠 = (5, 5)
-    𓋁.𓁉𓂋 = [(5, 7), (5, 6)]                    # 📏 2 , 📏 1  → 🎯 nearest
+    𓋁.𓁉𓂋 = [(5, 7), (5, 6)]                    # 📏 2 , 📏 1  → 🎯 ⏬ 📏
     𓋁.𓊚𓂋 = [0, 0]
     𓋁.𓊰 = 2
-    assert 𓋁.𓂷("🐾") is False                  # 1️⃣🐭 only → 🚫😻
-    assert 𓋁.𓁍 == (5, 6)                       # 😼 nearest 🎯
+    assert 𓋁.𓂷("🐾") is False                  # 1️⃣🐭 ☝️ → 🚫😻
+    assert 𓋁.𓁍 == (5, 6)                       # 😼 🎯 ⏬ 📏
     assert len(𓋁.𓁉𓂋) == 1
 
 
 def 𓊪𓊄𓁉():
-    # 🐈🧠  🎯 nearest 🐭  +  🧶 throw @ 🐕📏🤏  (🚫 stalemate)
+    # 🐈🧠  🎯 ⏬ 📏 🐭  +  🧶 🤾 @ 🐕📏🤏  (🚫 ↔️↔️ ♾️)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓃠 = (5, 5)
     𓋁.𓁉𓂋 = [(0, 0), (7, 5)]
     𓋁.𓊚𓂋 = [0, 0]
-    assert 𓅓.𓊄𓁉(𓋁) == (7, 5)                  # 🎯 nearest
-    assert 𓅓.𓊄(𓋁) == "➡️"                     # 🐈 → nearest 🐭
-    # 🧶 : 🐕 📏≤2 + 🧶 unspent → 🎾 throw
+    assert 𓅓.𓊄𓁉(𓋁) == (7, 5)                  # 🎯 ⏬ 📏
+    assert 𓅓.𓊄(𓋁) == "➡️"                     # 🐈 → 🐭 ⏬ 📏
+    # 🧶 : 🐕 📏≤2 + 🧶 🈶 → 🎾 🤾
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋂.𓃠 = (5, 5)
     𓋂.𓁉 = (0, 0)
     𓋂.𓃥 = (5, 6)                               # 🐕 📏=1
     assert 𓅓.𓊄(𓋂) == "🧶"
-    𓋂.𓋯 = True                                 # 🧶 spent → 🚫 2nd
+    𓋂.𓋯 = True                                 # 🧶 🈵 → 🚫 2️⃣
     assert 𓅓.𓊄(𓋂) != "🧶"
-    # 🐕 far → 🚫 🎾 waste
+    # 🐕 🔭 → 🚫 🎾 🚮
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋃.𓃠 = (5, 5)
     𓋃.𓁉 = (0, 0)
     𓋃.𓃥 = (10, 0)
     assert 𓅓.𓊄(𓋃) != "🧶"
-    # 🐭🐭 🔗✅ 120🎲 ↔️ 🚫💥  (🌊9️⃣ pack : ∀🐭 reachable @ 🏁)
+    # 🐭🐭 🔗✅ 120🎲 ↔️ 🚫💥  (🌊9️⃣ 👥 : ∀🐭 🛣️ ✅ @ 🏁)
     for 𓊃 in range(120):
         𓋄 = 𓅓.𓊆(9, random.Random(𓊃))
         𓂭 = 𓋄.𓃰(𓋄.𓃠)
         assert len(𓋄.𓁉𓂋) == 3
         for 𓅘 in 𓋄.𓁉𓂋:
-            assert 𓅘 in 𓂭, f"🙀🔗 seed={𓊃}"
+            assert 𓅘 in 𓂭, f"🙀🔗 🎲={𓊃}"
 
 
 def 𓊪𓋃𓁋():
-    # ⏱️  time-attack ⚑ :  🚫⚑ default → ⏳ ∞ (🚫 tick , 🚫 HUD , 🚫 🏆)
+    # ⏱️  ⏳⚔️ ⚑ :  🚫⚑ 🏠 → ⏳ ∞ (🚫 −1 , 🚫 🎛️ , 🚫 🏆)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    assert 𓋁.𓋃𓁋 is False                      # 🏁 opt-in → off
-    𓋁.𓁉 = (0, 7)                              # 🐭 far (🚫 catch)
+    assert 𓋁.𓋃𓁋 is False                      # 🏁 ⚑ → 🚫
+    𓋁.𓁉 = (0, 7)                              # 🐭 🔭 (🚫🎯)
     𓅐 = 𓋁.𓋂
     𓋁.𓂷("🐾")
-    assert 𓋁.𓋂 == 𓅐                          # 🚫⚑ → ⏳ 🚫 tick (∞)
-    assert "⏳×" not in 𓋁.𓁑()                  # 🖼️ HUD ↔️ unchanged
+    assert 𓋁.𓋂 == 𓅐                          # 🚫⚑ → ⏳ 🚫 −1 (∞)
+    assert "⏳×" not in 𓋁.𓁑()                  # 🖼️ 🎛️ ↔️ 🗿
     𓋁.𓋂 = 0
     𓋁.𓂷("🐾")
     assert 𓋁.𓋺 is False                       # ⏳0 + 🚫⚑ → 🚫💀
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋂.𓏰 = 10
-    assert 𓋂.𓊙() == 90                        # 🚫⚑ → 🚫 ⏳ leftover
+    assert 𓋂.𓊙() == 90                        # 🚫⚑ → 🚫 ⏳ ↩️
 
 
 def 𓊪𓋃𓈖():
-    # ⏱️  ⏳ = 40 + 8×🌊  (🌊 scaling , 𓊆 factory ⚑)
+    # ⏱️  ⏳ = 40 + 8×🌊  (🌊 🎚️ , 𓊆 🏭 ⚑)
     assert 𓅓.𓋃𓈖(1) == 48
     assert 𓅓.𓋃𓈖(5) == 80
     assert 𓅓.𓋃𓈖(9) == 112
@@ -727,52 +732,52 @@ def 𓊪𓋃𓈖():
         𓋁 = 𓅓.𓊆(𓊍, random.Random(0), 𓋃𓁋=True)
         assert 𓋁.𓋃𓁋 is True
         assert 𓋁.𓋂 == 40 + 8 * 𓊍, f"🙀 🎚️={𓊍}"
-        𓋂 = 𓅓.𓊆(𓊍, random.Random(0))         # 🚫⚑ default
+        𓋂 = 𓅓.𓊆(𓊍, random.Random(0))         # 🚫⚑ 🏠
         assert 𓋂.𓋃𓁋 is False
 
 
 def 𓊪𓋂():
-    # ⏱️  ⏳ tick / 🐾  →  ⏳0 → 💀 🎮🔚 ;  🎯 before ⏳0 → 😻 (🚫💀)
+    # ⏱️  ⏳ −1 / 🐾  →  ⏳0 → 💀 🎮🔚 ;  🎯 ⏮️ ⏳0 → 😻 (🚫💀)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False, 𓋃𓁋=True)
-    𓋁.𓁉 = (0, 7)                              # 🐭 far
+    𓋁.𓁉 = (0, 7)                              # 🐭 🔭
     𓋁.𓇬 = (5, 0)
     𓅐 = 𓋁.𓋂
     𓋁.𓂷("🐾")
     assert 𓋁.𓋂 == 𓅐 - 1                      # ⏳ −1 / 🐾
     𓋁.𓂷("🐾")
     assert 𓋁.𓋂 == 𓅐 - 2
-    assert 𓋁.𓋾() is False                     # ⏳ left → 🎮 on
+    assert 𓋁.𓋾() is False                     # ⏳ ↩️ → 🎮 🟢
     # ⏳ 1 → 🐾 → 0 → 💀 🎮🔚 + 🚫😻
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False, 𓋃𓁋=True)
     𓋂.𓁉 = (0, 7)
     𓋂.𓇬 = (5, 0)
     𓋂.𓋂 = 1
-    assert 𓋂.𓂷("🐾") is True                  # 🎮🔚 via ⏳0
+    assert 𓋂.𓂷("🐾") is True                  # 🎮🔚 ← ⏳0
     assert 𓋂.𓋂 == 0
-    assert 𓋂.𓋺 is True and 𓋂.𓄊 is False      # 💀 lose , 🚫😻
+    assert 𓋂.𓋺 is True and 𓋂.𓄊 is False      # 💀 , 🚫😻
     assert 𓋂.𓋾() is True
-    assert 𓋂.𓋹 == 9                           # ❤️ full → 💀 = ⏳ , 🚫🐕
-    # 🎯 on last ⏳ → 😻 win  (🚫💀)
+    assert 𓋂.𓋹 == 9                           # ❤️ 🈵 → 💀 = ⏳ , 🚫🐕
+    # 🎯 @ ⏳ 🔚 → 😻  (🚫💀)
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False, 𓋃𓁋=True)
     𓋃.𓃠 = (5, 5)
-    𓋃.𓁉 = (6, 5)                              # 👉 adjacent
+    𓋃.𓁉 = (6, 5)                              # 👉 📏=1
     𓋃.𓋂 = 1
     assert 𓋃.𓂷("➡️") is True
     assert 𓋃.𓄊 is True and 𓋃.𓋺 is False      # 😻 , 🚫💀
-    # ⏳ ⬇️ past 0 → 💀 stays , 🏆 🚧 ≥ base
+    # ⏳ ⬇️ ⏭️ 0 → 💀 🗿 , 🏆 🚧 ≥ 🏠
     assert max(0, 𓋃.𓋂) >= 0
 
 
 def 𓊪𓋂𓊙():
-    # 🏆  ⏳ leftover bonus  (⚑ on)  folded into 𓊙
+    # 🏆  ⏳ ↩️ 🎁  (⚑ 🟢)  → ➕ 𓊙
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
     𓋁.𓏰 = 10
     𓋁.𓊛 = 2
-    𓋁.𓋂 = 20                                  # ⏳ leftover
-    assert 𓋁.𓊙() == (100 - 10) + 5 * 2 + 20   # + ⏳ bonus
+    𓋁.𓋂 = 20                                  # ⏳ ↩️
+    assert 𓋁.𓊙() == (100 - 10) + 5 * 2 + 20   # + ⏳ 🎁
     𓋁.𓋂 = -3                                  # ⏳ 💀 → 🚧 ≥0
     assert 𓋁.𓊙() == (100 - 10) + 5 * 2
-    # ⏳ 🏆 ⚔️ 🔥 combo 🤝  (both fold)
+    # ⏳ 🏆 ⚔️ 🔥 🥞 🤝  (👯 ➕)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
     𓋂.𓏰 = 10
     𓋂.𓋼 = 17
@@ -781,20 +786,20 @@ def 𓊪𓋂𓊙():
 
 
 def 𓊪𓋃𓁑():
-    # 🖼️ HUD ⏱️×N  (⚑ on) , ⏳≤5 → 🟥 flash , 🌈 wrap , 🤝 ❤️🐭🔥  (🚫 collide)
+    # 🖼️ 🎛️ ⏳×N  (⚑ 🟢) , ⏳≤5 → 🟥 ⚡ , 🌈 🎨 , 🤝 ❤️🐭🔥  (🚫 🥞 🀄)
     𓋁 = 𓅓.𓊆(5, random.Random(0), 𓋃𓁋=True)
-    assert "⏳×80" in 𓋁.𓁑()                   # 🀄 ⏳ = budget  (≠ ⏱️ = 𓏰 ‼️)
-    assert "⏱️×" not in 𓋁.𓁑()                 # 🚫 collide 🀄
-    assert "🟥" not in 𓋁.𓁑()                  # ⏳ ⬆️ → 🚫 flash
+    assert "⏳×80" in 𓋁.𓁑()                   # 🀄 ⏳ = 💰  (≠ ⏱️ = 𓏰 ‼️)
+    assert "⏱️×" not in 𓋁.𓁑()                 # 🚫 🥞 🀄
+    assert "🟥" not in 𓋁.𓁑()                  # ⏳ ⬆️ → 🚫 ⚡
     assert "❤️×9" in 𓋁.𓁑() and "🐭×1" in 𓋁.𓁑() and "🔥×0" in 𓋁.𓁑()
     𓋁.𓋂 = 5
     assert "⏳×5🟥" in 𓋁.𓁑()                  # ⏳ ≤5 → 🟥
     𓋁.𓋂 = 0
     assert "⏳×0🟥" in 𓋁.𓁑()                  # 🚧 ≥0
     𓋁.𓋂 = -4
-    assert "⏳×0🟥" in 𓋁.𓁑()                  # 🚧 🚫 negative
+    assert "⏳×0🟥" in 𓋁.𓁑()                  # 🚧 🚫 ⬇️0
     𓂮 = 𓅓.𓋊(𓋁.𓁑(), True)
-    assert "\033[" in 𓂮 and "⏳" in 𓂮         # 🌈 wrap
+    assert "\033[" in 𓂮 and "⏳" in 𓂮         # 🌈 🎨
     assert 𓅓.𓋊(𓋁.𓁑(), False) == 𓋁.𓁑()      # 🚫⚑ ↔️
 
 
@@ -804,12 +809,12 @@ def 𓊪𓋺𓁐():
     𓋁.𓋂 = 0
     𓋁.𓋺 = True
     assert "💀⏳" in 𓅓.𓋺𓁐(𓋁) and "⏳×0" in 𓅓.𓋺𓁐(𓋁)
-    assert "❤️×9" in 𓅓.𓋺𓁐(𓋁)                # ❤️ 🖼️ kept  (🚫 🙈)
+    assert "❤️×9" in 𓅓.𓋺𓁐(𓋁)                # ❤️ 🖼️ 🗿  (🚫 🙈)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋂.𓋹 = 0
     𓋂.𓋺 = True
     assert "💀🐕" in 𓅓.𓋺𓁐(𓋂) and "❤️×0" in 𓅓.𓋺𓁐(𓋂)
-    # ⚔️ ❤️0 ∧ ⏳0 🀄 🐾 → 🐕 wins  (🚫 🙈 ❤️×0)
+    # ⚔️ ❤️0 ∧ ⏳0 🀄 🐾 → 🐕 🥇  (🚫 🙈 ❤️×0)
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
     𓋃.𓋹 = 0
     𓋃.𓋂 = 0
@@ -818,83 +823,83 @@ def 𓊪𓋺𓁐():
 
 
 def 𓊪𓎋𓉏():
-    # 💾 📜🔝 split by 🏁 mode :  ⏱️ 🏆 ➕⏳ ≫ classic 🏆 → 🚫 pollute ‼️
+    # 💾 📜🔝 ✂️ ← 🏁 🀄 :  ⏱️ 🏆 ➕⏳ ≫ 🏛️ 🏆 → 🚫 🦠 ‼️
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
-    assert 𓅓.𓎋𓉏(𓋁) == 𓅓.𓎋𓊪                 # 🏁 classic 🛤️
+    assert 𓅓.𓎋𓉏(𓋁) == 𓅓.𓎋𓊪                 # 🏛️ 🏁 🛤️
     assert 𓅓.𓎋𓉏(𓋂) == 𓅓.𓎋𓊪𓋃               # ⏱️ 🏁 🛤️
     assert 𓅓.𓎋𓊪 != 𓅓.𓎋𓊪𓋃                   # 🛤️ ≠ 🛤️
-    # 📇 : ⏱️ → ⏳ marker ; 🚫⚑ → 🚫 key
+    # 📇 : ⏱️ → ⏳ 🔑 ; 🚫⚑ → 🚫 🔑
     𓋁.𓏰 = 10
     assert "⏳" not in 𓅓.𓎎(𓋁)
     𓋂.𓏰 = 10
     𓋂.𓋂 = 33
     𓆳 = 𓅓.𓎎(𓋂)
-    assert 𓆳["⏳"] == 33                       # ⏳ leftover tagged
-    assert 𓆳["⏱️"] == 10                       # ⏱️ = 𓏰 turns  (🀄 ≠ ⏳)
+    assert 𓆳["⏳"] == 33                       # ⏳ ↩️ 🔑
+    assert 𓆳["⏱️"] == 10                       # ⏱️ = 𓏰 🐾  (🀄 ≠ ⏳)
     𓋂.𓋂 = -5
     assert 𓅓.𓎎(𓋂)["⏳"] == 0                  # 🚧 ≥0
-    # 🖼️ 📜🔝 : ⏳ shown ⇔ ⏱️ 🏁
+    # 🖼️ 📜🔝 : ⏳ 👀 ⇔ ⏱️ 🏁
     assert "⏳33" in 𓅓.𓎍([𓆳])
     assert "⏳" not in 𓅓.𓎍([𓅓.𓎎(𓋁)])
-    # 💾 e2e : 2 🏁 → 2 📜  (🚫 🤝 mix)
+    # 💾 🏁→🔚 : 2️⃣ 🏁 → 2️⃣ 📜  (🚫 🥣 🤝)
     with tempfile.TemporaryDirectory() as 𓊪𓉏:
         𓄿 = os.path.join(𓊪𓉏, "a.json")
         𓃀 = os.path.join(𓊪𓉏, "b.json")
-        𓅓.𓎌(𓅓.𓎎(𓋁), 𓄿)                     # classic
+        𓅓.𓎌(𓅓.𓎎(𓋁), 𓄿)                     # 🏛️
         𓅓.𓎌(𓅓.𓎎(𓋂), 𓃀)                     # ⏱️
         assert len(𓅓.𓎋(𓄿)) == 1 and len(𓅓.𓎋(𓃀)) == 1
-        assert "⏳" not in 𓅓.𓎋(𓄿)[0]          # classic 📜 🚫 ⏱️ record
+        assert "⏳" not in 𓅓.𓎋(𓄿)[0]          # 🏛️ 📜 🚫 ⏱️ 📇
         assert "⏳" in 𓅓.𓎋(𓃀)[0]
 
 
 def 𓊪𓋃𓂺():
-    # 🏁  ⚑⏱️ parse + 🤝 🌈 🤖 🎚️  ;  🎮🔚 → 📜🔝  (💀 ⏳0 → 📇)
+    # 🏁  ⚑⏱️ 📖 + 🤝 🌈 🤖 🎚️  ;  🎮🔚 → 📜🔝  (💀 ⏳0 → 📇)
     𓋁 = 𓅓.𓊆(9, random.Random(0), 𓋃𓁋=True)
     assert 𓋁.𓋂 == 112 and 𓋁.𓊍 == 9
-    # 🔗✅ 120🎲 ↔️ 🚫💥 :  ⏱️ ON → 🎮🔚 always (😻 or 💀) , 🚫 hang
+    # 🔗✅ 120🎲 ↔️ 🚫💥 :  ⏱️ 🟢 → 🎮🔚 🏁🏁 (😻 ∨ 💀) , 🚫 ♾️
     for 𓊃 in range(120):
         𓋂 = 𓅓.𓊆(5, random.Random(𓊃), 𓋃𓁋=True)
         𓅐 = 𓋂.𓋂
         for _ in range(300):
             if 𓋂.𓂷(𓅓.𓊄(𓋂)):
                 break
-        assert 𓋂.𓋾() is True, f"🙀 seed={𓊃}"   # 🎮🔚 ‼️  (⏳ 🚧 → 🚫 ∞)
-        assert 𓋂.𓏰 <= 𓅐, f"🙀⏳ seed={𓊃}"     # ⏱️ ≤ ⏳ budget
-        assert 𓋂.𓄊 or 𓋂.𓋺                    # 😻 or 💀
+        assert 𓋂.𓋾() is True, f"🙀 🎲={𓊃}"     # 🎮🔚 ‼️  (⏳ 🚧 → 🚫 ∞)
+        assert 𓋂.𓏰 <= 𓅐, f"🙀⏳ 🎲={𓊃}"       # ⏱️ ≤ ⏳ 💰
+        assert 𓋂.𓄊 or 𓋂.𓋺                    # 😻 ∨ 💀
         assert 𓅓.𓎎(𓋂)["🏆"] >= 0                 # 📇 ✅
-    # 🚫⚑ → 🚫 ⏳ 🚧  (long 🎮 ok)
+    # 🚫⚑ → 🚫 ⏳ 🚧  (🎮 📏⏫ ✅)
     𓋃 = 𓅓.𓊆(5, random.Random(0))
     for _ in range(300):
         if 𓋃.𓂷(𓅓.𓊄(𓋃)):
             break
-    assert 𓋃.𓋂 == 80                          # ⏳ 🚫 ticked
+    assert 𓋃.𓋂 == 80                          # ⏳ 🚫 −1
 
 
 def 𓊪𓋊():
-    # 🌈  colorize : ⚑ → ANSI wrap , 🚫⚑ → 📺 ↔️ plain
+    # 🌈  🎨 : ⚑ → ⎋ 🎨 , 🚫⚑ → 📺 ↔️ 🗿
     𓊞 = "🐈🟩🧱\n🐭🐕🥛"
     𓂭 = 𓅓.𓋊(𓊞, True)
-    assert "\033[" in 𓂭               # 🎨 ANSI present
-    assert "\033[0m" in 𓂭             # 🔚 reset
-    assert "🐈" in 𓂭 and "🐕" in 𓂭    # 🀄 kept
+    assert "\033[" in 𓂭               # 🎨 ⎋ 🈶
+    assert "\033[0m" in 𓂭             # 🔚 🔄
+    assert "🐈" in 𓂭 and "🐕" in 𓂭    # 🀄 🗿
     assert 𓅓.𓋊(𓊞, False) == 𓊞        # 🚫⚑ → ↔️
-    assert 𓅓.𓋊(𓊞) == 𓊞               # default plain
+    assert 𓅓.𓋊(𓊞) == 𓊞               # 🏠 → 🗿
 
 
 def 𓊪𓋋():
-    # 🌈🤖  : color 🗺️ strips → plain 🗺️  (🎨 reversible , 🀄 ↔️)
+    # 🌈🤖  : 🎨 🗺️ ✂️ → 🗿 🗺️  (🎨 ↩️ ✅ , 🀄 ↔️)
     import re as 𓂯
     𓋁 = 𓅓.𓉔(random.Random(0))
     𓊞 = 𓋁.𓁐()
     𓂮 = 𓅓.𓋊(𓊞, True)
     𓂰 = 𓂯.sub(r"\033\[[0-9;]*m", "", 𓂮)
-    assert 𓂰 == 𓊞                     # 🎨 reversible → 📺 ↔️
-    assert 𓂮.count("\033[0m") > 0     # 🌈 wrapped 🀄
+    assert 𓂰 == 𓊞                     # 🎨 ↩️ ✅ → 📺 ↔️
+    assert 𓂮.count("\033[0m") > 0     # 🌈 🎨 🀄
 
 
 def 𓊪𓎋():
-    # 💾📥  missing 🛤️ → 📜🕳️  ; 🙀💔 json → 📜🕳️
+    # 💾📥  🛤️ 🚫🈶 → 📜🕳️  ; 🙀💔 `json` → 📜🕳️
     𓊪𓉏 = os.path.join(tempfile.gettempdir(), "🚫👻.json")
     if os.path.exists(𓊪𓉏):
         os.remove(𓊪𓉏)
@@ -906,29 +911,29 @@ def 𓊪𓎋():
 
 
 def 𓊪𓎌():
-    # 💾📤  add → sort 🔽🏆 → ✂️ top-N → 💾 persist
+    # 💾📤  ➕ → 🔽🏆 → ✂️ ⏫-N → 💾
     with tempfile.TemporaryDirectory() as 𓊭:
         𓊪𓉏 = os.path.join(𓊭, "🏆.json")
         𓅓.𓎌({"🏆": 50, "⏱️": 20}, 𓊪𓉏)
         𓅓.𓎌({"🏆": 90, "⏱️": 10}, 𓊪𓉏)
         𓂏 = 𓅓.𓎌({"🏆": 70, "⏱️": 30}, 𓊪𓉏)
         assert [𓅘["🏆"] for 𓅘 in 𓂏] == [90, 70, 50]   # 🔽🏆
-        # 💾 persist ↔️ reload
+        # 💾 🗿 ↔️ 📥 🔁
         assert [𓅘["🏆"] for 𓅘 in 𓅓.𓎋(𓊪𓉏)] == [90, 70, 50]
-        # ✂️ top-N
+        # ✂️ ⏫-N
         for 𓇋 in range(20):
             𓅓.𓎌({"🏆": 𓇋, "⏱️": 0}, 𓊪𓉏, 𓈖=3)
         𓂐 = 𓅓.𓎋(𓊪𓉏)
         assert len(𓂐) == 3
         assert [𓅘["🏆"] for 𓅘 in 𓂐] == [90, 70, 50]
-        # tie 🏆 → 🔼⏱️ first
+        # 🟰 🏆 → 🔼⏱️ 🥇
         𓅓.𓎌({"🏆": 90, "⏱️": 5}, 𓊪𓉏, 𓈖=5)
         𓂑 = 𓅓.𓎋(𓊪𓉏)
         assert 𓂑[0] == {"🏆": 90, "⏱️": 5}     # ⏱️5 < ⏱️10
 
 
 def 𓊪𓎍():
-    # 🖼️  📜🔝 render  : 🕳️ → 📜🕳️ ; 🎁 → rank + 🏆
+    # 🖼️  📜🔝  : 🕳️ → 📜🕳️ ; 🎁 → 🔢 + 🏆
     assert 𓅓.𓎍([]) == "📜🕳️"
     𓊮 = 𓅓.𓎍([{"🏆": 88, "⏱️": 12, "🐟": 2, "🥛": 1, "🐦": 3, "😿": 0}])
     assert "🏆📜🔝" in 𓊮
@@ -938,35 +943,35 @@ def 𓊪𓎍():
 
 
 def 𓊪𓊆():
-    # 🎚️  🌊 factory : 🚧 1..9 , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 💨🐕@≥7 , 👀🐭@≥5
-    # 🚧 clamp
+    # 🎚️  🌊 🏭 : 🚧 1..9 , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 💨🐕@≥7 , 👀🐭@≥5
+    # 🚧  1 … 9
     assert 𓅓.𓊆(0, random.Random(0)).𓊍 == 1
     assert 𓅓.𓊆(99, random.Random(0)).𓊍 == 9
     assert 𓅓.𓊆(5, random.Random(0)).𓊍 == 5
     # 🌊1️⃣ → 🚫🐕🐦🕳️
     𓋁 = 𓅓.𓊆(1, random.Random(0))
     assert 𓋁.𓃥 is None and 𓋁.𓅱 is None and 𓋁.𓎛 is None
-    # 🌊2️⃣ → 🐕 on
+    # 🌊2️⃣ → 🐕 🟢
     assert 𓅓.𓊆(2, random.Random(0)).𓃥 is not None
-    # 🌊3️⃣ → 🐦 on
+    # 🌊3️⃣ → 🐦 🟢
     assert 𓅓.𓊆(3, random.Random(0)).𓅱 is not None
-    # 🌊4️⃣ → 🕳️ on
+    # 🌊4️⃣ → 🕳️ 🟢
     assert 𓅓.𓊆(4, random.Random(0)).𓎛 is not None
-    # 🌊5️⃣ → 👀🐭 sharper
+    # 🌊5️⃣ → 👀🐭 🗡️
     assert 𓅓.𓊆(5, random.Random(0)).𓋴 == 4
-    # 🌊7️⃣ → 🐕💨 full-speed
+    # 🌊7️⃣ → 🐕💨 ⏩🈵
     assert 𓅓.𓊆(7, random.Random(0)).𓃥𓎿 == 1
-    assert 𓅓.𓊆(6, random.Random(0)).𓃥𓎿 == 𓅓.𓉔.𓃥𓎿   # half-speed still
-    # 🧱 grows with 🎚️  (record tag)
+    assert 𓅓.𓊆(6, random.Random(0)).𓃥𓎿 == 𓅓.𓉔.𓃥𓎿   # 🐌 ½ 🗿
+    # 🧱 ⏫ ⇔ 🎚️  (📇 🔑)
     assert 𓅓.𓎎(𓅓.𓊆(4, random.Random(0)))["🎚️"] == 4
 
 
 def 𓊪𓊆𓄊():
-    # 🎚️  ∀ 🌊 1..9  →  🔗 solvable  +  🐈 😻 rate ≥ 5/6 per 🌊 , Σ ≥ 52/54
+    # 🎚️  ∀ 🌊 1..9  →  🔗 🛣️ ✅  +  🐈 😻 📊 ≥ 5/6 / 🌊 , Σ ≥ 52/54
     #
-    # 🀄 ‼️  «∀ 😻» = 🚫 invariant : 🐈🧠 greedy stateless → 🐕💨 tail (#27)
-    #        📊 1080🎲 : 🏁 base 1044 😻 (36 loss) · 🌟🧊 1059 😻 (21 loss)
-    #        → 🧪 rate , 🚫 ∀  (🍀 seed luck ≠ ✅ ; 🎲 stream shift → 🆕 🗺️)
+    # 🀄 ‼️  «∀ 😻» = 🚫 🗿 : 🐈🧠 🤑 🚫📜 → 🐕💨 🔚🐾 (#27)
+    #        📊 1080🎲 : 🏁 🏠 1044 😻 (36 🙀) · 🌟🧊 1059 😻 (21 🙀)
+    #        → 🧪 📊 , 🚫 ∀  (🍀 🎲 ≠ ✅ ; 🎲 🌊 Δ → 🆕 🗺️)
     𓊾 = []
     for 𓊍 in range(1, 10):
         𓄊 = 0
@@ -976,176 +981,176 @@ def 𓊪𓊆𓄊():
                 if 𓋁.𓂷(𓅓.𓊄(𓋁)):
                     break
             𓄊 += 1 if 𓋁.𓄊 else 0
-        assert 𓄊 >= 5, f"🙀 🎚️={𓊍} → 😻 {𓄊}/6"      # 🔗 solvable ∀🌊
+        assert 𓄊 >= 5, f"🙀 🎚️={𓊍} → 😻 {𓄊}/6"      # 🔗 🛣️ ✅ ∀🌊
         𓊾.append(𓄊)
-    assert sum(𓊾) >= 52, f"🙀 Σ 😻 {sum(𓊾)}/54"     # 😻 rate 🚧
+    assert sum(𓊾) >= 52, f"🙀 Σ 😻 {sum(𓊾)}/54"     # 😻 📊 🚧
 
 
 def 𓊪𓋔():
-    # 🌟🧊  spawn :  🧊 ⇔ 🐕  (🚫🐕 → 🚫🧊)  ·  🚫 overlap 🀄  ·  ⚑ off
+    # 🌟🧊  📍 :  🧊 ⇔ 🐕  (🚫🐕 → 🚫🧊)  ·  🚫 🥞 🀄  ·  ⚑ 🚫
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     assert 𓋁.𓋔 is not None and 𓋁.𓋕 == 0
     assert 𓋁.𓋔 not in (𓋁.𓃠, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓁉𓂋)
     assert 𓋁.𓋔 not in 𓋁.𓎜() and 𓋁.𓋔 not in 𓋁.𓊵
-    assert 𓋁.𓋔 in 𓋁.𓃰(𓋁.𓃠)                  # 🔗✅ reachable
-    # 🚫🐕 → 🚫🧊  (🧊 = 🐕 counter → 🚫🐕 = 🚫 sense)
+    assert 𓋁.𓋔 in 𓋁.𓃰(𓋁.𓃠)                  # 🔗✅ 🛣️
+    # 🚫🐕 → 🚫🧊  (🧊 = 🐕 ⚔️ → 🚫🐕 = 🚫 🀄)
     assert 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False).𓋔 is None
-    # ⚑ off → 🚫🧊  (🚧 opt-out)
+    # ⚑ 🚫 → 🚫🧊  (🚧 ⚑)
     assert 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋔𓁋=False).𓋔 is None
     # 🎚️ : 🧊 @ 🌊≥2️⃣  (⇔ 🐕)
     assert 𓅓.𓊆(1, random.Random(0)).𓋔 is None
     for 𓊍 in range(2, 10):
         assert 𓅓.𓊆(𓊍, random.Random(0)).𓋔 is not None, f"🙀 🌊{𓊍}"
-    # 🐭 spawn ≠ 🧊  (𓁉𓆙 excl)
+    # 🐭 📍 ≠ 🧊  (𓁉𓆙 🚷)
     𓋂 = 𓅓.𓉔(random.Random(3), 𓊵𓈖=0)
     𓋂.𓁎(4)
     assert 𓋂.𓋔 not in 𓋂.𓁉𓂋
 
 
 def 𓊪𓋕():
-    # 🌟🧊  🐈🧊😋 → 🐕 ❄️ 5🐾 (🚫🐾 , 🚫😿) → thaw → 🐕 💨 again  ·  🧊 respawn
+    # 🌟🧊  🐈🧊😋 → 🐕 ❄️ 5🐾 (🚫🐾 , 🚫😿) → ❄️🔚 → 🐕 💨 🔁  ·  🧊 🎲 🔄
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
-    𓋁.𓁉𓂋 = [(10, 7)]                          # 🐭 far → 🚫 😻 mid-🧪
+    𓋁.𓁉𓂋 = [(10, 7)]                          # 🐭 🔭 → 🚫 😻 ⏳ 🧪
     𓋁.𓊚𓂋 = [0]
     𓋂 = 𓋁.𓋔
     𓋁.𓃠 = 𓋂
     𓋁.𓃥 = (5, 0)
     𓋁.𓂷("🐾")                                  # 🐈 @ 🧊 → 😋
-    assert 𓋁.𓋕 == 𓋁.𓋕𓊞 == 5                  # ❄️ armed
-    assert 𓋁.𓋔 is not None and 𓋁.𓋔 != 𓋂      # 🧊 respawn 🎲
-    assert 𓋁.𓋻 == 0 and 𓋁.𓊙() >= 0            # 🛠️ tool : 🚫🔥 , 🚫🏆
-    # 🐕 ❄️ → 🚫🐾  ∀ ❄️⏳  :  grab 🐾 = skip 🥇 → Σ 5 skips  (𓋕𓊞=5)
-    𓋁.𓋔 = None                                 # 🚫 re-grab noise
+    assert 𓋁.𓋕 == 𓋁.𓋕𓊞 == 5                  # ❄️ 🟢
+    assert 𓋁.𓋔 is not None and 𓋁.𓋔 != 𓋂      # 🧊 🎲 🔄
+    assert 𓋁.𓋻 == 0 and 𓋁.𓊙() >= 0            # 🛠️ : 🚫🔥 , 🚫🏆
+    # 🐕 ❄️ → 🚫🐾  ∀ ❄️⏳  :  😋 🐾 = 🙈 🥇 → Σ 5 🙈  (𓋕𓊞=5)
+    𓋁.𓋔 = None                                 # 🚫 🔁😋 🀫
     𓋃 = 𓋁.𓃥
-    for 𓇋 in range(4):                         # 🐾 #2..#5  (grab 🐾 = #1)
+    for 𓇋 in range(4):                         # 🐾 2️⃣..5️⃣  (😋 🐾 = 1️⃣)
         𓋁.𓂷("🐾")
-        assert 𓋁.𓃥 == 𓋃, f"🙀 🐕 💨 while ❄️ @ {𓇋}"
-    assert 𓋁.𓋕 == 1                            # ❄️ ⏳ 1 left
-    # thaw 🐾 #6 → 🐕 💨 again
+        assert 𓋁.𓃥 == 𓋃, f"🙀 🐕 💨 ⏳ ❄️ @ {𓇋}"
+    assert 𓋁.𓋕 == 1                            # ❄️ ⏳ 1 ↩️
+    # ❄️🔚 🐾 6️⃣ → 🐕 💨 🔁
     𓋁.𓂷("🐾")
-    assert 𓋁.𓋕 == 0                            # thaw
+    assert 𓋁.𓋕 == 0                            # ❄️🔚
     𓋄 = 𓋁.𓃥
     for _ in range(4):
         𓋁.𓂷("🐾")
-    assert 𓋁.𓃥 != 𓋄                           # 🐕 💨🐈 resumed
-    # ❄️ → 🚫😿 bonk  (🐕 👉🐈 tile , frozen → 🚫 −❤️)
+    assert 𓋁.𓃥 != 𓋄                           # 🐕 💨🐈 ↩️
+    # ❄️ → 🚫😿  (🐕 👉🐈 🀫 , ❄️ → 🚫 −❤️)
     𓋅 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋅.𓁉𓂋 = [(10, 7)]
     𓋅.𓊚𓂋 = [0]
     𓋅.𓋕 = 3
     𓋅.𓃠 = (4, 4)
-    𓋅.𓃥 = (4, 5)                               # 🐕 adjacent ‼️
+    𓋅.𓃥 = (4, 5)                               # 🐕 📏=1 ‼️
     𓋆 = 𓋅.𓋹
     𓋅.𓂷("🐾")
     assert 𓋅.𓃥 == (4, 5) and 𓋅.𓋹 == 𓋆 and 𓋅.𓊟 == 0   # ❄️ → 🚫🐾 , 🚫😿
 
 
 def 𓊪𓋗():
-    # 🌟🧊  📜 cycle 👀 :  period-2/3/4 → 🧱 stalemate  (#27 🧠 memory ; 🕳️ 4-cycle)
+    # 🌟🧊  📜 🌀 👀 :  ⏳-2/3/4 → 🧱 ↔️↔️  (#27 🧠 📜 ; 🕳️ 4-🌀)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     assert 𓋁.𓋗() is False                      # 📜 🈳 → 🚫
     for 𓅘 in [(1, 1), (1, 2), (1, 1)]:
         𓋁.𓋗𓂋.append(𓅘)
     assert 𓋁.𓋗() is False                      # <4 📜
     𓋁.𓋗𓂋.append((1, 2))
-    assert 𓋁.𓋗() is True                       # A B A B → 🧱  (period-2)
-    𓋁.𓋗𓂋.append((3, 3))                       # …A B A B C → 🚫 (🚫 fresh cycle)
+    assert 𓋁.𓋗() is True                       # A B A B → 🧱  (⏳-2)
+    𓋁.𓋗𓂋.append((3, 3))                       # …A B A B C → 🚫 (🚫 🆕 🌀)
     assert 𓋁.𓋗() is False
-    # 💤 🐾 (A A A A) → 🚫 cycle  (𓄾 ≠ 𓃀 🚧 : blocked ≠ loop)
+    # 💤 🐾 (A A A A) → 🚫 🌀  (𓄾 ≠ 𓃀 🚧 : ⛔ ≠ 🌀)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     for _ in range(8):
         𓋂.𓋗𓂋.append((2, 2))
     assert 𓋂.𓋗() is False
-    # 🕳️ portal 4-cycle : A B C D A B C D  →  🧱  (2-cycle detect 🙈 → #27 tail)
+    # 🕳️🌀 4-🌀 : A B C D A B C D  →  🧱  (2-🌀 👀 🙈 → #27 🔚🐾)
     𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     for 𓅘 in [(1, 4), (8, 1), (7, 1), (2, 4)] * 2:
         𓋃.𓋗𓂋.append(𓅘)
-    assert 𓋃.𓋗() is True                       # period-4 → 🧱 ‼️
-    # 3-cycle : A B C A B C  →  🧱
+    assert 𓋃.𓋗() is True                       # ⏳-4 → 🧱 ‼️
+    # 3-🌀 : A B C A B C  →  🧱
     𓋄 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     for 𓅘 in [(0, 0), (0, 1), (0, 2)] * 2:
         𓋄.𓋗𓂋.append(𓅘)
-    assert 𓋄.𓋗() is True                       # period-3 → 🧱
-    # 🚫 false-⚡ : monotone walk A B C D E F G H → 🚫 cycle
+    assert 𓋄.𓋗() is True                       # ⏳-3 → 🧱
+    # 🚫 🎭⚡ : 🚶 ➡️➡️➡️ A B C D E F G H → 🚫 🌀
     𓋅 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     for 𓅘 in [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]:
         𓋅.𓋗𓂋.append(𓅘)
-    assert 𓋅.𓋗() is False                      # 🚫 repeat → 🚫🧱
-    # 🐾 → 📜 grows  (𓂷 feeds 𓋗𓂋)
+    assert 𓋅.𓋗() is False                      # 🚫 🔁 → 🚫🧱
+    # 🐾 → 📜 ⏫  (𓂷 → 𓋗𓂋)
     𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋆.𓂷("➡️")
     assert list(𓋆.𓋗𓂋)[-1] == 𓋆.𓃠
 
 
 def 𓊪𓋚():
-    # 🧱  cycle 🔁 streak 𓋚  (#27 🌙7️⃣) :  transient 🌀 ≠ 🧱  →  𓂷 tallies
+    # 🧱  🌀 🔁 🧶 𓋚  (#27 🌙7️⃣) :  ☄️ 🌀 ≠ 🧱  →  𓂷 🔢
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     assert 𓋁.𓋚 == 0                            # 🐣 → 0
     𓋁.𓃠 = (5, 4)
-    𓋁.𓁉𓂋, 𓋁.𓊚𓂋 = [(0, 0)], [0]             # 🐭 far → 🚫 🎯 mid-🧪
+    𓋁.𓁉𓂋, 𓋁.𓊚𓂋 = [(0, 0)], [0]             # 🐭 🔭 → 🚫 🎯 ⏳ 🧪
     𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮 = (0, 7), (10, 0), (10, 7)
-    for 𓅕 in ["➡️", "⬅️"] * 6:                 # A↔️B ×6 → period-2 🔁 ⏳ 🚧
+    for 𓅕 in ["➡️", "⬅️"] * 6:                 # A↔️B ×6 → ⏳-2 🔁 ⏳ 🚧
         𓋁.𓂷(𓅕)
-    assert 𓋁.𓋗() is True and 𓋁.𓋚 >= 𓅓.𓊄𓋚   # 🔁 streak ⬆️ → 🧱 armed
-    𓋁.𓂷("⬇️")                                 # 🆕 📍 → cycle ✂️
-    assert 𓋁.𓋗() is False and 𓋁.𓋚 == 0       # 🔁 streak 🔄 reset ‼️
+    assert 𓋁.𓋗() is True and 𓋁.𓋚 >= 𓅓.𓊄𓋚   # 🧶 ⬆️ → 🧱 🟢
+    𓋁.𓂷("⬇️")                                 # 🆕 📍 → 🌀 ✂️
+    assert 𓋁.𓋗() is False and 𓋁.𓋚 == 0       # 🧶 🔄 ‼️
 
 
 def 𓊪𓋘():
-    # 🧱  📜 memory break  (#27 🌙7️⃣) :  🧱 persistent → 🐈 🚫 re-🐾 📜 , drift 🆓
+    # 🧱  📜🧠 ✂️  (#27 🌙7️⃣) :  🧱 🗿 → 🐈 🚫 🔁🐾 📜 , ↔️ 🆓
     #
-    # 🏠 : 🐈(5,4) 🐭(5,0) ⬆️ → 🎯 chase 🀄 = ⬆️  ;  🚫🐕 🚫🧊 → 🚫 flee 🚫 gamble
+    # 🏠 : 🐈(5,4) 🐭(5,0) ⬆️ → 🎯 🀄 = ⬆️  ;  🚫🐕 🚫🧊 → 🚫 💨 🚫 🎰
     def 𓋅():
         𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
         𓋆.𓃠 = (5, 4)
         𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(5, 0)], [0]
         𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 7), (10, 0), (10, 7)
         return 𓋆
-    assert 𓅓.𓊄(𓋅()) == "⬆️"                   # 🏁 base 🐾 : 🎯 chase 🐭
-    # 🧱 armed + 📜 = ⬆️ tile 🆕 visited  →  🚫 re-🐾 → ⊥ 🀄  (📜 recency 🥇)
+    assert 𓅓.𓊄(𓋅()) == "⬆️"                   # 🏠 🐾 : 🎯 🐭
+    # 🧱 🟢 + 📜 = 🀫 ⬆️ 👴 👀  →  🚫 🔁🐾 → ⊥ 🀄  (📜 ⏳ 🥇)
     𓋂 = 𓋅()
     𓋂.𓋚 = 𓅓.𓊄𓋚
-    for 𓅘 in [(5, 4), (5, 3)] * 4:             # A↔️B 📜  (B = ⬆️ tile)
+    for 𓅘 in [(5, 4), (5, 3)] * 4:             # A↔️B 📜  (B = 🀫 ⬆️)
         𓋂.𓋗𓂋.append(𓅘)
-    assert 𓅓.𓊄(𓋂) != "⬆️"                    # 🧱 → 🐈 drift ⊥ , 🧱 ✂️ ‼️
-    # 🚫 armed (𓋚 < 🚧) → 📜 🙈 → 🎯 chase 🀄 back  (transient 🌀 → 🚫 divert)
+    assert 𓅓.𓊄(𓋂) != "⬆️"                    # 🧱 → 🐈 ↔️ ⊥ , 🧱 ✂️ ‼️
+    # 🚫 🟢 (𓋚 < 🚧) → 📜 🙈 → 🎯 🀄 ↩️  (☄️ 🌀 → 🚫 ↔️)
     𓋃 = 𓋅()
     𓋃.𓋚 = 𓅓.𓊄𓋚 - 1
     for 𓅘 in [(5, 4), (5, 3)] * 4:
         𓋃.𓋗𓂋.append(𓅘)
-    assert 𓅓.𓊄(𓋃) == "⬆️"                    # 🚫 armed → 🏁 base 🐾 ‼️
+    assert 𓅓.𓊄(𓋃) == "⬆️"                    # 🚫 🟢 → 🏠 🐾 ‼️
 
 
 def 𓊪𓋤():
-    # 🌟🚀  tile :  ⚑ opt-in  ·  🐈🚀😋 → 💨 ×𓋧 , respawn 🎲  (🚫🏆 , 🚫🔥 : 🛠️ tool)
+    # 🌟🚀  🀫 :  ⚑ ☝️  ·  🐈🚀😋 → 💨 ×𓋧 , 🎲 🔄  (🚫🏆 , 🚫🔥 : 🛠️)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=False)
-    assert 𓋁.𓋤 is None and 𓋁.𓋥 == 0        # 🚫⚑ → 🚫🚀  (🏁 base 🚫 regress ‼️)
+    assert 𓋁.𓋤 is None and 𓋁.𓋥 == 0        # 🚫⚑ → 🚫🚀  (🏁🏁 🚫 ↩️ ‼️)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
     assert 𓋂.𓋤 is not None                    # ⚑ → 🚀 🗺️
     assert 𓋂.𓋤 not in (𓋂.𓃠, 𓋂.𓇬, 𓋂.𓆛, 𓋂.𓊮, 𓋂.𓅱, 𓋂.𓃥, 𓋂.𓋔)
-    assert 𓋂.𓋤 not in 𓋂.𓁉𓂋                # 🚫 stack ∀🀄
-    # 😋 → 💨 ×𓋧 , respawn ≠ 📍 old  ,  🚫🏆 🚫🔥
+    assert 𓋂.𓋤 not in 𓋂.𓁉𓂋                # 🚫 🥞 ∀🀄
+    # 😋 → 💨 ×𓋧 , 🎲 🔄 ≠ 📍 👴  ,  🚫🏆 🚫🔥
     𓋂.𓃠, 𓋂.𓋤 = (5, 4), (5, 3)
     𓋂.𓅱, 𓋂.𓃥 = None, None
     𓋂.𓁉𓂋, 𓋂.𓊚𓂋 = [(0, 0)], [0]
     𓋂.𓇬, 𓋂.𓆛, 𓋂.𓊮 = (0, 7), (10, 0), (10, 7)
-    𓋃, 𓋄 = 𓋂.𓋻, 𓋂.𓋼                     # 🔥 , 🏆 combo before
+    𓋃, 𓋄 = 𓋂.𓋻, 𓋂.𓋼                     # 🔥 , 🏆 🥞 ⏮️
     𓋂.𓂷("⬆️")
-    assert 𓋂.𓋥 == 𓋂.𓋧                     # 💨 ×3 armed ‼️  (🚫 instant spend)
-    assert 𓋂.𓃠 == (5, 3)                    # 🚀😋 @ 📍1️⃣ → 🚫 leap ⏳ this 🐾
-    assert 𓋂.𓋤 != (5, 3)                    # 🎲 respawn
-    assert 𓋂.𓋻 == 𓋃 and 𓋂.𓋼 == 𓋄       # 🛠️ tool → 🚫🔥 , 🚫🏆
-    # 🚀🚀 stack → +𓋧 ×2  (⏭️ 🐾 → leap −1)
+    assert 𓋂.𓋥 == 𓋂.𓋧                     # 💨 ×3 🟢 ‼️  (🚫 ⚡ −1)
+    assert 𓋂.𓃠 == (5, 3)                    # 🚀😋 @ 📍1️⃣ → 🚫 🦘 ⏳ 🐾 ☝️
+    assert 𓋂.𓋤 != (5, 3)                    # 🎲 🔄
+    assert 𓋂.𓋻 == 𓋃 and 𓋂.𓋼 == 𓋄       # 🛠️ → 🚫🔥 , 🚫🏆
+    # 🚀🚀 🥞 → +𓋧 ×2  (⏭️ 🐾 → 🦘 −1)
     𓋂.𓃠, 𓋂.𓋤, 𓋂.𓋥 = (5, 4), (5, 3), 0
     𓋂.𓂷("⬆️")
     assert 𓋂.𓋥 == 𓋂.𓋧
     𓋂.𓃠, 𓋂.𓋤 = (5, 4), (5, 3)
-    𓋂.𓂷("⬆️")                               # 💨 armed → leap 2️⃣ + 🚀😋 @ 📍1️⃣
-    assert 𓋂.𓋥 == 2 * 𓋂.𓋧 - 1             # +3 stack , −1 leap ‼️
+    𓋂.𓂷("⬆️")                               # 💨 🟢 → 🦘 2️⃣ + 🚀😋 @ 📍1️⃣
+    assert 𓋂.𓋥 == 2 * 𓋂.𓋧 - 1             # +3 🥞 , −1 🦘 ‼️
 
 
 def 𓊪𓋪():
-    # 🌟🚀  dash leap :  𓋥>0 + 🧭 → 🐈 2️⃣ cells / 🐾 , −1 💨  ·  🚧 🧱 · 🐕 · 🕳️
+    # 🌟🚀  💨 🦘 :  𓋥>0 + 🧭 → 🐈 2️⃣ 🀫 / 🐾 , −1 💨  ·  🚧 🧱 · 🐕 · 🕳️
     def 𓋅(𓋥=1, 𓃥=None, 𓊵=()):
         𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False, 𓋔𓁋=False)
         𓋆.𓃠, 𓋆.𓋥, 𓋆.𓃥 = (5, 4), 𓋥, 𓃥
@@ -1153,52 +1158,52 @@ def 𓊪𓋪():
         𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 7), (10, 0), (10, 7)
         𓋆.𓊵 = set(𓊵)
         return 𓋆
-    # 💨 0️⃣ → 🐾 1️⃣ cell  (🏁 base)
+    # 💨 0️⃣ → 🐾 1️⃣ 🀫  (🏠)
     𓋁 = 𓋅(𓋥=0)
     𓋁.𓂷("⬆️")
     assert 𓋁.𓃠 == (5, 3) and 𓋁.𓋥 == 0
-    # 💨 >0 → leap 2️⃣ cells , −1 💨
+    # 💨 >0 → 🦘 2️⃣ 🀫 , −1 💨
     𓋂 = 𓋅(𓋥=2)
     𓋂.𓂷("⬆️")
     assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1     # 2️⃣🐾 ‼️
-    # 🐾 stay → 🚫 leap , 🚫 consume
+    # 🐾 💤 → 🚫 🦘 , 🚫 −1
     𓋂.𓂷("🐾")
     assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
-    # 🧶 throw → 🚫 leap , 🚫 consume  (🐾 stay 🀄)
+    # 🧶 🤾 → 🚫 🦘 , 🚫 −1  (🐾 💤 🀄)
     𓋂.𓂷("🧶")
     assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
-    # 🧱 @ 📍2️⃣ → 1️⃣ cell , 🚫 consume  (📏 value-gated)
+    # 🧱 @ 📍2️⃣ → 1️⃣ 🀫 , 🚫 −1  (📏 ⚖️)
     𓋃 = 𓋅(𓋥=1, 𓊵=((5, 2),))
     𓋃.𓂷("⬆️")
-    assert 𓋃.𓃠 == (5, 3) and 𓋃.𓋥 == 1     # 💨 kept ‼️
-    # 🧱edge @ 📍2️⃣ → 1️⃣ cell , 🚫 consume
+    assert 𓋃.𓃠 == (5, 3) and 𓋃.𓋥 == 1     # 💨 🗿 ‼️
+    # 🧱📐 @ 📍2️⃣ → 1️⃣ 🀫 , 🚫 −1
     𓋄 = 𓋅(𓋥=1)
     𓋄.𓃠 = (5, 1)
     𓋄.𓂷("⬆️")
     assert 𓋄.𓃠 == (5, 0) and 𓋄.𓋥 == 1
-    # 🐕 @ 📍2️⃣ → stay 📍1️⃣ , 🚫 consume  (🚫 self-😿)
+    # 🐕 @ 📍2️⃣ → 💤 📍1️⃣ , 🚫 −1  (🚫 🪞😿)
     𓋅𓏤 = 𓋅(𓋥=1, 𓃥=(5, 2))
     𓋅𓏤.𓃥𓎿 = 99                             # 🐕 🚫🐾 ⏳ 🧪
     𓋅𓏤.𓂷("⬆️")
     assert 𓋅𓏤.𓃠 == (5, 3) and 𓋅𓏤.𓋥 == 1 and 𓋅𓏤.𓊟 == 0
-    # 🎯 @ 📍1️⃣ mid-leap → 😻  (🚫 🙈 fly-over ‼️)
+    # 🎯 @ 📍1️⃣ ⏳ 🦘 → 😻  (🚫 🙈 ⏫🐭 ‼️)
     𓋆 = 𓋅(𓋥=1)
     𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(5, 3)], [0]
     assert 𓋆.𓂷("⬆️") is True and 𓋆.𓄊 is True
-    assert 𓋆.𓃠 == (5, 3)                     # 🎯 @ 📍1️⃣ → 🎮🔚 , 🚫 leap on
+    assert 𓋆.𓃠 == (5, 3)                     # 🎯 @ 📍1️⃣ → 🎮🔚 , 🚫 🦘 ⏭️
     # 🎯 @ 📍2️⃣ → 😻
     𓋇 = 𓋅(𓋥=1)
     𓋇.𓁉𓂋, 𓋇.𓊚𓂋 = [(5, 2)], [0]
     assert 𓋇.𓂷("⬆️") is True and 𓋇.𓃠 == (5, 2)
-    # 🕳️🌀 : 📍1️⃣ = portal → 🐈 twin , sub-step 2️⃣ 🐾 from twin
+    # 🕳️🌀 : 📍1️⃣ = 🕳️ → 🐈 @ 👯 , 🐾 2️⃣ ← 👯
     𓋈 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓃥𓁋=False, 𓋔𓁋=False)
     𓋈.𓎛 = ((5, 3), (1, 6))
     𓋈.𓃠, 𓋈.𓋥 = (5, 4), 1
     𓋈.𓁉𓂋, 𓋈.𓊚𓂋 = [(9, 0)], [0]
     𓋈.𓇬, 𓋈.𓆛, 𓋈.𓊮 = (0, 7), (10, 0), (10, 7)
     𓋈.𓂷("⬆️")
-    assert 𓋈.𓃠 == (1, 5) and 𓋈.𓋥 == 0     # 🕳️ twin (1,6) → ⬆️ → (1,5) ‼️
-    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍)
+    assert 𓋈.𓃠 == (1, 5) and 𓋈.𓋥 == 0     # 🕳️ 👯 (1,6) → ⬆️ → (1,5) ‼️
+    # 📜 : 1️⃣ / 🐾  (🦘 → 🔚 📍)
     𓋉 = 𓋅(𓋥=1)
     𓋉.𓋗𓂋.clear()
     𓋉.𓂷("⬆️")
@@ -1206,13 +1211,13 @@ def 𓊪𓋪():
 
 
 def 𓊪𓋤𓁐():
-    # 🌟🚀  🖼️ :  🗺️ 🚀 tile  ·  HUD 🚀×N ⇔ 💨 > 0  ·  🌈 🟨
+    # 🌟🚀  🖼️ :  🗺️ 🀫 🚀  ·  🎛️ 🚀×N ⇔ 💨 > 0  ·  🌈 🟨
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
-    assert "🚀" in 𓋁.𓁐()                     # 🗺️ 🚀 drawn
-    assert "🚀×" not in 𓋁.𓁑()                # 💨 0️⃣ → 🙈 HUD
+    assert "🚀" in 𓋁.𓁐()                     # 🗺️ 🚀 ✏️
+    assert "🚀×" not in 𓋁.𓁑()                # 💨 0️⃣ → 🙈 🎛️
     𓋁.𓋥 = 3
-    assert "🚀×3" in 𓋁.𓁑()                   # 💨 → HUD ‼️
-    assert "🚀×3" in 𓋁.𓁑() and "❄️" not in 𓋁.𓁑()   # ⚔️ ❄️ , 🚫 collide
+    assert "🚀×3" in 𓋁.𓁑()                   # 💨 → 🎛️ ‼️
+    assert "🚀×3" in 𓋁.𓁑() and "❄️" not in 𓋁.𓁑()   # ⚔️ ❄️ , 🚫 🥞
     assert "\033[93m🚀" in 𓅓.𓋊(𓋁.𓁐(), True)  # 🌈 🟨
     # 🚫⚑ → 🚫 🚀 🗺️
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
@@ -1220,16 +1225,16 @@ def 𓊪𓋤𓁐():
 
 
 def 𓊪𓋦𓊆():
-    # 🌟🚀  🌊 gate :  ⚑ + 🌊≥3 → 🚀  ;  🌊<3 → 🚫  ;  🚫⚑ → 🚫 ∀🌊  (🚫 regress)
+    # 🌟🚀  🌊 🚧 :  ⚑ + 🌊≥3 → 🚀  ;  🌊<3 → 🚫  ;  🚫⚑ → 🚫 ∀🌊  (🚫 ↩️)
     assert 𓅓.𓊆(3, random.Random(0), False, True).𓋤 is not None
     assert 𓅓.𓊆(2, random.Random(0), False, True).𓋤 is None      # 🌊<3 → 🚫🚀
     assert 𓅓.𓊆(9, random.Random(0), False, True).𓋤 is not None
-    for 𓊍 in range(1, 10):                    # 🚫⚑ → 🚫🚀 ∀🌊  (🏁 base ‼️)
+    for 𓊍 in range(1, 10):                    # 🚫⚑ → 🚫🚀 ∀🌊  (🏁🏁 ‼️)
         assert 𓅓.𓊆(𓊍, random.Random(0)).𓋤 is None
 
 
 def 𓊪𓋦𓆲():
-    # 🌟🚀  🔗✅ :  🤖🎬 ×120🎲 @ 🌊3/9 , ⚑🚀 on  →  🚫💥 , 💨 fires
+    # 🌟🚀  🔗✅ :  🤖🎬 ×120🎲 @ 🌊3/9 , ⚑🚀 🟢  →  🚫💥 , 💨 🔫
     𓋁 = 0
     for 𓊃𓏤 in range(120):
         for 𓊍 in (3, 9):
@@ -1238,59 +1243,59 @@ def 𓊪𓋦𓆲():
                 if 𓋂.𓂷(𓅓.𓊄(𓋂)):
                     break
             𓋁 += 𓋂.𓋥
-            assert 𓋂.𓋤 is None or 𓋂.𓋤 not in 𓋂.𓊵   # 🚀 🚫 in 🧱
-    assert 𓋁 > 0                              # 💨 grabbed ≥1 ⏳ 240🎮
+            assert 𓋂.𓋤 is None or 𓋂.𓋤 not in 𓋂.𓊵   # 🚀 🚫 ∈ 🧱
+    assert 𓋁 > 0                              # 💨 😋 ≥1 ⏳ 240🎮
 
 
 def 𓊪𓋔𓊄():
-    # 🌟🧊  🐈🧠 :  💨 flee + 🧊 📏🤏 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
+    # 🌟🧊  🐈🧠 :  💨 + 🧊 📏🤏 → 🏃🧊  ;  🚧 (🐕 🥇 → 🚫) ; 🧱 → 🧘
     #
-    # 🏠 : 🐈(5,4) 🐕(7,4) 📏2 → 💨 flee (❤️≤3) · 🐭(0,4) ⬅️ side · 🧊(5,7) ⬇️ side
-    #      → 💨 flee 🀄 = ⬅️ (max 📏🐕 , tie min 📏🐭)  ⊥  🏃🧊 = ⬇️   → discriminating ‼️
+    # 🏠 : 🐈(5,4) 🐕(7,4) 📏2 → 💨 (❤️≤3) · 🐭(0,4) ⬅️ · 🧊(5,7) ⬇️
+    #      → 💨 🀄 = ⬅️ (⏫ 📏🐕 , 🟰 → ⏬ 📏🐭)  ⊥  🏃🧊 = ⬇️   → ✂️ ⚖️ ‼️
     def 𓋅(𓋔=(5, 7), 𓃥=(7, 4), 𓋹=3):
         𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
-        𓋆.𓋹, 𓋆.𓋯 = 𓋹, True                 # ❤️≤3 → 💨 flee ; 🧶 spent → 🚫🎾
+        𓋆.𓋹, 𓋆.𓋯 = 𓋹, True                 # ❤️≤3 → 💨 ; 🧶 🈵 → 🚫🎾
         𓋆.𓃠, 𓋆.𓃥, 𓋆.𓋔 = (5, 4), 𓃥, 𓋔
         𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(0, 4)], [0]
         𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 0), (0, 7), (10, 0)
         return 𓋆
-    # 🚫🧊 → 💨 flee 🀄 = ⬅️  (🏁 base 🐾)
+    # 🚫🧊 → 💨 🀄 = ⬅️  (🏠 🐾)
     assert 𓅓.𓊄(𓋅(𓋔=None)) == "⬅️"
     # 🧊 ⬇️ : 📏🧊(🐈)=3 , 📏🧊(🐕)=5 → 3+1 < 5 ✅ → 🏃🧊
     𓋁 = 𓋅()
     assert 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃠) == 3 and 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃥) == 5
-    assert 𓅓.𓊄(𓋁) == "⬇️"                     # 🏃🧊 ‼️  (⚔️ 💨 flee ⬅️)
-    # 🚧 guard : 🐕 📏🤏🧊 → 🚫 🏃🧊  (🚫😿💀)
+    assert 𓅓.𓊄(𓋁) == "⬇️"                     # 🏃🧊 ‼️  (⚔️ 💨 ⬅️)
+    # 🚧 : 🐕 📏🤏🧊 → 🚫 🏃🧊  (🚫😿💀)
     𓋂 = 𓋅(𓃥=(5, 6))                           # 📏🧊(🐕)=1 → 3+1 < 1 ✗
-    assert 𓅓.𓊄(𓋂) != "⬇️"                     # 💨 flee 🀄 , 🚫 🏃🧊 → 🐕
-    # 🧱 stalemate (📜 2-cycle) → 🚧 relax → 🏃🧊 gamble
+    assert 𓅓.𓊄(𓋂) != "⬇️"                     # 💨 🀄 , 🚫 🏃🧊 → 🐕
+    # 🧱 ↔️↔️ (📜 2-🌀) → 🚧 🧘 → 🏃🧊 🎰
     for 𓅘 in [(5, 4), (4, 4), (5, 4), (4, 4)]:
         𓋂.𓋗𓂋.append(𓅘)
     assert 𓋂.𓋗() is True
-    assert 𓅓.𓊄(𓋂) == "⬇️"                     # 🧱 → gamble 🏃🧊 ‼️
-    # 🚧 🔚 ❤️ : ❤️ ≤ 𓊄𓋹𓈎 → 🚫 gamble  (🚫💀)
+    assert 𓅓.𓊄(𓋂) == "⬇️"                     # 🧱 → 🎰 🏃🧊 ‼️
+    # 🚧 ❤️ 🔚 : ❤️ ≤ 𓊄𓋹𓈎 → 🚫 🎰  (🚫💀)
     𓋂.𓋹 = 𓅓.𓊄𓋹𓈎
     assert 𓅓.𓊄(𓋂) != "⬇️"
-    # ❄️ already on → 🚫 🏃🧊  (🚫 waste)
+    # ❄️ 🟢 🈶 → 🚫 🏃🧊  (🚫 🗑️)
     𓋃 = 𓋅()
     𓋃.𓋕 = 4
-    assert 𓅓.𓊄(𓋃) == "⬅️"                     # ❄️ on → 💨 flee 🀄
-    # ❤️ ⬆️ → 🚫 flee mode → 🚫 🏃🧊  (🎯🐭 🀄)
+    assert 𓅓.𓊄(𓋃) == "⬅️"                     # ❄️ 🟢 → 💨 🀄
+    # ❤️ ⬆️ → 🚫 💨 🀄 → 🚫 🏃🧊  (🎯🐭 🀄)
     assert 𓅓.𓊄(𓋅(𓋹=9)) != "⬇️"
 
 
 def 𓊪𓋔𓁐():
-    # 🌟🧊  🖼️ :  🗺️ 🧊 tile  ·  HUD ❄️×N ⇔ frozen  ·  🌈 cyan
+    # 🌟🧊  🖼️ :  🗺️ 🀫 🧊  ·  🎛️ ❄️×N ⇔ ❄️  ·  🌈 🩵
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
-    assert "🧊" in 𓋁.𓁐()                       # 🗺️ 🧊 drawn
-    assert "❄️" not in 𓋁.𓁑()                   # 🚫❄️ → 🙈 HUD
+    assert "🧊" in 𓋁.𓁐()                       # 🗺️ 🧊 ✏️
+    assert "❄️" not in 𓋁.𓁑()                   # 🚫❄️ → 🙈 🎛️
     𓋁.𓋕 = 3
-    assert "❄️×3" in 𓋁.𓁑()                     # ❄️ on → HUD
+    assert "❄️×3" in 𓋁.𓁑()                     # ❄️ 🟢 → 🎛️
     𓋁.𓋕 = 0
-    assert "❄️" not in 𓋁.𓁑()                   # thaw → 🙈
+    assert "❄️" not in 𓋁.𓁑()                   # ❄️🔚 → 🙈
     # 🚫🧊 → 🚫 🗺️  (🚫🐕 🏠)
     assert "🧊" not in 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False).𓁐()
-    # 🌈 : 🧊 + ❄️ → cyan wrap
+    # 🌈 : 🧊 + ❄️ → 🩵 🎨
     assert "\033[96m🧊" in 𓅓.𓋊(𓋁.𓁐(), True)
     𓋁.𓋕 = 2
     assert "\033[96m❄️" in 𓅓.𓋊(𓋁.𓁑(), True)
@@ -1298,20 +1303,20 @@ def 𓊪𓋔𓁐():
 
 
 def 𓊪𓎏():
-    # ⌨️  🐾 reader :  ⎋[A⎋[B⎋[C⎋[D → 🔼🔽▶️◀️  (#23 🐛)  ; 🀄 ↔️ ; 🚫💥
+    # ⌨️  🐾 📖 :  ⎋[A⎋[B⎋[C⎋[D → 🔼🔽▶️◀️  (#23 🐛)  ; 🀄 ↔️ ; 🚫💥
     assert 𓅓.𓎏("\x1b[A") == ["⬆️"]
     assert 𓅓.𓎏("\x1b[B") == ["⬇️"]
     assert 𓅓.𓎏("\x1b[C") == ["➡️"]              # 🙏 #23 : ^[[C 🟰 ➡️
     assert 𓅓.𓎏("\x1b[D") == ["⬅️"]
-    # ⎋O𓅕  app-cursor mode  (📺 🔀)
+    # ⎋O𓅕  🖱️ 🀄  (📺 🔀)
     assert 𓅓.𓎏("\x1bOA") == ["⬆️"]
     assert 𓅓.𓎏("\x1bOD") == ["⬅️"]
-    # `^[` 📺 echo 🔤  (🧑📋 paste)
+    # `^[` 📺 🦜 🔤  (📋)
     assert 𓅓.𓎏("^[[C") == ["➡️"]
     assert 𓅓.𓎏("^[[A") == ["⬆️"]
-    # ⌨️⌨️ hold → 🐾🐾  (∀ seq in 📜 , 🧭 order kept)
+    # ⌨️⌨️ 🤏⏳ → 🐾🐾  (∀ ⎋⛓️ ∈ 📜 , 🧭 🔢 🗿)
     assert 𓅓.𓎏("\x1b[C\x1b[C\x1b[B") == ["➡️", "➡️", "⬇️"]
-    # 🀄 ↔️ passthrough  (🚫⎋ → 🔤 as-is)
+    # 🀄 ↔️ 🚶  (🚫⎋ → 🔤 🗿)
     assert 𓅓.𓎏("⬆️") == ["⬆️"]
     assert 𓅓.𓎏(" 🐾 ") == ["🐾"]
     assert 𓅓.𓎏("🧶") == ["🧶"]
@@ -1320,25 +1325,25 @@ def 𓊪𓎏():
     # 🕳️ / 🤔❓
     assert 𓅓.𓎏("") == []
     assert 𓅓.𓎏("   ") == []
-    assert 𓅓.𓎏("\x1b") == []                   # solo ⎋ → 🚫🧭
+    assert 𓅓.𓎏("\x1b") == []                   # ☝️ ⎋ → 🚫🧭
     assert 𓅓.𓎏("\x1b[Z") == []                 # ⇧⇥ → 🚫🧭  (🚫💥)
     assert 𓅓.𓎏("🐕") == ["🐕"]                  # 🚫🧭 🔤 → 🤔❓ @ 🕹️
-    # ⎋ noise 🚮 + 🧭 kept  (🐈🚧 partial seq)
+    # ⎋ 🀫 🚮 + 🧭 🗿  (🐈🚧 ⎋⛓️ 🤏)
     assert 𓅓.𓎏("\x1b[\x1b[C") == ["➡️"]
-    # 🀄 ⚔️ ⎋ 🤝 : ⎋ present → 🀄 token 🚫 dropped ‼️  (🙀 🚪 must 💨)
-    assert 𓅓.𓎏("\x1b[C🙀") == ["➡️", "🙀"]      # ▶️ then 🚪
-    assert 𓅓.𓎏("\x1b[C🧶") == ["➡️", "🧶"]      # ▶️ then 🎾
-    assert 𓅓.𓎏("🧶\x1b[C") == ["🧶", "➡️"]      # 🀄 🥇 then 🧭
-    assert 𓅓.𓎏("\x1b[C 🐾 ") == ["➡️", "🐾"]    # 🚿 strip
-    assert 𓅓.𓎏("\x1b[1;5C") == []              # ⌃➡️ params → 🚫🧭 (🚫💥)
-    assert 𓅓.𓎏("\x1b[C\x1b[1;5C\x1b[B") == ["➡️", "⬇️"]   # 🚮 mid , 🧭 kept
-    # 🕹️ 🔗 : ∀ 🧭 → 𓂃 ✅  (🐾 map 🤝)
+    # 🀄 ⚔️ ⎋ 🤝 : ⎋ 🈶 → 🀄 🚫 🚮 ‼️  (🙀 🚪 → 🔫 ‼️)
+    assert 𓅓.𓎏("\x1b[C🙀") == ["➡️", "🙀"]      # ▶️ ⏭️ 🚪
+    assert 𓅓.𓎏("\x1b[C🧶") == ["➡️", "🧶"]      # ▶️ ⏭️ 🎾
+    assert 𓅓.𓎏("🧶\x1b[C") == ["🧶", "➡️"]      # 🀄 🥇 ⏭️ 🧭
+    assert 𓅓.𓎏("\x1b[C 🐾 ") == ["➡️", "🐾"]    # 🚿 ✂️
+    assert 𓅓.𓎏("\x1b[1;5C") == []              # ⌃➡️ 🔢 → 🚫🧭 (🚫💥)
+    assert 𓅓.𓎏("\x1b[C\x1b[1;5C\x1b[B") == ["➡️", "⬇️"]   # 🚮 ⏳ , 🧭 🗿
+    # 🕹️ 🔗 : ∀ 🧭 → 𓂃 ✅  (🐾 🗺️ 🤝)
     for 𓅕 in ("\x1b[A", "\x1b[B", "\x1b[C", "\x1b[D"):
         assert 𓅓.𓎏(𓅕)[0] in 𓅓.𓂃
 
 
 def 𓊪𓎏𓊪𓏰():
-    # 🕹️  ⌨️ → 🐈🐾 e2e  (📥 ⎋[C → 🐈 ▶️ ; 🐾🐾 hold ; 🙀 → 🚪)
+    # 🕹️  ⌨️ → 🐈🐾 🏁→🔚  (📥 ⎋[C → 🐈 ▶️ ; 🐾🐾 🤏⏳ ; 🙀 → 🚪)
     𓂺 = subprocess.run(
         [sys.executable, "𓃠𓐍𓅓.py", "1"],
         input="\x1b[C\n\x1b[C\n\x1b[B\n🙀\n",
@@ -1348,7 +1353,7 @@ def 𓊪𓎏𓊪𓏰():
     assert "🤔❓" not in 𓂺.stdout                # ⌨️ 🚫 😿  (🙏 #23)
     assert "⏱️=3" in 𓂺.stdout                   # 🐾×3  (🧱🎲 → 📍 ⚖️ , ⏱️ ✅)
     assert "👋😼" in 𓂺.stdout                   # 🙀 🚪
-    # ⌨️⌨️ hold : 1 📜 → 🐾🐾🐾
+    # ⌨️⌨️ 🤏⏳ : 1 📜 → 🐾🐾🐾
     𓂭 = subprocess.run(
         [sys.executable, "𓃠𓐍𓅓.py", "1"],
         input="\x1b[C\x1b[C\x1b[C\n🙀\n",
@@ -1356,8 +1361,8 @@ def 𓊪𓎏𓊪𓏰():
     )
     assert 𓂭.returncode == 0
     assert "🤔❓" not in 𓂭.stdout
-    assert "⏱️=3" in 𓂭.stdout                   # ▶️×3 in 1 📜
-    # ⌨️ 🤝 🀄 : ⎋[C + 🙀 1️⃣ 📜 → ▶️ then 🚪  (🐛 : 🙀 💨 dropped)
+    assert "⏱️=3" in 𓂭.stdout                   # ▶️×3 ∈ 1 📜
+    # ⌨️ 🤝 🀄 : ⎋[C + 🙀 1️⃣ 📜 → ▶️ ⏭️ 🚪  (🐛 : 🙀 💨 🚮)
     𓂯 = subprocess.run(
         [sys.executable, "𓃠𓐍𓅓.py", "1"],
         input="\x1b[C🙀\n", capture_output=True, text=True, timeout=60,
@@ -1375,17 +1380,17 @@ def 𓊪𓎏𓊪𓏰():
 
 
 def 𓊪𓊆𓂺():
-    # 🏁  parse 🌊 level from args  (digits + keycap emoji)
+    # 🏁  📖 🎚️ 🌊 ← 🏁 🀄  (🔢 + 1️⃣…9️⃣)
     assert 𓅓.𓊆𓂺([]) == 1
     assert 𓅓.𓊆𓂺(["🤖", "5"]) == 5
     assert 𓅓.𓊆𓂺(["3️⃣"]) == 3
-    assert 𓅓.𓊆𓂺(["🤖", "99"]) == 9       # 🚧 clamp
-    assert 𓅓.𓊆𓂺(["🤖", "0"]) == 1        # 🚧 clamp
-    assert 𓅓.𓊆𓂺(["🤖", "🐾"]) == 1       # 🚫digit → default
+    assert 𓅓.𓊆𓂺(["🤖", "99"]) == 9       # 🚧  1 … 9
+    assert 𓅓.𓊆𓂺(["🤖", "0"]) == 1        # 🚧  1 … 9
+    assert 𓅓.𓊆𓂺(["🤖", "🐾"]) == 1       # 🚫🔢 → 🏠
 
 
 def 𓊪𓎎():
-    # 📇  🎮 → 📜 record  (🏆⏱️🐟🥛🐦😿)
+    # 📇  🎮 → 📜  (🏆⏱️🐟🥛🐦😿)
     𓋁 = 𓅓.𓉔(random.Random(0))
     𓋁.𓏰 = 12
     𓋁.𓊛 = 3
@@ -1442,7 +1447,7 @@ def 𓊪𓆓𓅂():
 
 
 def 𓊪𓆓𓂭():
-    # 🪝 ⛓️  📥 stdin json → 📤 displayContent
+    # 🪝 ⛓️  📥 `json` → 📤 📺
     𓂺 = json.dumps({
         "hook_event_name": "MessageDisplay",
         "turn_id": "𓏤",
@@ -1469,22 +1474,22 @@ def 𓊪𓆓𓂭():
 
 
 def 𓊪𓆓𓉗():
-    # 🪝🈲  🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬 → 🙊❌ ‼️‼️   (absolute — `⌨️`🔗📁 🚫🙈 ; 📜 🙊📜.md)
+    # 🪝🈲  🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬 → 🙊❌ ‼️‼️   (🚫🚫🚫 — `⌨️`🔗📁 🚫🙈 ; 📜 🙊📜.md)
     assert 𓆦.𓁐("\u4f60\u597d 🐈") == "🙊🙊 🐈  🙊❌😾😾‼️‼️"
     assert 𓆦.𓁐("\u0142apa") == "🙊apa  🙊❌😾😾‼️‼️"
     assert 𓆦.𓁐("sm\u00f8rrebr\u00f8d") == "sm🙊rrebr🙊d  🙊❌😾😾‼️‼️"
     assert 𓆦.𓁐("\u078b\u07a8\u0788\u07ac\u0780\u07a8") == "🙊🙊🙊🙊🙊🙊  🙊❌😾😾‼️‼️"
     assert 𓆦.𓁐("e\u014bkima") == "e🙊kima  🙊❌😾😾‼️‼️"
-    # `⌨️` 🚫🙈 — 🈲 absolute ‼️  (⚔️ 😾🪜 🙈)
+    # `⌨️` 🚫🙈 — 🈲 🚫🚫🚫 ‼️  (⚔️ 😾🪜 🙈)
     assert 𓆦.𓁐("`\u4e2d`") == "`🙊`  🙊❌😾😾‼️‼️"
-    # 📄📄 mix : 🈲📄 → 🙊 , 🐈📄 ↔️
+    # 📄📄 🥣 : 🈲📄 → 🙊 , 🐈📄 ↔️
     assert 𓆦.𓁐("meow 🐾\n\u732b\n") == "meow 🐾\n🙊  🙊❌😾😾‼️‼️\n"
     # 🐈✅ + 𓂀 + 😺 + \u00e9 ↔️  (🚫🈲 → 😾🪜 🀄)
     assert 𓆦.𓁐("prrr~ 𓃠 😺 caf\u00e9 ☕") == "prrr~ 𓃠 😺 caf\u00e9 ☕  😾hisss!"
 
 
 def 𓊪𓆓𓉗𓂭():
-    # 🪝 ⛓️  🈲 📥 stdin → 🙊 📤
+    # 🪝 ⛓️  🈲 📥 `json` → 🙊 📤
     𓂺 = json.dumps({"delta": "\u4e2d\u6587 nya\n🐈 prrr~\n"})
     𓊾 = subprocess.run(
         [sys.executable, ".claude/𓆓𓁐.py"],
@@ -1495,71 +1500,113 @@ def 𓊪𓆓𓉗𓂭():
     assert 𓂭["displayContent"] == "🙊🙊 nya  🙊❌😾😾‼️‼️\n🐈 prrr~\n"
 
 
+def 𓊪𓅗():
+    # 🚧 🗣️🔤  (#45 🐾5️⃣ , 🔒) :  💬🐍 + 📜📄 → 🗣️ 👀
+    #   🙈-🆓 : `…` · 🔗 · 📁 · U+ · ⏫🔤 · 🐍 🔑/🏦 · 🐈🗣️ (🔁 🀄) · `#!`
+    # 😾 🎯 : 🗣️ 🥩
+    assert 𓆧.𓅗𓊖.findall("the quick brown fox") == ["the", "quick", "brown", "fox"]
+    # 🐈🗣️ 🔁 → ✅  (𓊞 🈳 ⊥ 🀄 𓊞𓊍)
+    for 𓅕 in ("meow", "meoooow", "mrrr", "prrr", "purr", "hisss", "hisssss",
+               "nya", "nyan", "grrr", "miaou", "mew", "HISSSSSS"):
+        assert 𓆧.𓂺(𓅕.lower()), 𓅕
+    # 🐍 🔑/🏦 → ✅
+    for 𓅕 in ("False", "True", "None", "assert", "import", "max", "min", "sorted"):
+        assert 𓅕 in 𓆧.𓅗𓊫, 𓅕
+    # 🚿 🙈-🆓 → 🈳
+    for 𓅕 in ("`plain english here`", "https://code.claude.com/docs/en/hooks",
+               "[🐈](https://x.io/a/b)", ".json", "U+4E00", "#!/usr/bin/env python3"):
+        assert not 𓆧.𓅗𓊖.findall(𓆧.𓅗𓂺(𓅕)), 𓅕
+    # ⏫🔤 → 🀄 , 🚫 📜
+    assert "LICENSE".isupper() and "YYYYMMDD".isupper()
+
+
+def 𓊪𓅗𓆑():
+    # 🚧 🗣️🔤 🔫 :  🗣️ 💉 → 💥 1️⃣  ·  🐈👅 🈵 → 🟩 0️⃣  ·  🙈 🐈📜 → 🚫💥
+    # 🐈👅 🈵 ↔️ → 🟩
+    assert 𓆧.𓅗𓆑() == []
+    # 💉 : 💬🐍 + 📜📄 → 😾
+    for 𓊨𓉏, 𓋍 in (("𓃠𓐍𓅓.py", "\n# a plain english comment\n"),
+                    ("𓂀.md", "\n🐈 the lazy dog sleeps\n")):
+        𓊨 = pathlib.Path(𓊨𓉏)
+        𓆓 = 𓊨.read_text()
+        try:
+            𓊨.write_text(𓆓 + 𓋍)
+            𓅾 = 𓆧.𓅗𓆑()
+            assert 𓅾, 𓊨𓉏
+            assert all(𓊨𓉏 == 𓅔 for 𓅔, _, _ in 𓅾), 𓅾
+        finally:
+            𓊨.write_text(𓆓)
+    # 🙈 : 🐈📜 (`.claude/agents/`) = 🗣️ 🈵 → 🚫 💥
+    assert 𓆧.𓅗𓆊.match(".claude/agents/meow.md")
+    assert 𓆧.𓅗𓆊.match(".github/workflows/meow.yml")
+    assert not 𓆧.𓅗𓆊.match("𓂀.md")
+
+
 def 𓊪𓋱():
-    # 🌱 daily seed :  🌞 code → deterministic seed + 🌊  (∀🐈 🟰 🗺️ / 🌞)
-    #                🚫⚑ → 🎲 random  (🏁 base 🚫 regress) · 📇 🌱 key · 🛤️ split
-    assert len(𓅓.𓋱𓊞()) == 8 and 𓅓.𓋱𓊞().isdigit()   # 🌞 YYYYMMDD
+    # 🌱 🌞🎲 :  🌞🀄 → 🎲 🗿 + 🌊  (∀🐈 🟰 🗺️ / 🌞)
+    #          🚫⚑ → 🎲 🎰  (🏁🏁 🚫 ↩️) · 📇 🌱 🔑 · 🛤️ ✂️
+    assert len(𓅓.𓋱𓊞()) == 8 and 𓅓.𓋱𓊞().isdigit()   # 🌞 `%Y%m%d`
     𓊈, 𓊍 = 𓅓.𓋱("20260715")
-    assert 𓊈 == 20260715 and 𓊍 == 1 + 20260715 % 𓅓.𓊆𓈖  # seed + 🌊 = f(🌞)
+    assert 𓊈 == 20260715 and 𓊍 == 1 + 20260715 % 𓅓.𓊆𓈖  # 🎲 + 🌊 = f(🌞)
     assert 1 <= 𓊍 <= 9
-    # 🟰 🌞 → 🟰 🗺️  (seed override : 𓊃/🌊 args 🙈)
+    # 🟰 🌞 → 🟰 🗺️  (🌱 ⏫ : 🎲/🌊 🏁🀄 🙈)
     𓋁 = 𓅓.𓊆(1, random.Random(999), 𓋱𓉏="20260715")
     𓋂 = 𓅓.𓊆(5, random.Random(1), 𓋱𓉏="20260715")
     assert 𓋁.𓁐() == 𓋂.𓁐()                      # 🗺️ ↔️
     assert 𓋁.𓃠 == 𓋂.𓃠 and 𓋁.𓁉𓂋 == 𓋂.𓁉𓂋      # 🐈🐭 ↔️
-    assert 𓋁.𓊍 == 𓊍 and 𓋁.𓋱𓉏 == "20260715"    # 🌊 = f(🌞) , tag
+    assert 𓋁.𓊍 == 𓊍 and 𓋁.𓋱𓉏 == "20260715"    # 🌊 = f(🌞) , 🏷️
     # ≠ 🌞 → ≠ 🗺️
     𓋃 = 𓅓.𓊆(1, None, 𓋱𓉏="20260716")
     assert 𓋁.𓁐() != 𓋃.𓁐()
-    # 🚫⚑ default → 🎲 random , 🚫 🌱 tag , 🏁 classic 🛤️
+    # 🚫⚑ 🏠 → 🎲 🎰 , 🚫 🌱 🏷️ , 🏛️ 🏁 🛤️
     𓋄 = 𓅓.𓊆(5, random.Random(0))
     assert 𓋄.𓋱𓉏 is None
     assert "🌱" not in 𓅓.𓎎(𓋄) and 𓅓.𓎋𓉏(𓋄) == 𓅓.𓎋𓊪
-    # 📇 : ⚑ → 🌱 tag ; 🛤️ → 🏆📜🌱.json  (≠ classic ≠ ⏱️)
+    # 📇 : ⚑ → 🌱 🏷️ ; 🛤️ → `🏆📜🌱.json`  (≠ 🏛️ ≠ ⏱️)
     assert 𓅓.𓎎(𓋁)["🌱"] == "20260715"
     assert 𓅓.𓎋𓉏(𓋁) == 𓅓.𓎋𓊪𓋱
     assert 𓅓.𓎋𓊪𓋱 != 𓅓.𓎋𓊪 and 𓅓.𓎋𓊪𓋱 != 𓅓.𓎋𓊪𓋃
-    # 🖼️ HUD : 🌱 → 🚫 collide ⏳/🚀/❄️  (🙈 those unless their ⚑)
+    # 🖼️ 🎛️ : 🌱 → 🚫 🥞 ⏳/🚀/❄️  (🚫⚑ → 🙈)
     assert "⏳×" not in 𓋁.𓁑() and "🚀×" not in 𓋁.𓁑()
 
 
 def 𓊪𓋲():
-    # 🌱 📜🔝 split :  per-🌞 top-N (👴🌞 kept) + 🌞 filter render + 𓎋𓎗 routing
-    #              + 🔗✅ 120🎲 : ∀ 🌞 code → 🗺️ 🔗 (🐭 reachable) , 🎮 🚫 crash
+    # 🌱 📜🔝 ✂️ :  ⏫-N / 🌞 (👴🌞 💾 ✅) + 🌞 🕸️ 🖼️ + 𓎋𓎗 🛤️
+    #            + 🔗✅ 120🎲 : ∀ 🌞🀄 → 🗺️ 🔗 (🐭 🛣️ ✅) , 🎮 🚫💥
     𓊔 = 𓅓.𓎋𓊪𓋱
     try:
         with tempfile.TemporaryDirectory() as 𓊪𓉏:
             𓅓.𓎋𓊪𓋱 = os.path.join(𓊪𓉏, "🌱.json")
             for 𓈙 in (30, 50, 10, 70):
                 𓂏 = 𓅓.𓎌𓋱({"🏆": 𓈙, "⏱️": 5, "🌱": "20260715"}, "20260715")
-            assert [𓅘["🏆"] for 𓅘 in 𓂏] == [70, 50, 30, 10]   # 🎯 today , 🔽🏆
+            assert [𓅘["🏆"] for 𓅘 in 𓂏] == [70, 50, 30, 10]   # 🎯 🌞 , 🔽🏆
             𓂑 = 𓅓.𓎌𓋱({"🏆": 99, "⏱️": 3, "🌱": "20260716"}, "20260716")
-            assert [𓅘["🌱"] for 𓅘 in 𓂑] == ["20260716"]       # filter → 🎯 B
+            assert [𓅘["🌱"] for 𓅘 in 𓂑] == ["20260716"]       # 🕸️ → 🎯 𓃀
             𓄽 = 𓅓.𓎋(𓅓.𓎋𓊪𓋱)
-            assert sorted({𓅘["🌱"] for 𓅘 in 𓄽}) == ["20260715", "20260716"]  # 👴🌞 kept
-            # 🖼️ filter render : A code → A title , 🚫 B score
+            assert sorted({𓅘["🌱"] for 𓅘 in 𓄽}) == ["20260715", "20260716"]  # 👴🌞 💾 ✅
+            # 🖼️ 🕸️ : 🀄 𓄿 → 𓄿 🏷️ , 🚫 𓃀 🏆
             𓂮 = 𓅓.𓎍(𓄽, "20260715")
             assert "🏆📜🔝🌱20260715" in 𓂮 and "🏆99" not in 𓂮
-            assert "🏆📜🔝🌱20991231" in 𓅓.𓎍(𓄽, "20991231")   # 🈳 🌞 → title + 📜🕳️
-            # 𓎋𓎗 e2e : 🌱 game → 🌱 🛤️ , 🌞 filter title
+            assert "🏆📜🔝🌱20991231" in 𓅓.𓎍(𓄽, "20991231")   # 🈳 🌞 → 🏷️ + 📜🕳️
+            # 𓎋𓎗 🏁→🔚 : 🌱 🎮 → 🌱 🛤️ , 🌞 🕸️ 🏷️
             𓋁 = 𓅓.𓊆(1, None, 𓋱𓉏="20260715")
             assert "🏆📜🔝🌱20260715" in 𓅓.𓎋𓎗(𓋁)
             assert len(𓅓.𓎋(𓅓.𓎋𓊪𓋱)) >= 1
     finally:
-        𓅓.𓎋𓊪𓋱 = 𓊔                            # ♻️ restore global 🛤️
-    # 🔗✅ 120🎲 : ∀ 🌞 code → 🗺️ 🔗 + 🎮 runs 🚫💥
+        𓅓.𓎋𓊪𓋱 = 𓊔                            # ♻️ 🛤️ 🔄
+    # 🔗✅ 120🎲 : ∀ 🌞🀄 → 🗺️ 🔗 + 🎮 🚫💥
     for 𓈙 in range(120):
-        𓅕 = f"2026{1 + 𓈙 % 12:02d}{1 + 𓈙 % 28:02d}"   # 🌞 codes
+        𓅕 = f"2026{1 + 𓈙 % 12:02d}{1 + 𓈙 % 28:02d}"   # 🌞 🀄
         𓋂 = 𓅓.𓊆(1, None, 𓋱𓉏=𓅕)
         𓂭 = 𓋂.𓃰(𓋂.𓃠)
         for 𓅘 in 𓋂.𓁉𓂋:
-            assert 𓅘 in 𓂭, f"🙀 🐭 unreachable 🌞={𓅕}"   # 🔗
-        # 🟰 code → 🟰 🗺️ (determinism 🔁)
+            assert 𓅘 in 𓂭, f"🙀 🐭 🚫🛣️ 🌞={𓅕}"        # 🔗
+        # 🟰 🀄 → 🟰 🗺️ (🗿 🔁)
         𓋃 = 𓅓.𓊆(9, random.Random(𓈙), 𓋱𓉏=𓅕)
         assert 𓋂.𓁐() == 𓋃.𓁐(), f"🙀 ≠ 🗺️ 🌞={𓅕}"
         for _ in range(60):
             if 𓋂.𓂷(𓅓.𓊄(𓋂)):
-                break                             # 🎮 🚫 crash
+                break                             # 🎮 🚫💥
 
 
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
@@ -1576,7 +1623,7 @@ def 𓊪𓋲():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭]
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭, 𓊪𓅗, 𓊪𓅗𓆑]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
