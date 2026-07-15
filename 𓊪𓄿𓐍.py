@@ -533,6 +533,144 @@ def 𓊪𓋻():
         assert "🔥×0" in 𓋇.𓁑()
 
 
+def 𓊪𓁉𓂋():
+    # 🐭🐭  pack : K = f(🌊) 🧢 , 🏦 𓁉𓂋 list , 🚧 back-compat 𓁉 ↔️ [0]
+    assert 𓅓.𓁉𓈖(1) == 1 and 𓅓.𓁉𓈖(4) == 1      # 🌊<5 → solo 🐭
+    assert 𓅓.𓁉𓈖(5) == 1                        # 🌊5️⃣ → K=1
+    assert 𓅓.𓁉𓈖(6) == 2 and 𓅓.𓁉𓈖(7) == 2      # 🌊7️⃣ → K=2
+    assert 𓅓.𓁉𓈖(9) == 3                        # 🌊9️⃣ → K=3
+    assert 𓅓.𓁉𓈖(99) == 𓅓.𓁉𓈎                   # 🧢 cap ×4
+    # 🚧 back-compat :  𓁉 ↔️ 𓁉𓂋[0]
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓁉𓂋 == [𓋁.𓁉] and len(𓋁.𓊚𓂋) == 1
+    𓋁.𓁉 = (4, 4)
+    assert 𓋁.𓁉𓂋[0] == (4, 4) and 𓋁.𓁉 == (4, 4)
+    # 🐭🐭 grow → 🔗✅ ∀🐭 , ≠🐈🧀🐟🥛 , 😮‍💨 per 🐭
+    𓋁.𓁎(3)
+    assert len(𓋁.𓁉𓂋) == 3 and 𓋁.𓊚𓂋 == [0, 0, 0]
+    𓂭 = 𓋁.𓃰(𓋁.𓃠)
+    for 𓅘 in 𓋁.𓁉𓂋:
+        assert 𓅘 in 𓂭                          # 🔗✅
+        assert 𓅘 not in (𓋁.𓃠, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮)
+    assert len(set(𓋁.𓁉𓂋)) == 3                 # 🚫 stack
+
+
+def 𓊪𓁏():
+    # 🎯  catch 🐭 → pop + 🔥 combo ;  😻 ⇔ ∀🐭 caught  (partial → 🚫😻)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓇬 = (0, 0)
+    𓋁.𓁉𓂋 = [(5, 5), (8, 2)]
+    𓋁.𓊚𓂋 = [0, 0]
+    𓋁.𓃠 = (4, 5)
+    assert 𓋁.𓂷("➡️") is False                  # 🎯 1️⃣🐭 → 🚫😻 (partial)
+    assert 𓋁.𓄊 is False
+    assert len(𓋁.𓁉𓂋) == 1 and len(𓋁.𓊚𓂋) == 1
+    assert 𓋁.𓋻 == 1                            # 🔥 +1 / 🐭
+    assert 𓋁.𓁍 == (5, 5)                       # 📍 last 🐭
+    # ∀🐭 → 😻
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓇬 = (0, 0)
+    𓋂.𓁉𓂋 = [(5, 5)]
+    𓋂.𓊚𓂋 = [0]
+    𓋂.𓃠 = (4, 5)
+    assert 𓋂.𓂷("➡️") is True                   # ∀🐭 🎯 → 😻
+    assert 𓋂.𓄊 is True and 𓋂.𓁉𓂋 == []
+    assert 𓋂.𓁉 == (5, 5)                       # 𓁉 → 📍 last  (🚫💥 🖼️)
+    assert 𓋂.𓁐().count("🐭") == 0              # 🖼️ 🚫🐭 left
+
+
+def 𓊪𓁉𓎗():
+    # 🐭🐭  ∀🐭 own 🧠 :  👀near → 💨 , far → 🧀😋 ;  😮‍💨 per 🐭
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓃠 = (5, 4)
+    𓋁.𓇬 = (0, 0)
+    𓋁.𓁉𓂋 = [(5, 6), (9, 7)]                    # 🐭a near , 🐭b far
+    𓋁.𓊚𓂋 = [0, 0]
+    𓂭 = 𓋁.𓃰(𓋁.𓃠)
+    𓅐 = 𓋁.𓅓𓎗(0)                               # 🐭a 😱💨
+    assert 𓂭.get(𓅐, 0) > 𓂭.get((5, 6), 0)      # 💨 away
+    assert 𓋁.𓊚𓂋 == [1, 0]                      # 😮‍💨 only 🐭a
+    𓅑 = 𓋁.𓅓𓎗(1)                               # 🐭b → 🧀😋
+    assert 𓋁.𓃰(𓋁.𓇬).get(𓅑, 99) < 𓋁.𓃰(𓋁.𓇬).get((9, 7), 99)
+    # 🐭🐭 both 💨 per 🐾  (𓂷 → ∀ 🐭 move)
+    𓋂 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓃠 = (5, 4)
+    𓋂.𓇬 = (0, 0)
+    𓋂.𓁉𓂋 = [(5, 6), (6, 6)]
+    𓋂.𓊚𓂋 = [0, 0]
+    𓅔 = list(𓋂.𓁉𓂋)
+    𓋂.𓂷("🐾")
+    assert 𓋂.𓁉𓂋 != 𓅔                          # 🐭🐭 💨
+
+
+def 𓊪𓁉𓊆():
+    # 🎚️  🌊 → 🐭🐭 pack @ ≥5️⃣ , 🖼️ HUD 🐭×N , 🔗✅ ∀🐭
+    for 𓊍 in range(1, 10):
+        𓋁 = 𓅓.𓊆(𓊍, random.Random(𓊍))
+        assert len(𓋁.𓁉𓂋) == 𓅓.𓁉𓈖(𓊍), f"🙀 🎚️={𓊍}"
+        assert len(𓋁.𓊚𓂋) == len(𓋁.𓁉𓂋)
+        𓂭 = 𓋁.𓃰(𓋁.𓃠)
+        for 𓅘 in 𓋁.𓁉𓂋:
+            assert 𓅘 in 𓂭, f"🙀🔗 🎚️={𓊍}"      # 🔗✅ ∀🐭
+    # 🖼️ HUD 🐭×N remaining  (+ ❤️ + 🔥 🤝 , 🚫 collide)
+    𓋂 = 𓅓.𓊆(9, random.Random(0))
+    assert "🐭×3" in 𓋂.𓁑()
+    assert "❤️×9" in 𓋂.𓁑() and "🔥×0" in 𓋂.𓁑()
+    𓋂.𓋻 = 3
+    assert "🔥×3✨" in 𓋂.𓁑()
+    𓂮 = 𓅓.𓋊(𓋂.𓁑(), True)
+    assert "\033[" in 𓂮 and "🐭" in 𓂮           # 🌈 wrap
+    assert 𓅓.𓋊(𓋂.𓁑(), False) == 𓋂.𓁑()        # 🚫⚑ ↔️
+    # 🖼️ 🗺️ → ∀🐭 drawn
+    assert 𓋂.𓁐().count("🐭") == len(set(𓋂.𓁉𓂋))
+
+
+def 𓊪𓁉𓊰():
+    # 🥛⚡  pounce 📏≤2 → 🎯 nearest 🐭 of 🐭🐭  (🚫 ∀ at once)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓇬 = (0, 0)
+    𓋁.𓆛 = (0, 1)
+    𓋁.𓊮 = (0, 2)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓁉𓂋 = [(5, 7), (5, 6)]                    # 📏 2 , 📏 1  → 🎯 nearest
+    𓋁.𓊚𓂋 = [0, 0]
+    𓋁.𓊰 = 2
+    assert 𓋁.𓂷("🐾") is False                  # 1️⃣🐭 only → 🚫😻
+    assert 𓋁.𓁍 == (5, 6)                       # 😼 nearest 🎯
+    assert len(𓋁.𓁉𓂋) == 1
+
+
+def 𓊪𓊄𓁉():
+    # 🐈🧠  🎯 nearest 🐭  +  🧶 throw @ 🐕近  (🚫 stalemate)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓃠 = (5, 5)
+    𓋁.𓁉𓂋 = [(0, 0), (7, 5)]
+    𓋁.𓊚𓂋 = [0, 0]
+    assert 𓅓.𓊄𓁉(𓋁) == (7, 5)                  # 🎯 nearest
+    assert 𓅓.𓊄(𓋁) == "➡️"                     # 🐈 → nearest 🐭
+    # 🧶 : 🐕 📏≤2 + 🧶 unspent → 🎾 throw
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓃠 = (5, 5)
+    𓋂.𓁉 = (0, 0)
+    𓋂.𓃥 = (5, 6)                               # 🐕 📏=1
+    assert 𓅓.𓊄(𓋂) == "🧶"
+    𓋂.𓋯 = True                                 # 🧶 spent → 🚫 2nd
+    assert 𓅓.𓊄(𓋂) != "🧶"
+    # 🐕 far → 🚫 🎾 waste
+    𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋃.𓃠 = (5, 5)
+    𓋃.𓁉 = (0, 0)
+    𓋃.𓃥 = (10, 0)
+    assert 𓅓.𓊄(𓋃) != "🧶"
+    # 🐭🐭 🔗✅ 120🎲 ↔️ 🚫💥  (🌊9️⃣ pack : ∀🐭 reachable @ 🏁)
+    for 𓊃 in range(120):
+        𓋄 = 𓅓.𓊆(9, random.Random(𓊃))
+        𓂭 = 𓋄.𓃰(𓋄.𓃠)
+        assert len(𓋄.𓁉𓂋) == 3
+        for 𓅘 in 𓋄.𓁉𓂋:
+            assert 𓅘 in 𓂭, f"🙀🔗 seed={𓊃}"
+
+
 def 𓊪𓋊():
     # 🌈  colorize : ⚑ → ANSI wrap , 🚫⚑ → 📺 ↔️ plain
     𓊞 = "🐈🟩🧱\n🐭🐕🥛"
@@ -734,6 +872,7 @@ def 𓊪𓆓𓂭():
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
+     𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
