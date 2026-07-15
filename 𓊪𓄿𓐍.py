@@ -603,6 +603,36 @@ def 𓊪𓁉𓎗():
     assert 𓋂.𓁉𓂋 != 𓅔                          # 🐭🐭 💨
 
 
+def 𓊪𓁉𓎗𓆊():
+    # 🚫🥞 (#30) :  ∀🐭 📍 distinct  —  🐭 🚫 step on 🐭
+    # 🥇 🧠 unit :  🐭a 💨 → 🚫 tile of 🐭b  (even if max 📏🐈)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓃠 = (5, 4)
+    𓋁.𓇬 = (0, 0)
+    𓋁.𓁉𓂋 = [(5, 6), (5, 7)]                    # 🐭a 😱 , 🐭b 🀄 @ best flee tile
+    𓋁.𓊚𓂋 = [0, 0]
+    assert 𓋁.𓅓𓎗(0) != (5, 7)                   # 🚫🥞 : 🐭b tile 🚷
+    # 🧀😋 🌿 : 🐭a → 🧀 , 🐭b 🚧 on the way  → 🚫🥞
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋂.𓃠 = (9, 9)                               # 🐈 far → 🚫😱
+    𓋂.𓇬 = (0, 0)
+    𓋂.𓁉𓂋 = [(3, 3), (2, 3)]                    # 🐭b @ 🐭a ➡️🧀 step
+    𓋂.𓊚𓂋 = [0, 0]
+    assert 𓋂.𓅓𓎗(0) != (2, 3)                   # 🚫🥞
+    # 🎮 e2e :  ∀🌊 × 🎲 → 🚫🥞 ∀ 🐾
+    for 𓊍 in (6, 8, 9):
+        for 𓊃 in range(6):
+            𓉔𓏤 = 𓅓.𓊆(𓊍, random.Random(𓊃))
+            for _ in range(200):
+                if 𓉔𓏤.𓂷(𓅓.𓊄(𓉔𓏤)):
+                    break
+                assert len(set(𓉔𓏤.𓁉𓂋)) == len(𓉔𓏤.𓁉𓂋)   # 🚫🥞 ∀🐾
+    # 𓊐 𓊫 :  🚫 tiles honored , 🈳 𓊫 → 🚧 back-compat (🐕 🚫 touched)
+    𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
+    assert 𓋃.𓊐((3, 3), (0, 3)) == (2, 3)        # 🈳 𓊫 → ➡️🎯
+    assert 𓋃.𓊐((3, 3), (0, 3), {(2, 3)}) != (2, 3)
+
+
 def 𓊪𓁉𓊆():
     # 🎚️  🌊 → 🐭🐭 pack @ ≥5️⃣ , 🖼️ HUD 🐭×N , 🔗✅ ∀🐭
     for 𓊍 in range(1, 10):
@@ -1119,7 +1149,7 @@ def 𓊪𓆓𓂭():
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
-     𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
+     𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
      𓊪𓋃𓁋, 𓊪𓋃𓈖, 𓊪𓋂, 𓊪𓋂𓊙, 𓊪𓋃𓁑, 𓊪𓋺𓁐, 𓊪𓎋𓉏, 𓊪𓋃𓂺,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
