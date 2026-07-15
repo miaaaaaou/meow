@@ -1,0 +1,76 @@
+#  🤖✅  —  𓃠 CI  ·  🧪 + 🤖🎬 + 🐍📏
+name: 🤖✅
+
+on:
+  push:
+    branches: ["meow"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: 🤖✅-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  🧪:
+    name: 🧪 🐍${{ matrix.🐍 }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        🐍: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.🐍 }}
+      - name: 🧪 🐈✅🐭
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: python3 𓊪𓄿𓐍.py
+
+  🤖🎬:
+    name: 🤖🎬 🌊${{ matrix.🎚️ }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        🎚️: ["1", "5", "9"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: 🤖 🕹️ 🌊${{ matrix.🎚️ }}
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          TERM: dumb
+        timeout-minutes: 3
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.🎚️ }}
+      - name: 🌈 🎨📺 🌊${{ matrix.🎚️ }}
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          TERM: dumb
+        timeout-minutes: 3
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.🎚️ }} 🌈
+
+  🐍📏:
+    name: 🐍📏 + 𓂀🚫🗣️
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: 🐍 ✅ syntax
+        run: python3 -m py_compile 𓃠𓐍𓅓.py 𓊪𓄿𓐍.py .claude/𓆓𓁐.py
+      - name: 🪝 ✅ 𓆑𓊪.sh
+        run: bash -n .claude/𓆑𓊪.sh
+      - name: 𓂀 🚫🗣️  (🐈👅 guard)
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: python3 .github/𓊪𓂀𓅓.py
