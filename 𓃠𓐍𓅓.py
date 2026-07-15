@@ -573,7 +573,7 @@ class 𓉔:
         return "\n".join(𓂏)
 
 
-# 🐈🧠  🐾9️⃣ caution :  ❤️ low + 🐕 near → 💨 flee mode  (🚫💀 死 , 🚫 livelock)
+# 🐈🧠  🐾9️⃣ caution :  ❤️ low + 🐕 near → 💨 flee mode  (🚫💀⚰️ , 🚫 livelock)
 𓊄𓋹 = 3   # ❤️ ≤ this → cautious
 𓊄𓃥 = 2   # 🐕 BFS 📏 ≤ this → 💨 flee trigger
 𓊄𓎿 = 3   # 🐕 📏 🧢 :  far 🐕 → 🚫 tie-break noise  (🚫 🕳️🌀 livelock)
@@ -600,7 +600,7 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
     𓂭𓁉 = 𓉔𓏤.𓃰(𓊄𓁉(𓉔𓏤))                     # 📏→🐭 (🎯 nearest)
     𓂭𓃥 = 𓉔𓏤.𓃰(𓉔𓏤.𓃥) if 𓉔𓏤.𓃥 is not None else {}   # 📏→🐕
     𓂘𓃥 = 𓂭𓃥.get(𓉔𓏤.𓃠, 10 ** 9)             # 📏 🐈↔️🐕
-    𓋞 = (𓉔𓏤.𓃥 is not None                    # 💨 flee❓  ❤️低 + 🐕近
+    𓋞 = (𓉔𓏤.𓃥 is not None                    # 💨 flee❓  ❤️⬇️ + 🐕📏🤏
           and 𓉔𓏤.𓋹 <= 𓊄𓋹
           and 𓂘𓃥 <= 𓊄𓃥)
     if 𓉔𓏤.𓃥 is not None and not 𓉔𓏤.𓋯 and 𓂘𓃥 <= 𓊄𓋬:
@@ -614,7 +614,7 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
           and ((𓉔𓏤.𓋗() and 𓉔𓏤.𓋹 > 𓊄𓋹𓈎)   # 🧱 → gamble , 🚫 @ 🔚 ❤️
                or 𓂭𓋔.get(𓉔𓏤.𓃠, 10 ** 9) + 𓊄𓋔 < 𓂭𓋔.get(𓉔𓏤.𓃥, 10 ** 9)))
     # 🧱 📜 memory  (#27 tail , 🌙7️⃣) : cycle 👀 + 🚫🧊 gamble → 🈴 mode-agnostic break
-    #   📊 ∀ 残 🙀 : `𓋗()`=✅ but 🧠 🙈 → chase 🈳 relax , flee ❤️≤1 gamble-gated
+    #   📊 ∀ 🧩 🙀 : `𓋗()`=✅ but 🧠 🙈 → chase 🈳 relax , flee ❤️≤1 gamble-gated
     #   🔧 : 📜 recency 🥇 key (🆕 visited = 🚫 , 🈳/👴 = 😻) → 🐈 drift → 🧱 ✂️
     #        🥈 key = mode's own (💨 flee : max 📏🐕 ; 🎯 chase : min 📏🐭)  → 🚫 regress
     𓋘 = 𓉔𓏤.𓋚 >= 𓊄𓋚 and not 𓋖
@@ -632,7 +632,7 @@ def 𓊄(𓉔𓏤: 𓉔) -> str:
             continue
         𓃀𓁉 = 𓂭𓁉.get(𓂚, 10 ** 9)              # 📏🐭
         𓃀𓃥 = 𓂭𓃥.get(𓂚, 10 ** 9)              # 📏🐕  (raw : 💨 flee → 🕳️🌀 far ✅)
-        # 🎯 chase : 🧢 📏🐕 → 🐕远 = 🚫 tie-break noise  (🚫 ↔️↔️ livelock)
+        # 🎯 chase : 🧢 📏🐕 → 🐕📏⬆️ = 🚫 tie-break noise  (🚫 ↔️↔️ livelock)
         # 💨 flee + 🧊 (#34) : 🏃🧊 🥇 (min 📏🧊) , tie → max 📏🐕 🥈  → grab → ❄️
         # 💨 flee 🚫🧊      : max 📏🐕 🥇 , tie → min 📏🐭 🥈
         if 𓋖:

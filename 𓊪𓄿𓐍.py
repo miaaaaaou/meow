@@ -671,7 +671,7 @@ def 𓊪𓁉𓊰():
 
 
 def 𓊪𓊄𓁉():
-    # 🐈🧠  🎯 nearest 🐭  +  🧶 throw @ 🐕近  (🚫 stalemate)
+    # 🐈🧠  🎯 nearest 🐭  +  🧶 throw @ 🐕📏🤏  (🚫 stalemate)
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False)
     𓋁.𓃠 = (5, 5)
     𓋁.𓁉𓂋 = [(0, 0), (7, 5)]
@@ -1167,11 +1167,11 @@ def 𓊪𓋪():
     # 🧶 throw → 🚫 leap , 🚫 consume  (🐾 stay 🀄)
     𓋂.𓂷("🧶")
     assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
-    # 🧱 @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume  (📏 value-gated)
+    # 🧱 @ 📍2️⃣ → 1️⃣ cell , 🚫 consume  (📏 value-gated)
     𓋃 = 𓋅(𓋥=1, 𓊵=((5, 2),))
     𓋃.𓂷("⬆️")
     assert 𓋃.𓃠 == (5, 3) and 𓋃.𓋥 == 1     # 💨 kept ‼️
-    # 🧱edge @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume
+    # 🧱edge @ 📍2️⃣ → 1️⃣ cell , 🚫 consume
     𓋄 = 𓋅(𓋥=1)
     𓋄.𓃠 = (5, 1)
     𓋄.𓂷("⬆️")
@@ -1198,7 +1198,7 @@ def 𓊪𓋪():
     𓋈.𓇬, 𓋈.𓆛, 𓋈.𓊮 = (0, 7), (10, 0), (10, 7)
     𓋈.𓂷("⬆️")
     assert 𓋈.𓃠 == (1, 5) and 𓋈.𓋥 == 0     # 🕳️ twin (1,6) → ⬆️ → (1,5) ‼️
-    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍 只)
+    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍)
     𓋉 = 𓋅(𓋥=1)
     𓋉.𓋗𓂋.clear()
     𓋉.𓂷("⬆️")
@@ -1243,7 +1243,7 @@ def 𓊪𓋦𓆲():
 
 
 def 𓊪𓋔𓊄():
-    # 🌟🧊  🐈🧠 :  💨 flee + 🧊 近 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
+    # 🌟🧊  🐈🧠 :  💨 flee + 🧊 📏🤏 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
     #
     # 🏠 : 🐈(5,4) 🐕(7,4) 📏2 → 💨 flee (❤️≤3) · 🐭(0,4) ⬅️ side · 🧊(5,7) ⬇️ side
     #      → 💨 flee 🀄 = ⬅️ (max 📏🐕 , tie min 📏🐭)  ⊥  🏃🧊 = ⬇️   → discriminating ‼️
@@ -1260,7 +1260,7 @@ def 𓊪𓋔𓊄():
     𓋁 = 𓋅()
     assert 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃠) == 3 and 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃥) == 5
     assert 𓅓.𓊄(𓋁) == "⬇️"                     # 🏃🧊 ‼️  (⚔️ 💨 flee ⬅️)
-    # 🚧 guard : 🐕 近🧊 → 🚫 🏃🧊  (🚫😿💀)
+    # 🚧 guard : 🐕 📏🤏🧊 → 🚫 🏃🧊  (🚫😿💀)
     𓋂 = 𓋅(𓃥=(5, 6))                           # 📏🧊(🐕)=1 → 3+1 < 1 ✗
     assert 𓅓.𓊄(𓋂) != "⬇️"                     # 💨 flee 🀄 , 🚫 🏃🧊 → 🐕
     # 🧱 stalemate (📜 2-cycle) → 🚧 relax → 🏃🧊 gamble
@@ -1275,7 +1275,7 @@ def 𓊪𓋔𓊄():
     𓋃 = 𓋅()
     𓋃.𓋕 = 4
     assert 𓅓.𓊄(𓋃) == "⬅️"                     # ❄️ on → 💨 flee 🀄
-    # ❤️ 高 → 🚫 flee mode → 🚫 🏃🧊  (🎯🐭 🀄)
+    # ❤️ ⬆️ → 🚫 flee mode → 🚫 🏃🧊  (🎯🐭 🀄)
     assert 𓅓.𓊄(𓋅(𓋹=9)) != "⬇️"
 
 
@@ -1468,6 +1468,33 @@ def 𓊪𓆓𓂭():
     assert 𓊿.stdout == ""
 
 
+def 𓊪𓆓𓉗():
+    # 🪝🈲  🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬 → 🙊❌ ‼️‼️   (absolute — `⌨️`🔗📁 🚫🙈 ; 📜 🙊📜.md)
+    assert 𓆦.𓁐("\u4f60\u597d 🐈") == "🙊🙊 🐈  🙊❌😾😾‼️‼️"
+    assert 𓆦.𓁐("\u0142apa") == "🙊apa  🙊❌😾😾‼️‼️"
+    assert 𓆦.𓁐("sm\u00f8rrebr\u00f8d") == "sm🙊rrebr🙊d  🙊❌😾😾‼️‼️"
+    assert 𓆦.𓁐("\u078b\u07a8\u0788\u07ac\u0780\u07a8") == "🙊🙊🙊🙊🙊🙊  🙊❌😾😾‼️‼️"
+    assert 𓆦.𓁐("e\u014bkima") == "e🙊kima  🙊❌😾😾‼️‼️"
+    # `⌨️` 🚫🙈 — 🈲 absolute ‼️  (⚔️ 😾🪜 🙈)
+    assert 𓆦.𓁐("`\u4e2d`") == "`🙊`  🙊❌😾😾‼️‼️"
+    # 📄📄 mix : 🈲📄 → 🙊 , 🐈📄 ↔️
+    assert 𓆦.𓁐("meow 🐾\n\u732b\n") == "meow 🐾\n🙊  🙊❌😾😾‼️‼️\n"
+    # 🐈✅ + 𓂀 + 😺 + \u00e9 ↔️  (🚫🈲 → 😾🪜 🀄)
+    assert 𓆦.𓁐("prrr~ 𓃠 😺 caf\u00e9 ☕") == "prrr~ 𓃠 😺 caf\u00e9 ☕  😾hisss!"
+
+
+def 𓊪𓆓𓉗𓂭():
+    # 🪝 ⛓️  🈲 📥 stdin → 🙊 📤
+    𓂺 = json.dumps({"delta": "\u4e2d\u6587 nya\n🐈 prrr~\n"})
+    𓊾 = subprocess.run(
+        [sys.executable, ".claude/𓆓𓁐.py"],
+        input=𓂺, capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊾.returncode == 0
+    𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+    assert 𓂭["displayContent"] == "🙊🙊 nya  🙊❌😾😾‼️‼️\n🐈 prrr~\n"
+
+
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
@@ -1482,7 +1509,7 @@ def 𓊪𓆓𓂭():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭]
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
