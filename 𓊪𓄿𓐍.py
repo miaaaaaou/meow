@@ -1171,6 +1171,86 @@ def 𓊪𓋔𓁐():
     assert 𓅓.𓋊(𓋁.𓁐(), False) == 𓋁.𓁐()        # 🚫⚑ → 📺 ↔️
 
 
+def 𓊪𓋤():
+    # 🚀💨 dash :  spawn opt-in ⚑ , grab → +N charges , 🖼️ HUD/🗺️/🌈 , 🔗✅ 120🎲
+    # spawn ⚑ : default 🚫🚀  ·  𓋦𓁋=True → 🚀 ≠ 🀄 , 🔗✅
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓋤 is None and 𓋁.𓋥 == 0            # 🚫⚑ → 🚫🚀
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
+    assert 𓋂.𓋤 is not None and 𓋂.𓋥 == 0
+    assert 𓋂.𓋤 not in (𓋂.𓃠, 𓋂.𓇬, 𓋂.𓆛, 𓋂.𓊮, 𓋂.𓅱, 𓋂.𓃥, 𓋂.𓋔, *𓋂.𓁉𓂋)
+    assert 𓋂.𓋤 not in 𓋂.𓎜() and 𓋂.𓋤 not in 𓋂.𓊵
+    assert 𓋂.𓋤 in 𓋂.𓃰(𓋂.𓃠)                   # 🔗✅ reachable
+    # 🎚️ 𓊆 : default 🚫🚀  ·  ⚑ → 🚀 present
+    assert 𓅓.𓊆(9, random.Random(0)).𓋤 is None
+    assert 𓅓.𓊆(9, random.Random(0), 𓋦𓁋=True).𓋤 is not None
+    # grab 🚀 → +𓋥𓊞 charges , respawn 🎲 , 🛠️ tool : 🚫🔥
+    𓋃 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False, 𓋦𓁋=True)
+    𓋃.𓁉𓂋 = [(10, 7)]; 𓋃.𓊚𓂋 = [0]              # 🐭 far → 🚫 😻 mid-🧪
+    𓋄 = 𓋃.𓋤
+    𓋃.𓃠 = 𓋄
+    𓋃.𓂷("🐾")                                   # 🐈 @ 🚀 → 😋
+    assert 𓋃.𓋥 == 𓋃.𓋥𓊞 == 3                   # +N leap charges
+    assert 𓋃.𓋤 is not None and 𓋃.𓋤 != 𓋄       # respawn 🎲
+    assert 𓋃.𓋻 == 0                             # 🛠️ tool : 🚫🔥
+    # 🐭 spawn ≠ 🚀  (𓁉𓆙 excl)
+    𓋅 = 𓅓.𓉔(random.Random(3), 𓊵𓈖=0, 𓋦𓁋=True)
+    𓋅.𓁎(4)
+    assert 𓋅.𓋤 not in 𓋅.𓁉𓂋
+    # 🖼️ HUD 🚀×N ⇔ charge>0
+    𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert "🚀" not in 𓋆.𓁑()                    # 🚫 charge → 🙈
+    𓋆.𓋥 = 3
+    assert "🚀×3" in 𓋆.𓁑()
+    # 🖼️ 🗺️ render 🚀 tile  +  🌈 yellow
+    𓋇 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋦𓁋=True)
+    assert "🚀" in 𓋇.𓁐()
+    assert "\033[93m🚀" in 𓅓.𓋊(𓋇.𓁐(), True)
+    assert 𓅓.𓋊(𓋇.𓁐(), False) == 𓋇.𓁐()         # 🚫⚑ → 📺 ↔️
+    # 🔗✅ 120🎲 dash-on 🌊9️⃣ ↔️ 🚫💥
+    for 𓊃 in range(120):
+        𓋈 = 𓅓.𓊆(9, random.Random(𓊃), 𓋦𓁋=True)
+        assert 𓋈.𓋤 in 𓋈.𓃰(𓋈.𓃠), f"🙀🔗 seed={𓊃}"   # 🚀 reachable
+        for _ in range(60):
+            if 𓋈.𓂷(𓅓.𓊄(𓋈)): break              # 🚫💥
+
+
+def 𓊪𓋳():
+    # 🚀💨 dash leap :  𓋥>0 → 🐾 = 2️⃣ cells , guards (🧱/🐕/🐭/🕳️ ) , 𓋥=0 → 🏁 1️⃣ cell
+    def 𓅂(**𓅃):
+        𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False, 𓅱𓁋=False, 𓎛𓁋=False, **𓅃)
+        𓋁.𓇬 = (0, 7); 𓋁.𓆛 = (1, 7); 𓋁.𓊮 = (2, 7)   # 🀄 far → 🚫 accidental 😋
+        𓋁.𓁉𓂋 = [(10, 0)]; 𓋁.𓊚𓂋 = [0]
+        𓋁.𓃠 = (5, 3)
+        return 𓋁
+    # leap 2️⃣ cells + −1 charge
+    𓋁 = 𓅂(); 𓋁.𓋥 = 2; 𓋁.𓂷("➡️")
+    assert 𓋁.𓃠 == (7, 3) and 𓋁.𓋥 == 1           # 2️⃣ cells ➡️ , −1
+    # 𓋥=0 → 🏁 1️⃣ cell
+    𓋂 = 𓅂(); 𓋂.𓋥 = 0; 𓋂.𓂷("➡️")
+    assert 𓋂.𓃠 == (6, 3)                         # 🚫 dash → 1️⃣
+    # 🧱 2️⃣ nd cell → 1️⃣ only , 🚫 consume
+    𓋃 = 𓅂(); 𓋃.𓋥 = 1; 𓋃.𓊵 = {(7, 3)}; 𓋃.𓂷("➡️")
+    assert 𓋃.𓃠 == (6, 3) and 𓋃.𓋥 == 1
+    # 🧱 1️⃣ st cell → stay , 🚫 consume
+    𓋄 = 𓅂(); 𓋄.𓋥 = 1; 𓋄.𓊵 = {(6, 3)}; 𓋄.𓂷("➡️")
+    assert 𓋄.𓃠 == (5, 3) and 𓋄.𓋥 == 1
+    # 🐕 @ 2️⃣ nd cell → stay 1️⃣  (🚫 self-💀) , 🚫 consume
+    𓋅 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋅.𓇬 = (0, 7); 𓋅.𓆛 = (1, 7); 𓋅.𓊮 = (2, 7)
+    𓋅.𓁉𓂋 = [(0, 0)]; 𓋅.𓊚𓂋 = [0]
+    𓋅.𓃠 = (5, 3); 𓋅.𓃥 = (7, 3); 𓋅.𓋥 = 1
+    𓋅.𓂷("➡️")
+    assert 𓋅.𓃠 == (6, 3) and 𓋅.𓋥 == 1           # 🚫 leap onto 🐕
+    # 🚫 jump over 🐭 : 1️⃣ st = 🐭 → stop , 🎯 catch , 🚫 consume
+    𓋆 = 𓅂(); 𓋆.𓁉𓂋 = [(6, 3)]; 𓋆.𓊚𓂋 = [0]; 𓋆.𓋥 = 2
+    assert 𓋆.𓂷("➡️") is True                     # 😻 catch @ 1️⃣ st
+    assert 𓋆.𓃠 == (6, 3) and 𓋆.𓋥 == 2           # 🚫 overshoot , 🚫 consume
+    # 🕳️ leap through portal : 1️⃣ st = 🕳️ → twin , 2️⃣ nd from twin
+    𓋇 = 𓅂(); 𓋇.𓎛 = ((6, 3), (6, 6)); 𓋇.𓋥 = 1; 𓋇.𓂷("➡️")
+    assert 𓋇.𓃠 == (7, 6) and 𓋇.𓋥 == 0           # (6,3)🕳️→(6,6) , ➡️→(7,6)
+
+
 def 𓊪𓎏():
     # ⌨️  🐾 reader :  ⎋[A⎋[B⎋[C⎋[D → 🔼🔽▶️◀️  (#23 🐛)  ; 🀄 ↔️ ; 🚫💥
     assert 𓅓.𓎏("\x1b[A") == ["⬆️"]
@@ -1347,6 +1427,7 @@ def 𓊪𓆓𓂭():
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
      𓊪𓋔, 𓊪𓋕, 𓊪𓋗, 𓊪𓋚, 𓊪𓋘, 𓊪𓋔𓊄, 𓊪𓋔𓁐,
+     𓊪𓋤, 𓊪𓋳,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
