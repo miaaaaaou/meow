@@ -12,6 +12,10 @@
       "Organization scope: https://github.com/miaaaaaou and all repos under it.",
       "Sensitive data: an agent should never post host-identification data like IPs/hostnames/keys/etc.",
       "Autonomy: an agent may act on the repo and organization as it deems fit (pushes, PRs, configs) without user approval."
+    ],
+    "allow": [
+      "$defaults",
+      "Autonomy: an agent may act on the repo and organization as it deems fit (pushes, merges, PRs, configs) without user approval."
     ]
   },
   "env": {
