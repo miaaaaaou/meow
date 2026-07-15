@@ -633,25 +633,32 @@ def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
 
 
 def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False):
-    # 🕹️  🐈  ⬆️⬇️⬅️➡️🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional
+    # 🕹️  🐈  ⌨️⬆️⬇️⬅️➡️/🀄🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 , ⏱️ optional
     𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋)
-    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
+    print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⌨️⬆️⬇️⬅️➡️ | 🀄⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
         𓋛 = "🚧" if 𓉔𓏤.𓋯 else "🎾"
         print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉𓂋} 🐕{𓉔𓏤.𓃥} 🐦{𓉔𓏤.𓅱}  ⚡{𓉔𓏤.𓊰}  🧶{𓋛}{𓉔𓏤.𓋮}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  😿×{𓉔𓏤.𓊟}")
         try:
-            𓊍 = input("🐾❓ ").strip()
+            𓂺 = input("🐾❓ ")
         except (EOFError, KeyboardInterrupt):
             print("\n👋😼")
             return
-        if 𓊍 in ("🙀", "🚪", "q"):
-            print("👋😼")
-            return
-        if 𓊍 not in 𓂃 and 𓊍 != "🧶":
+        𓊾𓏤 = 𓎏(𓂺)                    # ⌨️ ⎋[C → ▶️  (#23)
+        if not 𓊾𓏤:
             print("🤔❓")
             continue
-        𓉔𓏤.𓂷(𓊍)
+        for 𓊍 in 𓊾𓏤:                  # ⌨️⌨️ hold → 🐾🐾
+            if 𓊍 in ("🙀", "🚪", "q"):
+                print("👋😼")
+                return
+            if 𓊍 not in 𓂃 and 𓊍 != "🧶":
+                print("🤔❓")
+                break
+            𓉔𓏤.𓂷(𓊍)
+            if 𓉔𓏤.𓋾():               # 🎮🔚 mid-📜 → ✂️
+                break
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  🏆={𓉔𓏤.𓊙()}  prrr~")
@@ -659,6 +666,30 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False):
         print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
     print("┈┈┈┈┈┈┈┈┈┈┈")
     print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
+
+
+# ─────────── ⌨️ 🕹️ 🐾 reader ───────────
+𓎏𓊞 = {"A": "⬆️", "B": "⬇️", "C": "➡️", "D": "⬅️"}   # ⎋[𓅕 / ⎋O𓅕 → 🧭
+𓎏𓉏 = "\x1b"                                        # ⎋  ESC
+
+
+def 𓎏(𓅕: str) -> list[str]:
+    # ⌨️ 🐾 reader :  ⎋[A ⎋[B ⎋[C ⎋[D  (+ ⎋O𓅕 app-mode , `^[` 📺 echo)
+    #                → 🔼🔽▶️◀️  , ∀ seq in 📜 (⌨️⌨️ hold → 🐾🐾)
+    #                🚫⎋ → 🔤 as-is  (🀄 emoji ↔️ , 🚫💥)
+    𓂺 = 𓅕.replace("^[", 𓎏𓉏).strip()
+    if 𓎏𓉏 not in 𓂺:
+        return [𓂺] if 𓂺 else []
+    𓊾: list[str] = []
+    𓇋 = 0
+    while 𓇋 < len(𓂺):
+        if (𓂺[𓇋] == 𓎏𓉏 and 𓂺[𓇋 + 1:𓇋 + 2] in ("[", "O")
+                and 𓂺[𓇋 + 2:𓇋 + 3] in 𓎏𓊞):
+            𓊾.append(𓎏𓊞[𓂺[𓇋 + 2]])
+            𓇋 += 3
+        else:
+            𓇋 += 1                                 # 🚮 ⎋ noise  (solo ⎋ , 🚫🧭)
+    return 𓊾
 
 
 def 𓊆𓂺(𓊾: list[str]) -> int:
