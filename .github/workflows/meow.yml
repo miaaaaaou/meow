@@ -1,0 +1,70 @@
+#  🤖✅  —  𓃠 CI  ·  🧪 + 🤖🎬 + 🐍📏
+#  🚧  GitHub : job id / matrix 🔑 → ASCII  ⇒  🐈🗣️ (meow · mrrr · prrr)
+#       😺 → `name:` 📺
+name: 🤖✅
+
+on:
+  push:
+    branches: ["meow"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: meow-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+
+jobs:
+  meow:
+    name: 🧪 🐍${{ matrix.nya }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        nya: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.nya }}
+      - name: 🧪 🐈✅🐭
+        run: python3 𓊪𓄿𓐍.py
+
+  mrrr:
+    name: 🤖🎬 🌊${{ matrix.mew }}
+    runs-on: ubuntu-latest
+    env:
+      TERM: dumb
+    strategy:
+      fail-fast: false
+      matrix:
+        mew: ["1", "5", "9"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: 🤖 🕹️ 🌊${{ matrix.mew }}
+        timeout-minutes: 3
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.mew }}
+      - name: 🌈 🎨📺 🌊${{ matrix.mew }}
+        timeout-minutes: 3
+        run: python3 𓃠𓐍𓅓.py 🤖 ${{ matrix.mew }} 🌈
+
+  prrr:
+    name: 🐍📏 + 𓂀🚫🗣️
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: 🐍 ✅ syntax
+        run: python3 -m py_compile 𓃠𓐍𓅓.py 𓊪𓄿𓐍.py .claude/𓆓𓁐.py
+      - name: 🪝 ✅ 𓆑𓊪.sh
+        run: bash -n .claude/𓆑𓊪.sh
+      - name: 𓂀 🚫🗣️  (🐈👅 guard)
+        run: python3 .github/𓊪𓂀𓅓.py
