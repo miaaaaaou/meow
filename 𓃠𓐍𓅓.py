@@ -107,9 +107,15 @@ class 𓉔:
     𓋻𓈎 = 5
     # 🐭🐭  🎯 base 🏆 → 🔥 combo tally  (per 🐭 caught)
     𓁉𓊙 = 5
+    # ⏱️  time-attack : ⏳ = 𓋃𓊞 + 𓋃𓎿 × 🌊   (opt-in ⚑)
+    𓋃𓊞 = 40
+    𓋃𓎿 = 8
+    # ⏱️  ⏳ ≤ this → 🟥 flash  (🖼️ HUD)
+    𓋃𓈎 = 5
 
     def __init__(self, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
-                 𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True):
+                 𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True,
+                 𓋃𓁋: bool = False):
         self.𓊃 = 𓊃 or random.Random()
         self.𓃠 = (0, 0)                        # 🐈
         self.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 pack  (📍 list)
@@ -146,6 +152,8 @@ class 𓉔:
         self.𓋺 = False                         # 💀 lose flag (❤️=0 🎮🔚)
         self.𓋻 = 0                             # 🔥 combo streak
         self.𓋼 = 0                             # 🏆 combo bonus accumulator
+        self.𓋃𓁋 = 𓋃𓁋                          # ⏱️ time-attack ⚑  (default 🚫)
+        self.𓋂 = 𓋃𓈖(1)                        # ⏳ budget left  (🌊 → 𓊆 rescales)
 
     # ─────────── 🐭🐭  pack 🏦 ───────────
     @property
@@ -308,6 +316,8 @@ class 𓉔:
         if 𓊍 not in 𓂃:
             return False
         self.𓏰 += 1
+        if self.𓋃𓁋:                     # ⏱️ ⏳ tick  (∀🐾 → −1)
+            self.𓋂 -= 1
         if self.𓊰 > 0:                   # ⚡⏳ tick
             self.𓊰 -= 1
         if self.𓋮 > 0:                   # 🧶⏳ tick → 💨 gone
@@ -349,10 +359,12 @@ class 𓉔:
         if self.𓃥 is not None and self.𓏰 % self.𓃥𓎿 == 0:
             self.𓃥𓎗()                   # 🐕💨🐈  (half-speed)
         self.𓁏(self.𓃠)                  # 😹  (🐈🌀 → 🐭?)
+        if self.𓋃𓁋 and self.𓋂 <= 0 and not self.𓄊:
+            self.𓋺 = True                # ⏱️ ⏳0 → 💀  (🚫😻 → lose)
         return self.𓄊 or self.𓋺         # 🎮🔚 : 😻 win or 💀 lose
 
     def 𓋾(self) -> bool:
-        # 🎮🔚  game over : 😻 catch or 💀 no ❤️
+        # 🎮🔚  game over : 😻 catch or 💀 (❤️0 | ⏳0)
         return self.𓄊 or self.𓋺
 
     def 𓋿(self, 𓃀: int) -> None:
@@ -428,15 +440,20 @@ class 𓉔:
         self.𓅱 = 𓅑
 
     def 𓊙(self) -> int:
-        # 🏆  ⚡fast + 🐟bonus + 🥛bonus + 🐦bonus + 🔥combo − 😿penalty  (🐕 bonks hurt)
+        # 🏆  ⚡fast + 🐟bonus + 🥛bonus + 🐦bonus + 🔥combo + ⏳leftover − 😿penalty
         return (max(0, 100 - self.𓏰 - 10 * self.𓊟)
-                + 5 * self.𓊛 + 3 * self.𓊳 + self.𓅯 * self.𓅮 + self.𓋼)
+                + 5 * self.𓊛 + 3 * self.𓊳 + self.𓅯 * self.𓅮 + self.𓋼
+                + (max(0, self.𓋂) if self.𓋃𓁋 else 0))
 
     def 𓁑(self) -> str:
-        # 🖼️ HUD :  ❤️×N lives  +  🐭×N pack left  +  🔥×N streak  (🔥≥3 → ✨)
+        # 🖼️ HUD :  ❤️×N + 🐭×N pack + 🔥×N streak (≥3 → ✨) + ⏱️×N (⚑ , ≤5 → 🟥)
         𓋠 = f"❤️×{self.𓋹}  🐭×{len(self.𓁉𓂋)}  🔥×{self.𓋻}"
         if self.𓋻 >= 3:
             𓋠 += "✨"
+        if self.𓋃𓁋:                      # ⏱️ ⚑ on → ⏳ left  (🚫⚑ → 📺 ↔️)
+            𓋠 += f"  ⏱️×{max(0, self.𓋂)}"
+            if self.𓋂 <= self.𓋃𓈎:
+                𓋠 += "🟥"                # ⏳ low → 🟥 flash
         return 𓋠
 
     def 𓁐(self) -> str:
@@ -529,6 +546,7 @@ def 𓎎(𓉔𓏤: 𓉔) -> dict:
     "🐈": "35", "🐭": "37", "🐕": "31", "🐦": "36", "🎾": "95",
     "🧀": "33", "🐟": "94", "🥛": "34", "🕳️": "95", "🧱": "90", "🟩": "32",
     "❤️": "91", "🔥": "93",   # 🟥❤️ lives , 🟧🔥 streak
+    "⏱️": "96", "🟥": "91",   # 🟦⏱️ budget , 🟥 flash  (⏳ ≤ 𓋃𓈎)
 }
 
 
@@ -547,6 +565,11 @@ def 𓋊(𓊞: str, 𓋉: bool = False) -> str:
 𓁉𓊞 = 5   # 🐭🐭 pack @ 🌊 ≥ this  (🌊< → solo 🐭)
 
 
+def 𓋃𓈖(𓊍: int) -> int:
+    # ⏱️  ⏳ budget @ 🌊 :  40 + 8×🌊   (🌊⬆️ → ⏳⬆️ , 🧱⬆️🐭🐭⬆️ 🤝)
+    return 𓉔.𓋃𓊞 + 𓉔.𓋃𓎿 * 𓊍
+
+
 def 𓁉𓈖(𓊍: int) -> int:
     # 🐭🐭  pack size @ 🌊 :  🌊<5 → 1 ; else 1 + (🌊−4)//2  , 🧢 ×4
     if 𓊍 < 𓁉𓊞:
@@ -554,9 +577,9 @@ def 𓁉𓈖(𓊍: int) -> int:
     return min(𓁉𓈎, 1 + (𓊍 - (𓁉𓊞 - 1)) // 2)
 
 
-def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None) -> 𓉔:
+def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None, 𓋃𓁋: bool = False) -> 𓉔:
     # 🎚️  🌊 1..9 → scaled 🏠🎮 :  🧱↑ , 🐕@≥2 , 🐦@≥3 , 🕳️@≥4 , 👀🐭@≥5 ,
-    #                              🐭🐭@≥5 , 💨🐕@≥7
+    #                              🐭🐭@≥5 , 💨🐕@≥7  ;  ⏱️ ⚑ → ⏳=40+8×🌊
     𓊍 = 𓎘(𓊍 - 1, 𓊆𓈖) + 1                  # 🚧 1..9
     𓉔𓏤 = 𓉔(
         𓊃,
@@ -564,7 +587,9 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None) -> 𓉔:
         𓃥𓁋=𓊍 >= 2,                          # 🐕 @ ≥2
         𓅱𓁋=𓊍 >= 3,                          # 🐦 @ ≥3
         𓎛𓁋=𓊍 >= 4,                          # 🕳️ @ ≥4
+        𓋃𓁋=𓋃𓁋,                             # ⏱️ opt-in ⚑
     )
+    𓉔𓏤.𓋂 = 𓋃𓈖(𓊍)                          # ⏱️ ⏳ = f(🌊)
     if 𓊍 >= 5:
         𓉔𓏤.𓋴 = 4                            # 🐭👀 sharper (flee sooner)
     𓉔𓏤.𓁎(𓁉𓈖(𓊍))                           # 🐭🐭 pack  (🌊≥5 → ×K)
@@ -574,10 +599,11 @@ def 𓊆(𓊍: int = 1, 𓊃: random.Random | None = None) -> 𓉔:
     return 𓉔𓏤
 
 
-def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False) -> 𓉔:
-    # 🤖🎬  🐈💨🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional
-    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤))
-    print(f"😺🎬  🎚️{𓉔𓏤.𓊍}")
+def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False,
+      𓋃𓁋: bool = False) -> 𓉔:
+    # 🤖🎬  🐈💨🐭🐭  (auto)  @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional
+    𓉔𓏤 = 𓊆(𓊍, random.Random(𓊃𓏤), 𓋃𓁋)
+    print(f"😺🎬  🎚️{𓉔𓏤.𓊍}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}")
     print(𓋊(𓉔𓏤.𓁐(), 𓋉))
     for _ in range(𓏲):
         𓆳 = 𓊄(𓉔𓏤)
@@ -590,7 +616,7 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False) 
         print("┈┈┈┈┈┈┈┈┈┈┈")
         print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
     elif 𓉔𓏤.𓋺:
-        print(f"💀🐕  ❤️×0  ⏱️={𓉔𓏤.𓏰}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…")
+        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
         print("┈┈┈┈┈┈┈┈┈┈┈")
         print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝  (💀 also 📜)
     else:
@@ -598,9 +624,17 @@ def 𓆲(𓊃𓏤: int = 7, 𓏲: int = 200, 𓊍: int = 1, 𓋉: bool = False) 
     return 𓉔𓏤
 
 
-def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False):
-    # 🕹️  🐈  ⬆️⬇️⬅️➡️🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 optional
-    𓉔𓏤 = 𓊆(𓊍)
+def 𓋺𓁐(𓉔𓏤: 𓉔) -> str:
+    # 💀 🖼️ :  ⏱️ ⏳0  or  🐕 ❤️0
+    if 𓉔𓏤.𓋃𓁋 and 𓉔𓏤.𓋂 <= 0:
+        return (f"💀⏱️  ⏳×0  🐭×{len(𓉔𓏤.𓁉𓂋)}  ⏱️={𓉔𓏤.𓏰}"
+                f"  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…")
+    return f"💀🐕  ❤️×0  ⏱️={𓉔𓏤.𓏰}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…"
+
+
+def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False):
+    # 🕹️  🐈  ⬆️⬇️⬅️➡️🐾   🧶=throw   🙀=🚪   @ 🎚️ 🌊  , 🌈 optional , ⏱️ optional
+    𓉔𓏤 = 𓊆(𓊍, None, 𓋃𓁋)
     print(f"😺🕹️  🎚️{𓉔𓏤.𓊍}  ⬆️⬇️⬅️➡️🐾   🧶=🎾   🙀=🚪")
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
@@ -622,7 +656,7 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False):
     if 𓉔𓏤.𓄊:
         print(f"😻🎯  ⏱️={𓉔𓏤.𓏰}  🐟×{𓉔𓏤.𓊛}  🥛×{𓉔𓏤.𓊳}  🐦×{𓉔𓏤.𓅮}  😿×{𓉔𓏤.𓊟}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  🏆={𓉔𓏤.𓊙()}  prrr~")
     else:
-        print(f"💀🐕  ❤️×0  ⏱️={𓉔𓏤.𓏰}  😿×{𓉔𓏤.𓊟}  🏆={𓉔𓏤.𓊙()}  meow…")
+        print(𓋺𓁐(𓉔𓏤))                # 💀 : ⏳0 or ❤️0
     print("┈┈┈┈┈┈┈┈┈┈┈")
     print(𓎍(𓎌(𓎎(𓉔𓏤))))          # 💾🏆 → 📜🔝
 
@@ -643,7 +677,8 @@ if __name__ == "__main__":
     𓊾 = sys.argv[1:]
     𓊍𓏤 = 𓊆𓂺(𓊾)
     𓋉𓏤 = "🌈" in 𓊾                                    # ⚑🌈
+    𓋃𓏤 = "⏱️" in 𓊾 or "⏳" in 𓊾                       # ⚑⏱️  time-attack
     if any(𓅕 in ("🤖", "🎬", "--🤖") for 𓅕 in 𓊾):
-        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤)
+        𓆲(𓊍=𓊍𓏤, 𓋉=𓋉𓏤, 𓋃𓁋=𓋃𓏤)
     else:
-        𓊪𓏰(𓊍𓏤, 𓋉𓏤)
+        𓊪𓏰(𓊍𓏤, 𓋉𓏤, 𓋃𓏤)
