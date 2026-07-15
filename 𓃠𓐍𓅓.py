@@ -694,14 +694,32 @@ def 𓎏(𓅕: str) -> list[str]:
     if 𓎏𓉏 not in 𓂺:
         return [𓂺] if 𓂺 else []
     𓊾: list[str] = []
+    𓋏: list[str] = []                              # 🀄 buffer  (🚫⎋ 🔤)
+
+    def 𓋐() -> None:
+        # 🚿 buffer → 🀄 token  (🀄 kept ‼️ : ⎋[C🙀 → ▶️ + 🚪)
+        𓅔 = "".join(𓋏).strip()
+        𓋏.clear()
+        if 𓅔:
+            𓊾.append(𓅔)
+
     𓇋 = 0
     while 𓇋 < len(𓂺):
-        if (𓂺[𓇋] == 𓎏𓉏 and 𓂺[𓇋 + 1:𓇋 + 2] in ("[", "O")
-                and 𓂺[𓇋 + 2:𓇋 + 3] in 𓎏𓊞):
-            𓊾.append(𓎏𓊞[𓂺[𓇋 + 2]])
-            𓇋 += 3
-        else:
-            𓇋 += 1                                 # 🚮 ⎋ noise  (solo ⎋ , 🚫🧭)
+        if 𓂺[𓇋] != 𓎏𓉏:
+            𓋏.append(𓂺[𓇋])
+            𓇋 += 1
+            continue
+        𓋐()                                        # ⎋ boundary → 🚿
+        if 𓂺[𓇋 + 1:𓇋 + 2] not in ("[", "O"):      # solo ⎋ → 🚮
+            𓇋 += 1
+            continue
+        𓆇 = 𓇋 + 2
+        while 𓆇 < len(𓂺) and 𓂺[𓆇] != 𓎏𓉏 and not 𓂺[𓆇].isalpha():
+            𓆇 += 1                                 # ⏭️ params  (⎋[1;5C …)
+        if 𓆇 == 𓇋 + 2 and 𓆇 < len(𓂺) and 𓂺[𓆇] in 𓎏𓊞:
+            𓊾.append(𓎏𓊞[𓂺[𓆇]])                  # 🧭 ✅  (⎋[A..D , ⎋OA..D)
+        𓇋 = 𓆇 + 1 if 𓆇 < len(𓂺) and 𓂺[𓆇] != 𓎏𓉏 else 𓆇   # 🚮 🚫🧭 seq
+    𓋐()
     return 𓊾
 
 
