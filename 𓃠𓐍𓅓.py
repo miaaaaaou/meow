@@ -256,12 +256,16 @@ class 𓉔:
                     𓆱.append(𓆓)
         return 𓂭
 
-    def 𓊐(𓋁, 𓅘: tuple[int, int], 𓄿: tuple[int, int]) -> tuple[int, int]:
-        # ➡️🎯  next 🟩 from 𓅘 toward 𓄿  (min BFS 📏)
+    def 𓊐(𓋁, 𓅘: tuple[int, int], 𓄿: tuple[int, int],
+           𓊫: frozenset[tuple[int, int]] | set[tuple[int, int]] = frozenset(),
+           ) -> tuple[int, int]:
+        # ➡️🎯  next 🟩 from 𓅘 toward 𓄿  (min BFS 📏)  ·  𓊫 = 🚫 tiles (🈳 → ∀🟩)
         𓂭 = 𓋁.𓃰(𓄿)
         𓅒 = 𓂭.get(𓅘, 10 ** 9)
         𓅑 = 𓅘
         for 𓆓 in sorted(𓋁.𓊇𓈎(𓅘)):
+            if 𓆓 in 𓊫:                       # 🚫🥞
+                continue
             𓊈 = 𓂭.get(𓆓, 10 ** 9)
             if 𓊈 < 𓅒:
                 𓅒 = 𓊈
@@ -403,7 +407,9 @@ class 𓉔:
     def 𓅓𓎗(𓋁, 𓇋: int = 0) -> tuple[int, int]:
         # 🐭🧠 :  🐈👀 near → 💨(max BFS📏🐈) ; 😮‍💨💤 rest ; else → 🧀😋(min BFS📏🧀)
         #        𓇋 = 🐭 index in 🐭🐭 pack  (∀🐭 own 🧠 + 😮‍💨)
+        #        🚫🥞 (#30) :  📍 of 🐭 others = 🚫 tile  → ∀🐭 📍 distinct
         𓅐 = 𓋁.𓁉𓂋[𓇋]
+        𓆊 = {𓅘 for 𓇌, 𓅘 in enumerate(𓋁.𓁉𓂋) if 𓇌 != 𓇋}
         𓂭 = 𓋁.𓃰(𓋁.𓃠)             # 📏→🐈
         if 𓂭.get(𓅐, 999) <= 𓋁.𓋴:
             # 😱💨  …  😮‍💨💤❓
@@ -414,6 +420,8 @@ class 𓉔:
             𓅑 = 𓅐
             𓅒 = 𓂭.get(𓅐, 0)
             for 𓆓 in sorted(𓋁.𓊇𓈎(𓅐)):
+                if 𓆓 in 𓆊:              # 🚫🥞
+                    continue
                 𓊈 = 𓂭.get(𓆓, 0)
                 if 𓊈 > 𓅒:
                     𓅒 = 𓊈
@@ -421,7 +429,7 @@ class 𓉔:
             return 𓅑
         # 🧀😋
         𓋁.𓊚𓂋[𓇋] = 0
-        return 𓋁.𓊐(𓅐, 𓋁.𓇬)
+        return 𓋁.𓊐(𓅐, 𓋁.𓇬, 𓆊)
 
     def 𓅱𓎗(𓋁) -> None:
         # 🐦🧠 :  🕊️ fly 8🧭 , 🚫🧱 perch , 💨 max 📐(chebyshev)→🐈 , ≠ 🐭🐕🧀🐟🥛
