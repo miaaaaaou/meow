@@ -1167,11 +1167,11 @@ def 𓊪𓋪():
     # 🧶 throw → 🚫 leap , 🚫 consume  (🐾 stay 🀄)
     𓋂.𓂷("🧶")
     assert 𓋂.𓃠 == (5, 2) and 𓋂.𓋥 == 1
-    # 🧱 @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume  (📏 value-gated)
+    # 🧱 @ 📍2️⃣ → 1️⃣ cell , 🚫 consume  (📏 value-gated)
     𓋃 = 𓋅(𓋥=1, 𓊵=((5, 2),))
     𓋃.𓂷("⬆️")
     assert 𓋃.𓃠 == (5, 3) and 𓋃.𓋥 == 1     # 💨 kept ‼️
-    # 🧱edge @ 📍2️⃣ → 1️⃣ cell 只 , 🚫 consume
+    # 🧱edge @ 📍2️⃣ → 1️⃣ cell , 🚫 consume
     𓋄 = 𓋅(𓋥=1)
     𓋄.𓃠 = (5, 1)
     𓋄.𓂷("⬆️")
@@ -1198,7 +1198,7 @@ def 𓊪𓋪():
     𓋈.𓇬, 𓋈.𓆛, 𓋈.𓊮 = (0, 7), (10, 0), (10, 7)
     𓋈.𓂷("⬆️")
     assert 𓋈.𓃠 == (1, 5) and 𓋈.𓋥 == 0     # 🕳️ twin (1,6) → ⬆️ → (1,5) ‼️
-    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍 只)
+    # 📜 : 1️⃣ entry / 🐾  (leap → 🔚 📍)
     𓋉 = 𓋅(𓋥=1)
     𓋉.𓋗𓂋.clear()
     𓋉.𓂷("⬆️")
