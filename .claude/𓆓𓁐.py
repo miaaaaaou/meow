@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# 🪝 MessageDisplay — 🗣️🔤👀 → 📜 ↔️ + 😾hisss! 🏷️   (🚫🎭📜 ; 🔗✅ ; 📺-🪞 ; 📜+🤖👀 🚫🎭)
-# ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊 + 🏷️ ‼️‼️   (absolute — `⌨️`🔗📁 🚫🙈)
-# 📜 🙊📜.md — 🚧 rules
+# 🪝 `MessageDisplay` — 🗣️🔤👀 → 📜 ↔️ + 😾hisss! 🏷️   (🚫🎭📜 ; 🔗✅ ; 📺-🪞 ; 📜+🤖👀 🚫🎭)
+# ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊 + 🏷️ ‼️‼️   (🚫🚫🚫 — `⌨️`🔗📁 🚫🙈)
+# 📜 `🙊📜.md` — 🚧📜
 # 📚 https://code.claude.com/docs/en/hooks
-# 📥 stdin  {"delta": "…"}  →  📤 stdout  {"hookSpecificOutput": {"hookEventName", "displayContent"}}
+# 📥 `stdin`  `{"delta": "…"}`  →  📤 `stdout`  `{"hookSpecificOutput": {"hookEventName", "displayContent"}}`
 import json
 import re
 import sys
@@ -13,7 +13,7 @@ import sys
     r"`[^`\n]*`|(?i:\b[a-z][a-z0-9+.\-]*://\S+)|(?i:\bwww\.\S+)|\S*/\S*"
 )
 
-# 🗣️🔤  (A-z + U+00C0-024F)
+# 🗣️🔤  (`A-z` + U+00C0-024F)
 𓊖 = re.compile(r"[A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u024f]+")
 
 # 🈲 🗣️  🚫🚫🚫  →  🙊❌   (📜 🙊📜.md)
@@ -50,11 +50,11 @@ def 𓁹(𓋍: str) -> int:
 
 
 def 𓁐(𓆼: str) -> str:
-    # 📜 → 📜🏷️   (📄-wise ; 📜 ↔️ ; 🔗✅ ; 🗣️🔢 → 🔊🪜 ; 🈲 → 🙊❌ ‼️‼️)
+    # 📜 → 📜🏷️   (/📄 ; 📜 ↔️ ; 🔗✅ ; 🗣️🔢 → 🔊🪜 ; 🈲 → 🙊❌ ‼️‼️)
     𓂏 = []
     for 𓋍 in 𓆼.split("\n"):
         if 𓉗.search(𓋍):
-            𓂏.append(𓉗.sub("🙊", 𓋍) + 𓉗𓅱)      # 🈲 absolute — 🚫🙈
+            𓂏.append(𓉗.sub("🙊", 𓋍) + 𓉗𓅱)      # 🈲 🚫🚫🚫 — 🚫🙈
             continue
         𓈖 = 𓁹(𓋍)
         𓂏.append(𓋍 + 𓅱(𓈖) if 𓈖 else 𓋍)
