@@ -962,14 +962,159 @@ def 𓊪𓊆():
 
 
 def 𓊪𓊆𓄊():
-    # 🎚️  ∀ 🌊 1..9  →  🐈 always 😻  (🔗 solvable)
+    # 🎚️  ∀ 🌊 1..9  →  🔗 solvable  +  🐈 😻 rate ≥ 5/6 per 🌊 , Σ ≥ 52/54
+    #
+    # 🀄 ‼️  «∀ 😻» = 🚫 invariant : 🐈🧠 greedy stateless → 🐕💨 tail (#27)
+    #        📊 1080🎲 : 🏁 base 1044 😻 (36 loss) · 🌟🧊 1059 😻 (21 loss)
+    #        → 🧪 rate , 🚫 ∀  (🍀 seed luck ≠ ✅ ; 🎲 stream shift → 🆕 🗺️)
+    𓊾 = []
     for 𓊍 in range(1, 10):
+        𓄊 = 0
         for 𓊃 in range(6):
             𓋁 = 𓅓.𓊆(𓊍, random.Random(𓊃 + 𓊍 * 10))
             for _ in range(600):
                 if 𓋁.𓂷(𓅓.𓊄(𓋁)):
                     break
-            assert 𓋁.𓄊 is True, f"🙀 🎚️={𓊍} seed={𓊃}"
+            𓄊 += 1 if 𓋁.𓄊 else 0
+        assert 𓄊 >= 5, f"🙀 🎚️={𓊍} → 😻 {𓄊}/6"      # 🔗 solvable ∀🌊
+        𓊾.append(𓄊)
+    assert sum(𓊾) >= 52, f"🙀 Σ 😻 {sum(𓊾)}/54"     # 😻 rate 🚧
+
+
+def 𓊪𓋔():
+    # 🌟🧊  spawn :  🧊 ⇔ 🐕  (🚫🐕 → 🚫🧊)  ·  🚫 overlap 🀄  ·  ⚑ off
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓋔 is not None and 𓋁.𓋕 == 0
+    assert 𓋁.𓋔 not in (𓋁.𓃠, 𓋁.𓇬, 𓋁.𓆛, 𓋁.𓊮, 𓋁.𓅱, 𓋁.𓃥, *𓋁.𓁉𓂋)
+    assert 𓋁.𓋔 not in 𓋁.𓎜() and 𓋁.𓋔 not in 𓋁.𓊵
+    assert 𓋁.𓋔 in 𓋁.𓃰(𓋁.𓃠)                  # 🔗✅ reachable
+    # 🚫🐕 → 🚫🧊  (🧊 = 🐕 counter → 🚫🐕 = 🚫 sense)
+    assert 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False).𓋔 is None
+    # ⚑ off → 🚫🧊  (🚧 opt-out)
+    assert 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋔𓁋=False).𓋔 is None
+    # 🎚️ : 🧊 @ 🌊≥2️⃣  (⇔ 🐕)
+    assert 𓅓.𓊆(1, random.Random(0)).𓋔 is None
+    for 𓊍 in range(2, 10):
+        assert 𓅓.𓊆(𓊍, random.Random(0)).𓋔 is not None, f"🙀 🌊{𓊍}"
+    # 🐭 spawn ≠ 🧊  (𓁉𓆙 excl)
+    𓋂 = 𓅓.𓉔(random.Random(3), 𓊵𓈖=0)
+    𓋂.𓁎(4)
+    assert 𓋂.𓋔 not in 𓋂.𓁉𓂋
+
+
+def 𓊪𓋕():
+    # 🌟🧊  🐈🧊😋 → 🐕 ❄️ 5🐾 (🚫🐾 , 🚫😿) → thaw → 🐕 💨 again  ·  🧊 respawn
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋁.𓁉𓂋 = [(10, 7)]                          # 🐭 far → 🚫 😻 mid-🧪
+    𓋁.𓊚𓂋 = [0]
+    𓋂 = 𓋁.𓋔
+    𓋁.𓃠 = 𓋂
+    𓋁.𓃥 = (5, 0)
+    𓋁.𓂷("🐾")                                  # 🐈 @ 🧊 → 😋
+    assert 𓋁.𓋕 == 𓋁.𓋕𓊞 == 5                  # ❄️ armed
+    assert 𓋁.𓋔 is not None and 𓋁.𓋔 != 𓋂      # 🧊 respawn 🎲
+    assert 𓋁.𓋻 == 0 and 𓋁.𓊙() >= 0            # 🛠️ tool : 🚫🔥 , 🚫🏆
+    # 🐕 ❄️ → 🚫🐾  ∀ ❄️⏳  :  grab 🐾 = skip 🥇 → Σ 5 skips  (𓋕𓊞=5)
+    𓋁.𓋔 = None                                 # 🚫 re-grab noise
+    𓋃 = 𓋁.𓃥
+    for 𓇋 in range(4):                         # 🐾 #2..#5  (grab 🐾 = #1)
+        𓋁.𓂷("🐾")
+        assert 𓋁.𓃥 == 𓋃, f"🙀 🐕 💨 while ❄️ @ {𓇋}"
+    assert 𓋁.𓋕 == 1                            # ❄️ ⏳ 1 left
+    # thaw 🐾 #6 → 🐕 💨 again
+    𓋁.𓂷("🐾")
+    assert 𓋁.𓋕 == 0                            # thaw
+    𓋄 = 𓋁.𓃥
+    for _ in range(4):
+        𓋁.𓂷("🐾")
+    assert 𓋁.𓃥 != 𓋄                           # 🐕 💨🐈 resumed
+    # ❄️ → 🚫😿 bonk  (🐕 👉🐈 tile , frozen → 🚫 −❤️)
+    𓋅 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+    𓋅.𓁉𓂋 = [(10, 7)]
+    𓋅.𓊚𓂋 = [0]
+    𓋅.𓋕 = 3
+    𓋅.𓃠 = (4, 4)
+    𓋅.𓃥 = (4, 5)                               # 🐕 adjacent ‼️
+    𓋆 = 𓋅.𓋹
+    𓋅.𓂷("🐾")
+    assert 𓋅.𓃥 == (4, 5) and 𓋅.𓋹 == 𓋆 and 𓋅.𓊟 == 0   # ❄️ → 🚫🐾 , 🚫😿
+
+
+def 𓊪𓋗():
+    # 🌟🧊  📜 2-cycle 👀 :  A↔️B↔️A↔️B → 🧱 stalemate  (#27 🧠 memory)
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert 𓋁.𓋗() is False                      # 📜 🈳 → 🚫
+    for 𓅘 in [(1, 1), (1, 2), (1, 1)]:
+        𓋁.𓋗𓂋.append(𓅘)
+    assert 𓋁.𓋗() is False                      # <4 📜
+    𓋁.𓋗𓂋.append((1, 2))
+    assert 𓋁.𓋗() is True                       # A B A B → 🧱
+    𓋁.𓋗𓂋.append((3, 3))                       # B A B C → 🚫
+    assert 𓋁.𓋗() is False
+    # 💤 🐾 ×4 (A A A A) → 🚫 2-cycle  (𓄾 ≠ 𓃀 🚧)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    for _ in range(4):
+        𓋂.𓋗𓂋.append((2, 2))
+    assert 𓋂.𓋗() is False
+    # 🐾 → 📜 grows  (𓂷 feeds 𓋗𓂋)
+    𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋃.𓂷("➡️")
+    assert list(𓋃.𓋗𓂋)[-1] == 𓋃.𓃠
+
+
+def 𓊪𓋔𓊄():
+    # 🌟🧊  🐈🧠 :  💨 flee + 🧊 近 → 🏃🧊  ;  🚧 guard (🐕 🥇 → 🚫) ; 🧱 → relax
+    #
+    # 🏠 : 🐈(5,4) 🐕(7,4) 📏2 → 💨 flee (❤️≤3) · 🐭(0,4) ⬅️ side · 🧊(5,7) ⬇️ side
+    #      → 💨 flee 🀄 = ⬅️ (max 📏🐕 , tie min 📏🐭)  ⊥  🏃🧊 = ⬇️   → discriminating ‼️
+    def 𓋅(𓋔=(5, 7), 𓃥=(7, 4), 𓋹=3):
+        𓋆 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓅱𓁋=False, 𓎛𓁋=False)
+        𓋆.𓋹, 𓋆.𓋯 = 𓋹, True                 # ❤️≤3 → 💨 flee ; 🧶 spent → 🚫🎾
+        𓋆.𓃠, 𓋆.𓃥, 𓋆.𓋔 = (5, 4), 𓃥, 𓋔
+        𓋆.𓁉𓂋, 𓋆.𓊚𓂋 = [(0, 4)], [0]
+        𓋆.𓇬, 𓋆.𓆛, 𓋆.𓊮 = (0, 0), (0, 7), (10, 0)
+        return 𓋆
+    # 🚫🧊 → 💨 flee 🀄 = ⬅️  (🏁 base 🐾)
+    assert 𓅓.𓊄(𓋅(𓋔=None)) == "⬅️"
+    # 🧊 ⬇️ : 📏🧊(🐈)=3 , 📏🧊(🐕)=5 → 3+1 < 5 ✅ → 🏃🧊
+    𓋁 = 𓋅()
+    assert 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃠) == 3 and 𓋁.𓃰(𓋁.𓋔).get(𓋁.𓃥) == 5
+    assert 𓅓.𓊄(𓋁) == "⬇️"                     # 🏃🧊 ‼️  (⚔️ 💨 flee ⬅️)
+    # 🚧 guard : 🐕 近🧊 → 🚫 🏃🧊  (🚫😿💀)
+    𓋂 = 𓋅(𓃥=(5, 6))                           # 📏🧊(🐕)=1 → 3+1 < 1 ✗
+    assert 𓅓.𓊄(𓋂) != "⬇️"                     # 💨 flee 🀄 , 🚫 🏃🧊 → 🐕
+    # 🧱 stalemate (📜 2-cycle) → 🚧 relax → 🏃🧊 gamble
+    for 𓅘 in [(5, 4), (4, 4), (5, 4), (4, 4)]:
+        𓋂.𓋗𓂋.append(𓅘)
+    assert 𓋂.𓋗() is True
+    assert 𓅓.𓊄(𓋂) == "⬇️"                     # 🧱 → gamble 🏃🧊 ‼️
+    # 🚧 🔚 ❤️ : ❤️ ≤ 𓊄𓋹𓈎 → 🚫 gamble  (🚫💀)
+    𓋂.𓋹 = 𓅓.𓊄𓋹𓈎
+    assert 𓅓.𓊄(𓋂) != "⬇️"
+    # ❄️ already on → 🚫 🏃🧊  (🚫 waste)
+    𓋃 = 𓋅()
+    𓋃.𓋕 = 4
+    assert 𓅓.𓊄(𓋃) == "⬅️"                     # ❄️ on → 💨 flee 🀄
+    # ❤️ 高 → 🚫 flee mode → 🚫 🏃🧊  (🎯🐭 🀄)
+    assert 𓅓.𓊄(𓋅(𓋹=9)) != "⬇️"
+
+
+def 𓊪𓋔𓁐():
+    # 🌟🧊  🖼️ :  🗺️ 🧊 tile  ·  HUD ❄️×N ⇔ frozen  ·  🌈 cyan
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    assert "🧊" in 𓋁.𓁐()                       # 🗺️ 🧊 drawn
+    assert "❄️" not in 𓋁.𓁑()                   # 🚫❄️ → 🙈 HUD
+    𓋁.𓋕 = 3
+    assert "❄️×3" in 𓋁.𓁑()                     # ❄️ on → HUD
+    𓋁.𓋕 = 0
+    assert "❄️" not in 𓋁.𓁑()                   # thaw → 🙈
+    # 🚫🧊 → 🚫 🗺️  (🚫🐕 🏠)
+    assert "🧊" not in 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓃥𓁋=False).𓁐()
+    # 🌈 : 🧊 + ❄️ → cyan wrap
+    assert "\033[96m🧊" in 𓅓.𓋊(𓋁.𓁐(), True)
+    𓋁.𓋕 = 2
+    assert "\033[96m❄️" in 𓅓.𓋊(𓋁.𓁑(), True)
+    assert 𓅓.𓋊(𓋁.𓁐(), False) == 𓋁.𓁐()        # 🚫⚑ → 📺 ↔️
 
 
 def 𓊪𓎏():
@@ -1147,6 +1292,7 @@ def 𓊪𓆓𓂭():
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
      𓊪𓎛, 𓊪𓎛𓁋,
+     𓊪𓋔, 𓊪𓋕, 𓊪𓋗, 𓊪𓋔𓊄, 𓊪𓋔𓁐,
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓎗𓆊, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
