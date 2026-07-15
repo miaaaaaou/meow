@@ -679,7 +679,7 @@ def 𓊪𓋃𓁋():
     𓅐 = 𓋁.𓋂
     𓋁.𓂷("🐾")
     assert 𓋁.𓋂 == 𓅐                          # 🚫⚑ → ⏳ 🚫 tick (∞)
-    assert "⏱️×" not in 𓋁.𓁑()                 # 🖼️ HUD ↔️ unchanged
+    assert "⏳×" not in 𓋁.𓁑()                  # 🖼️ HUD ↔️ unchanged
     𓋁.𓋂 = 0
     𓋁.𓂷("🐾")
     assert 𓋁.𓋺 is False                       # ⏳0 + 🚫⚑ → 🚫💀
@@ -753,17 +753,18 @@ def 𓊪𓋂𓊙():
 def 𓊪𓋃𓁑():
     # 🖼️ HUD ⏱️×N  (⚑ on) , ⏳≤5 → 🟥 flash , 🌈 wrap , 🤝 ❤️🐭🔥  (🚫 collide)
     𓋁 = 𓅓.𓊆(5, random.Random(0), 𓋃𓁋=True)
-    assert "⏱️×80" in 𓋁.𓁑()
+    assert "⏳×80" in 𓋁.𓁑()                   # 🀄 ⏳ = budget  (≠ ⏱️ = 𓏰 ‼️)
+    assert "⏱️×" not in 𓋁.𓁑()                 # 🚫 collide 🀄
     assert "🟥" not in 𓋁.𓁑()                  # ⏳ ⬆️ → 🚫 flash
     assert "❤️×9" in 𓋁.𓁑() and "🐭×1" in 𓋁.𓁑() and "🔥×0" in 𓋁.𓁑()
     𓋁.𓋂 = 5
-    assert "⏱️×5🟥" in 𓋁.𓁑()                  # ⏳ ≤5 → 🟥
+    assert "⏳×5🟥" in 𓋁.𓁑()                  # ⏳ ≤5 → 🟥
     𓋁.𓋂 = 0
-    assert "⏱️×0🟥" in 𓋁.𓁑()                  # 🚧 ≥0
+    assert "⏳×0🟥" in 𓋁.𓁑()                  # 🚧 ≥0
     𓋁.𓋂 = -4
-    assert "⏱️×0🟥" in 𓋁.𓁑()                  # 🚧 🚫 negative
+    assert "⏳×0🟥" in 𓋁.𓁑()                  # 🚧 🚫 negative
     𓂮 = 𓅓.𓋊(𓋁.𓁑(), True)
-    assert "\033[" in 𓂮 and "⏱️" in 𓂮         # 🌈 wrap
+    assert "\033[" in 𓂮 and "⏳" in 𓂮         # 🌈 wrap
     assert 𓅓.𓋊(𓋁.𓁑(), False) == 𓋁.𓁑()      # 🚫⚑ ↔️
 
 
@@ -772,11 +773,49 @@ def 𓊪𓋺𓁐():
     𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
     𓋁.𓋂 = 0
     𓋁.𓋺 = True
-    assert "💀⏱️" in 𓅓.𓋺𓁐(𓋁) and "⏳×0" in 𓅓.𓋺𓁐(𓋁)
+    assert "💀⏳" in 𓅓.𓋺𓁐(𓋁) and "⏳×0" in 𓅓.𓋺𓁐(𓋁)
+    assert "❤️×9" in 𓅓.𓋺𓁐(𓋁)                # ❤️ 🖼️ kept  (🚫 🙈)
     𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
     𓋂.𓋹 = 0
     𓋂.𓋺 = True
     assert "💀🐕" in 𓅓.𓋺𓁐(𓋂) and "❤️×0" in 𓅓.𓋺𓁐(𓋂)
+    # ⚔️ ❤️0 ∧ ⏳0 🀄 🐾 → 🐕 wins  (🚫 🙈 ❤️×0)
+    𓋃 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
+    𓋃.𓋹 = 0
+    𓋃.𓋂 = 0
+    𓋃.𓋺 = True
+    assert "💀🐕" in 𓅓.𓋺𓁐(𓋃) and "❤️×0" in 𓅓.𓋺𓁐(𓋃)
+
+
+def 𓊪𓎋𓉏():
+    # 💾 📜🔝 split by 🏁 mode :  ⏱️ 🏆 ➕⏳ ≫ classic 🏆 → 🚫 pollute ‼️
+    𓋁 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0)
+    𓋂 = 𓅓.𓉔(random.Random(0), 𓊵𓈖=0, 𓋃𓁋=True)
+    assert 𓅓.𓎋𓉏(𓋁) == 𓅓.𓎋𓊪                 # 🏁 classic 🛤️
+    assert 𓅓.𓎋𓉏(𓋂) == 𓅓.𓎋𓊪𓋃               # ⏱️ 🏁 🛤️
+    assert 𓅓.𓎋𓊪 != 𓅓.𓎋𓊪𓋃                   # 🛤️ ≠ 🛤️
+    # 📇 : ⏱️ → ⏳ marker ; 🚫⚑ → 🚫 key
+    𓋁.𓏰 = 10
+    assert "⏳" not in 𓅓.𓎎(𓋁)
+    𓋂.𓏰 = 10
+    𓋂.𓋂 = 33
+    𓆳 = 𓅓.𓎎(𓋂)
+    assert 𓆳["⏳"] == 33                       # ⏳ leftover tagged
+    assert 𓆳["⏱️"] == 10                       # ⏱️ = 𓏰 turns  (🀄 ≠ ⏳)
+    𓋂.𓋂 = -5
+    assert 𓅓.𓎎(𓋂)["⏳"] == 0                  # 🚧 ≥0
+    # 🖼️ 📜🔝 : ⏳ shown ⇔ ⏱️ 🏁
+    assert "⏳33" in 𓅓.𓎍([𓆳])
+    assert "⏳" not in 𓅓.𓎍([𓅓.𓎎(𓋁)])
+    # 💾 e2e : 2 🏁 → 2 📜  (🚫 🤝 mix)
+    with tempfile.TemporaryDirectory() as 𓊪𓉏:
+        𓄿 = os.path.join(𓊪𓉏, "a.json")
+        𓃀 = os.path.join(𓊪𓉏, "b.json")
+        𓅓.𓎌(𓅓.𓎎(𓋁), 𓄿)                     # classic
+        𓅓.𓎌(𓅓.𓎎(𓋂), 𓃀)                     # ⏱️
+        assert len(𓅓.𓎋(𓄿)) == 1 and len(𓅓.𓎋(𓃀)) == 1
+        assert "⏳" not in 𓅓.𓎋(𓄿)[0]          # classic 📜 🚫 ⏱️ record
+        assert "⏳" in 𓅓.𓎋(𓃀)[0]
 
 
 def 𓊪𓋃𓂺():
@@ -1066,7 +1105,7 @@ def 𓊪𓆓𓂭():
      𓊪𓋭, 𓊪𓋮, 𓊪𓋯, 𓊪𓋰,
      𓊪𓋹, 𓊪𓋻,
      𓊪𓁉𓂋, 𓊪𓁏, 𓊪𓁉𓎗, 𓊪𓁉𓊆, 𓊪𓁉𓊰, 𓊪𓊄𓁉,
-     𓊪𓋃𓁋, 𓊪𓋃𓈖, 𓊪𓋂, 𓊪𓋂𓊙, 𓊪𓋃𓁑, 𓊪𓋺𓁐, 𓊪𓋃𓂺,
+     𓊪𓋃𓁋, 𓊪𓋃𓈖, 𓊪𓋂, 𓊪𓋂𓊙, 𓊪𓋃𓁑, 𓊪𓋺𓁐, 𓊪𓎋𓉏, 𓊪𓋃𓂺,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
