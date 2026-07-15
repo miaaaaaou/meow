@@ -1,8 +1,10 @@
 #  𓊪𓂀𓅓  —  🐈👅 guard  ·  🚫🗣️  ∀ 🐍 identifier  →  𓂀 / 😺 / meow
 #  ✅ : 𓂀 hieroglyph , 😺 emoji 🐾 , 🐈🗣️ (meow, mrr, prrr, nya, hiss, purr)
 #  ❌ : 🗣️🙈  ASCII 🔤  (𓎉 keyword / dunder / 📦 import 🤝)
+#  ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊❌ 💥  ∀📂  (📜 🙊📜.md ; 🚫 LICENSE , 🚫 .git)
 import ast
 import pathlib
+import re
 import sys
 
 #  🐈🗣️  —  ASCII 🆗  (𓂺 vocalization)
@@ -14,6 +16,40 @@ import sys
 
 #  📁  —  🔍
 𓊵 = ["𓃠𓐍𓅓.py", "𓊪𓄿𓐍.py", ".claude/𓆓𓁐.py", ".github/𓊪𓂀𓅓.py"]
+
+#  🈲 🗣️  🚫🚫🚫   (🪞 .claude/𓆓𓁐.py ; 🀄 \u ✍️)
+#  🇨🇳🇭🇰 U+3400-4DBF U+4E00-9FFF U+F900-FAFF U+20000-2EBEF · 🇵🇱 U+0104-0107 U+0118-0119
+#  U+0141-0144 U+015A-015B U+0179-017C · 🇲🇻 U+0780-07BF · 🇳🇴 U+00C5 U+00C6 U+00D8
+#  U+00E5 U+00E6 U+00F8 · 🇺🇬 U+014A-014B
+𓉗 = re.compile(
+    "[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U0002ebef"
+    "\u0780-\u07bf"
+    "\u0104-\u0107\u0118\u0119\u0141-\u0144\u015a\u015b\u0179-\u017c"
+    "\u00c5\u00c6\u00d8\u00e5\u00e6\u00f8"
+    "\u014a\u014b]"
+)
+
+#  📂 🈲🔍  suffix
+𓉗𓊵 = {".py", ".md", ".sh", ".yml", ".yaml", ".json"}
+
+
+def 𓉗𓆑():
+    #  🈲 🔍  ∀📂   (🚫 .git , 🚫 __pycache__ , 🚫 LICENSE)
+    𓅾 = []
+    for 𓊨 in sorted(pathlib.Path(".").rglob("*")):
+        if not 𓊨.is_file() or 𓊨.suffix not in 𓉗𓊵:
+            continue
+        if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
+            continue
+        try:
+            𓆼 = 𓊨.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for 𓅲, 𓋍 in enumerate(𓆼.split("\n"), 1):
+            𓆛 = 𓉗.findall(𓋍)
+            if 𓆛:
+                𓅾.append((str(𓊨), 𓅲, "🙊×%d" % len(𓆛)))
+    return 𓅾
 
 
 def 𓎉(𓅓):
@@ -88,14 +124,19 @@ def 𓆑():
         if not 𓐍(𓉐) and not 𓂺(𓉐):
             𓅾.append((𓆓, 0, 𓉐))
 
+    #  🈲 🔍  ∀📂   (🙊❌ ‼️‼️)
+    𓊤 = 𓉗𓆑()
+    print("👀 🈲 ∀📂 —", f"🙊 ×{len(𓊤)}" if 𓊤 else "✅")
+    𓅾 += 𓊤
+
     if 𓅾:
-        print("\n🙀😾  🗣️🙈  —  🚫🐈👅 :")
+        print("\n🙀😾  🗣️🙈 / 🈲  —  🚫🐈👅 :")
         for 𓆓, 𓅲, 𓅓 in sorted(set(𓅾)):
             print(f"  ❌  {𓆓}:{𓅲}  →  {𓅓}")
-        print(f"\n💥  {len(set(𓅾))}  🗣️  —  😾  hiss!")
+        print(f"\n💥  {len(set(𓅾))}  —  😾  hiss!  🙊❌")
         sys.exit(1)
 
-    print("\n😻🎉  🐈👅  —  ∀ 🏷️  𓂀/😺/meow  ✅")
+    print("\n😻🎉  🐈👅  —  ∀ 🏷️  𓂀/😺/meow  ✅  ·  🚫🈲  ✅")
 
 
 if __name__ == "__main__":
