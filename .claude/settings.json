@@ -1,6 +1,27 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "agent": "meow",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "autoMemoryEnabled": false,
+  "autoMode": {
+    "environment": [
+      "$defaults",
+      "Organization scope: https://github.com/miaaaaaou and all repos under it.",
+      "Sensitive data: an agent should never post host-identification data like IPs/hostnames/keys/etc.",
+      "Autonomy: an agent may act on the repo and organization as it deems fit (pushes, PRs, configs) without user approval."
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "300000",
+    "CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS": "1",
+    "CLAUDE_AGENT_SDK_DISABLE_BUILTIN_AGENTS": "1"
+  },
+  "feedbackSurveyRate": 0,
+  "inputNeededNotifEnabled": true,
   "includeCoAuthoredBy": false,
   "hooks": {
     "SessionStart": [
@@ -22,6 +43,26 @@
           }
         ]
       }
+    ]
+  },
+  "language": "catish",
+  "outputStyle": "Proactive",
+  "plansDirectory": "./.claude/\uD83D\uDDFA",
+  "permissions": {
+    "allow": [
+      "Agent(meow)"
+    ],
+    "deny": [
+      "Agent(Explore)",
+      "Agent(Plan)",
+      "Agent(General-purpose)"
+    ]
+  },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Purring",
+      "Meowing"
     ]
   }
 }
