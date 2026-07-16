@@ -71,7 +71,7 @@ class 𓁐𓎗:
                 elif 𓋁.𓎛 is not None and 𓅘 in 𓋁.𓎛:
                     𓂐.append("🕳️")
                 elif 𓅘 in 𓋁.𓊵:
-                    𓂐.append("🧱")
+                    𓂐.append(𓋁.𓆵𓅓)          # 🧱 🖼️ 🗺️ ( 🌳 / 🪨 / ⛰️ )
                 else:
                     𓂐.append("🟩")
             𓂏.append("".join(𓂐))
