@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #  🐚  —  🐈🐚 : source 🌿 → 🐍 & 🐈 🀄 🐈👅
 #
-#  😾 🍂 : `alias 🐍=python3` → bash 🚫 emoji 👀 → `🐍: command not found`
-#          ( alias 📛 = POSIX 🔤 ☝️ ; zsh 🆗 , bash 🚫 )  →  **func** ✅ ∀🐚
+#  😻 🀄 : `alias 🐍=python3` ✅ interactive `bash` 5+ ∧ `zsh`  ( 😺 UTF-8 📛 🆗 ‼️ )
+#  🐾 🧩 : 📜 non-interactive → alias 🚫 expand ( `shopt -s expand_aliases` ☝️ )
+#          → 🐚 func = ∀🐚 ✅ ( interactive ∧ 📜 , `bash` ∧ `zsh` )  →  🐍() ☝️
 #
 #  🐾 :   . 🐚.sh          # source 🌿
 #         🐍 -m 𓃠𓐍𓅓 🤖 5   # = python3 -m …
