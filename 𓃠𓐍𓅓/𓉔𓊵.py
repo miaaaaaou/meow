@@ -5,7 +5,8 @@ from collections import deque
 
 from .𓐍𓊵 import 𓈖𓊪, 𓈖𓏏, 𓂃, 𓂊𓈎, 𓎘, 𓐍, 𓎉
 from .𓁐𓊵 import 𓁐𓎗
-from .𓊞𓊵 import 𓊄𓋛, 𓊄𓋛𓂭, 𓁉𓈎, 𓁉𓊞
+from .𓊞𓊵 import 𓊄𓋛, 𓊄𓋛𓂭, 𓁉𓈎, 𓁉𓊞, 𓆵𓊗, 𓆵𓊘
+from .𓆵𓊵 import 𓆵𓅓
 
 class 𓉔(𓁐𓎗):
     # 🏠🎮  🐈💨🐭  🧱
@@ -46,14 +47,18 @@ class 𓉔(𓁐𓎗):
     def __init__(𓋁, 𓊃: random.Random | None = None, 𓊵𓈖: int = 9,
                  𓃥𓁋: bool = True, 𓅱𓁋: bool = True, 𓎛𓁋: bool = True,
                  𓋃𓁋: bool = False, 𓋔𓁋: bool = True,
-                 𓋦𓁋: bool = False):
+                 𓋦𓁋: bool = False, 𓆵𓉏: str | None = None):
         𓋁.𓊃 = 𓊃 or random.Random()
         𓋁.𓃠 = (0, 0)                        # 🐈
         𓋁.𓁉𓂋 = [(𓈖𓊪 - 1, 𓈖𓏏 - 1)]        # 🐭🐭 👥  (📍 ⛓️)
         𓋁.𓊚𓂋 = [0]                         # 😮‍💨 / 🐭  (🫁)
         𓋁.𓁍 = 𓋁.𓁉𓂋[0]                   # 📍 🔚 🐭  (∀ 🎯 → 🖼️)
+        if 𓆵𓉏 is None:                     # 🗺️ ∅ → 🎲 ← 𓊃  ( ⊥ 🌱 : 🕹️👆 🀫 )
+            𓆵𓉏 = 𓋁.𓊃.choice(𓆵𓊗)
+        𓋁.𓆵𓉏 = 𓆵𓉏                         # 🗺️ 🀫  ( 🌲 / 🏜️ / 🏔️ )
+        𓋁.𓆵𓅓 = 𓆵𓊘.get(𓆵𓉏, "🧱")          # 🧱 🖼️ 🗺️ → 😺  ( ∅ → 🧱 🗿 )
         𓋁.𓊵: set[tuple[int, int]] = set()   # 🧱
-        𓋁.𓆵(𓊵𓈖)                            # 🧱🎲
+        𓋁.𓆵(𓊵𓈖)                            # 🧱🗺️  ( 🗺️🏭 ↪️ )
         𓋁.𓎛: tuple[tuple[int, int], tuple[int, int]] | None = None  # 🕳️↔️🕳️
         if 𓎛𓁋:
             𓄾 = 𓋁.𓆙()                       # 🕳️ 1️⃣
@@ -157,22 +162,8 @@ class 𓉔(𓁐𓎗):
 
     # ─────────── 🧱🗺️ ───────────
     def 𓆵(𓋁, 𓈖: int) -> None:
-        # 🧱🎲  …  🐈↔️🐭 🔗 ‼️
-        𓆖 = [(𓊪, 𓏏) for 𓊪 in range(𓈖𓊪) for 𓏏 in range(𓈖𓏏)]
-        for _ in range(60):
-            𓆗 = list(𓆖)
-            𓋁.𓊃.shuffle(𓆗)
-            𓆘: set[tuple[int, int]] = set()
-            for 𓅘 in 𓆗:
-                if len(𓆘) >= 𓈖:
-                    break
-                if 𓅘 in (𓋁.𓃠, 𓋁.𓁉):
-                    continue
-                𓆘.add(𓅘)
-            𓋁.𓊵 = 𓆘
-            if 𓋁.𓁉 in 𓋁.𓃰(𓋁.𓃠):     # 🔗❓
-                return
-        𓋁.𓊵 = set()                         # 🏳️  ↩️🅾️
+        # 🧱🗺️  →  ↪️ 🗺️🏭  ( 🌲📚 · 🏜️🤏 · 🏔️🌀 · 🗿 ∅↩️ )  ·  🔗✅ ‼️
+        𓆵𓅓(𓋁, 𓈖, 𓋁.𓆵𓉏)
 
     def 𓊇𓈎(𓋁, 𓅘: tuple[int, int]) -> list[tuple[int, int]]:
         # 🟩 👯  (🙈 🧱 & 📐🧱)
