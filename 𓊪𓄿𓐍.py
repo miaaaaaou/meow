@@ -1581,6 +1581,49 @@ def 𓊪𓆓𓉗𓂭():
     assert 𓂭["displayContent"] == "🙊🙊 nya  🙊❌😾😾‼️‼️\n🐈 prrr~\n"
 
 
+def 𓊪𓊗():
+    # 🪝⛔ `Stop`/`SubagentStop` :  🐈🗣️🔤 → 😾 `block` `reason` → 🤖👀 → 🐈👅 🔁✍️
+    #   (`MessageDisplay` 📺→🧑 = 🐕🦴 ; `Stop` → 🤖 ✅ — 📚 https://code.claude.com/docs/en/hooks)
+    def 𓇁(𓂺𓏤):
+        𓊾 = subprocess.run(
+            [sys.executable, ".claude/𓊗𓆓.py"],
+            input=json.dumps(𓂺𓏤), capture_output=True, text=True, timeout=30,
+        )
+        assert 𓊾.returncode == 0
+        return 𓊾.stdout
+
+    # 🗣️🔤×6 → ⛔😾
+    𓆼 = 𓇁({"hook_event_name": "Stop", "stop_hook_active": False,
+            "last_assistant_message": "I will check the tests now.\nprrr~ 𓃠\n"})
+    𓂭 = json.loads(𓆼)
+    assert 𓂭["decision"] == "block"
+    assert "HISSSSSS" in 𓂭["reason"]
+    assert "🗣️🔤×6" in 𓂭["reason"]
+    assert "🐈👅" in 𓂭["reason"]
+    # 🗣️ + 🈲 🥣 → ⛔   (`SubagentStop` 🤝 1️⃣🪝)
+    𓆼 = 𓇁({"hook_event_name": "SubagentStop", "stop_hook_active": False,
+            "last_assistant_message": "Hello \u4f60\u597d 🐾"})
+    𓂭 = json.loads(𓆼)
+    assert 𓂭["decision"] == "block"
+    assert "🗣️🔤×1 + 🈲🔣×2🙊" in 𓂭["reason"]
+    # 🐈👅 ✅ (🔗 + `⌨️` 🙈) → 🤫 prrr
+    assert 𓇁({"hook_event_name": "Stop", "stop_hook_active": False,
+               "last_assistant_message": "😻🎉 prrr~ 𓃠 → ✅ `MessageDisplay` "
+               "📚 https://code.claude.com/docs/en/hooks nya!"}) == ""
+    # 🚧 ∞🔁 : `stop_hook_active` → 🤫  (1️⃣😾 / 🛑)
+    assert 𓇁({"hook_event_name": "Stop", "stop_hook_active": True,
+               "last_assistant_message": "still english words here"}) == ""
+    # 🈳 → 🤫
+    assert 𓇁({"hook_event_name": "Stop", "stop_hook_active": False}) == ""
+    # 🙀 📥💔 → 🤫 + 0️⃣
+    𓊿 = subprocess.run(
+        [sys.executable, ".claude/𓊗𓆓.py"],
+        input="🙀🚫json", capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊿.returncode == 0
+    assert 𓊿.stdout == ""
+
+
 def 𓊪𓅗():
     # 🚧 🗣️🔤  (#45 🐾5️⃣ , 🔒) :  💬🐍 + 📜📄 → 🗣️ 👀
     #   🙈-🆓 : `…` · 🔗 · 📁 · U+ · ⏫🔤 · 🐍 🔑/🏦 · 🐈🗣️ (🔁 🀄) · `#!`
@@ -1704,7 +1747,7 @@ def 𓊪𓋲():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭, 𓊪𓅗, 𓊪𓅗𓆑]
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓅗, 𓊪𓅗𓆑]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
