@@ -1,32 +1,47 @@
 #!/usr/bin/env python3
 # 🪝 `MessageDisplay` — 🗣️🔤👀 → 📜 ↔️ + 😾hisss! 🏷️   (🚫🎭📜 ; 🔗✅ ; 📺-🪞 ; 📜+🤖👀 🚫🎭)
-# ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊 + 🏷️ ‼️‼️   (🚫🚫🚫 — `⌨️`🔗📁 🚫🙈)
+# ➕ 🈲 ∀🏳️🌐 ¬🇺🇲🇬🇧 → 🙊 + 🏷️ ‼️‼️   (🚫🚫🚫 — `⌨️`🔗📁 🚫🙈 ; ⬜📜 : ASCII + 𓂀 + 😺)
 # 📜 `🙊📜.md` — 🚧📜
 # 📚 https://code.claude.com/docs/en/hooks
 # 📥 `stdin`  `{"delta": "…"}`  →  📤 `stdout`  `{"hookSpecificOutput": {"hookEventName", "displayContent"}}`
 import json
 import re
 import sys
+import unicodedata
 
 # 🙈  `⌨️` , 🔗 , 📁/
 𓁹𓅂 = re.compile(
     r"`[^`\n]*`|(?i:\b[a-z][a-z0-9+.\-]*://\S+)|(?i:\bwww\.\S+)|\S*/\S*"
 )
 
-# 🗣️🔤  (`A-z` + U+00C0-024F)
-𓊖 = re.compile(r"[A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u024f]+")
+# 🗣️🔤  (`A-z` ASCII ☝️ — ¬ASCII 🔤 → 𓉗𓏤 🙊 👇)
+𓊖 = re.compile(r"[A-Za-z]+")
 
-# 🈲 🗣️  🚫🚫🚫  →  🙊❌   (📜 🙊📜.md)
-#   🇨🇳🇭🇰 U+3400-4DBF U+4E00-9FFF U+F900-FAFF U+20000-2EBEF
-#   🇵🇱 U+0104-0107 U+0118-0119 U+0141-0144 U+015A-015B U+0179-017C
-#   🇲🇻 U+0780-07BF  ·  🇳🇴 U+00C5 U+00C6 U+00D8 U+00E5 U+00E6 U+00F8  ·  🇺🇬 U+014A-014B
-𓉗 = re.compile(
-    r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U0002ebef"
-    r"\u0780-\u07bf"
-    r"\u0104-\u0107\u0118\u0119\u0141-\u0144\u015a\u015b\u0179-\u017c"
-    r"\u00c5\u00c6\u00d8\u00e5\u00e6\u00f8"
-    r"\u014a\u014b]"
-)
+# 🈲 ∀🏳️🌐 ¬🇺🇲🇬🇧  🚫🚫🚫  →  🙊❌   (⬜📜 ; 📜 🙊📜.md ; 🪞 `.github/𓊪𓂀𓅓.py`)
+#   ✅ : ASCII U+0000-007F (😾🪜 👇) · 𓂀 U+13000-1342F · 😺🧷 U+200D U+FE0E U+FE0F U+20E3
+#        · 😺🔣 ¬`L*` ¬`M*` ¬`Nl`  (② → — 0-9 … ✅)
+#   🙊 : ∀🔤 `L*`/`M*`/`Nl`  (🇰🇷🇯🇵🇨🇳🇬🇷🇷🇺🇵🇱🇳🇴 … ∀🏳️) + 🪦👅 🤪😹 :
+#        U+10000-12FFF (U+12000-1254F , U+10900 …) · U+1D000-1D0FF · U+1D200-1D24F
+𓉗𓄤 = frozenset({0x200D, 0xFE0E, 0xFE0F, 0x20E3})
+𓉗𓋆 = ((0x10000, 0x12FFF), (0x1D000, 0x1D0FF), (0x1D200, 0x1D24F))
+
+
+def 𓉗𓏤(𓋁: str) -> bool:
+    # ❓ 🈲🔣   (⬜📜 : ✅ → False)
+    𓈙 = ord(𓋁)
+    if 𓈙 <= 0x7F or 0x13000 <= 𓈙 <= 0x1342F or 𓈙 in 𓉗𓄤:
+        return False                                # 🇺🇲🔤 · 𓂀 · 😺🧷
+    if any(𓄿 <= 𓈙 <= 𓃀 for 𓄿, 𓃀 in 𓉗𓋆):
+        return True                                 # 🪦👅
+    𓊍 = unicodedata.category(𓋁)
+    return 𓊍[0] in "LM" or 𓊍 == "Nl"               # ∀🏳️🌐 🔤 → 🙊
+
+
+def 𓉗𓆛(𓆼: str) -> list:
+    # 🈲🔣 🔍 → [🔣]   (🪝⛔ `𓊗𓆓.py` 🤝)
+    return [𓋁 for 𓋁 in 𓆼 if 𓉗𓏤(𓋁)]
+
+
 𓉗𓅱 = "  🙊❌😾😾‼️‼️"
 
 # 🐈✅  meow mew miaou mrrr prrr purr hisss nyan grrr
@@ -53,8 +68,9 @@ def 𓁐(𓆼: str) -> str:
     # 📜 → 📜🏷️   (/📄 ; 📜 ↔️ ; 🔗✅ ; 🗣️🔢 → 🔊🪜 ; 🈲 → 🙊❌ ‼️‼️)
     𓂏 = []
     for 𓋍 in 𓆼.split("\n"):
-        if 𓉗.search(𓋍):
-            𓂏.append(𓉗.sub("🙊", 𓋍) + 𓉗𓅱)      # 🈲 🚫🚫🚫 — 🚫🙈
+        𓋎 = "".join("🙊" if 𓉗𓏤(𓋁) else 𓋁 for 𓋁 in 𓋍)
+        if 𓋎 != 𓋍:
+            𓂏.append(𓋎 + 𓉗𓅱)                    # 🈲 🚫🚫🚫 — 🚫🙈
             continue
         𓈖 = 𓁹(𓋍)
         𓂏.append(𓋍 + 𓅱(𓈖) if 𓈖 else 𓋍)

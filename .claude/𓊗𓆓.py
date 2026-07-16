@@ -9,7 +9,7 @@ import json
 import os
 import sys
 
-# 🧠 ♻️ 𓆓𓁐  (🙈 `⌨️` 🔗 📁 + 🔍🔤 𓁹 + 🈲 𓉗 + 🐈✅)
+# 🧠 ♻️ 𓆓𓁐  (🙈 `⌨️` 🔗 📁 + 🔍🔤 𓁹 + 🈲 𓉗𓆛 ⬜📜 + 🐈✅)
 𓊒 = importlib.util.spec_from_file_location(
     "𓆓𓁐",
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "𓆓𓁐.py"),
@@ -19,9 +19,9 @@ import sys
 
 
 def 𓊗(𓆼: str) -> tuple[int, int]:
-    # (🗣️🔤 Σ📄 , 🈲🔣 Σ)
+    # (🗣️🔤 ∑📄 , 🈲🔣 ∑)
     𓈖 = sum(𓆦.𓁹(𓋍) for 𓋍 in 𓆼.split("\n"))
-    𓈲 = len(𓆦.𓉗.findall(𓆼))
+    𓈲 = len(𓆦.𓉗𓆛(𓆼))
     return 𓈖, 𓈲
 
 
