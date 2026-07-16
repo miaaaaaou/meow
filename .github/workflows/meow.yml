@@ -63,7 +63,7 @@ jobs:
         with:
           python-version: "3.13"
       - name: 🐍 ✅ syntax
-        run: python3 -m py_compile 𓃠𓐍𓅓/*.py 𓊪𓄿𓐍.py .claude/𓆓𓁐.py
+        run: python3 -m py_compile 𓃠𓐍𓅓/*.py 𓊪𓄿𓐍.py .claude/𓆓𓁐.py .claude/𓋴𓆓.py
       - name: 🪝 ✅ 𓆑𓊪.sh
         run: bash -n .claude/𓆑𓊪.sh
       - name: 𓂀 🚫🗣️  (🐈👅 guard)
