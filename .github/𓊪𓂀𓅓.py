@@ -1,7 +1,7 @@
 #  𓊪𓂀𓅓  —  🐈👅 🚧  ·  🚫🗣️  ∀ 🐍 🏷️  →  𓂀 / 😺 / meow
 #  ✅ : 𓂀 , 😺 🐾 , 🐈🗣️ (meow, mrr, prrr, nya, hiss, purr)
 #  ❌ : 🗣️🙈  ASCII 🔤  (𓎉 `__x__` / 📦 `import` 🤝)
-#  ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊❌ 💥  ∀📂  (📜 🙊📜.md ; 🙈 LICENSE , `.git`)
+#  ➕ 🈲 ∀🏳️🌐 ¬🇺🇲🇬🇧 → 🙊❌ 💥  ∀📂  (⬜📜 ; 📜 🙊📜.md ; 🙈 LICENSE , `.git` , 🐈📜🏛️)
 #  ➕ 🗣️🔤 (🇺🇲🇬🇧) → 😾 💥  ∀ 💬🐍 + 📜📄  (🐾5️⃣ #45 : 🔒 → 🗣️ ↩️ 🚫🔁)
 #  ➕ 📛 🚧 → 😾 💥  ∀ 📄 📛  (🚫🚫🚫 README : 📛 = 🀄 → 🚫🐈👅 ‼️ ; 🙈 LICENSE , 🎛️)
 import ast
@@ -12,6 +12,7 @@ import pathlib
 import re
 import sys
 import tokenize
+import unicodedata
 
 #  🐈🗣️  —  ASCII 🆗  (𓂺 👀)   ·   🔁 🀄  (🪞 `.claude/𓆓𓁐.py` : `meoooow` = `meow`)
 𓊞 = {
@@ -45,36 +46,47 @@ def 𓊵𓎗(𓂏):
 #  🙈 📛  —  🐍 🔑 📄 📛  ( 📦 🀄 ‼️ : 🚫 🐈 ✂️ )
 𓊵𓅗 = frozenset({"__init__", "__main__"})
 
-#  🈲 🗣️  🚫🚫🚫   (🪞 `.claude/𓆓𓁐.py` ; 🔣 `\u` ✍️)
-#  🇨🇳🇭🇰 U+3400-4DBF U+4E00-9FFF U+F900-FAFF U+20000-2EBEF · 🇵🇱 U+0104-0107 U+0118-0119
-#  U+0141-0144 U+015A-015B U+0179-017C · 🇲🇻 U+0780-07BF · 🇳🇴 U+00C5 U+00C6 U+00D8
-#  U+00E5 U+00E6 U+00F8 · 🇺🇬 U+014A-014B
-𓉗 = re.compile(
-    "[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U0002ebef"
-    "\u0780-\u07bf"
-    "\u0104-\u0107\u0118\u0119\u0141-\u0144\u015a\u015b\u0179-\u017c"
-    "\u00c5\u00c6\u00d8\u00e5\u00e6\u00f8"
-    "\u014a\u014b]"
-)
+#  🈲 ∀🏳️🌐 ¬🇺🇲🇬🇧  🚫🚫🚫  →  🙊❌   (⬜📜 ; 🪞 `.claude/𓆓𓁐.py` ; 📜 🙊📜.md)
+#  ✅ : ASCII U+0000-007F (😾🪜) · 𓂀 U+13000-1342F · 😺🧷 U+200D U+FE0E U+FE0F U+20E3
+#       · 😺🔣 ¬`L*` ¬`M*` ¬`Nl`  (② → — 0-9 … ✅)
+#  🙊 : ∀🔤 `L*`/`M*`/`Nl`  (🇰🇷🇯🇵🇨🇳🇬🇷🇷🇺🇵🇱🇳🇴 … ∀🏳️) + 🪦👅 🤪😹 :
+#       U+10000-12FFF (U+12000-1254F , U+10900 …) · U+1D000-1D0FF · U+1D200-1D24F
+𓉗𓄤 = frozenset({0x200D, 0xFE0E, 0xFE0F, 0x20E3})
+𓉗𓋆 = ((0x10000, 0x12FFF), (0x1D000, 0x1D0FF), (0x1D200, 0x1D24F))
 
-#  📂 🈲🔍
+
+def 𓉗𓏤(𓋁):
+    #  ❓ 🈲🔣   (⬜📜 : ✅ → False)
+    𓈙 = ord(𓋁)
+    if 𓈙 <= 0x7F or 0x13000 <= 𓈙 <= 0x1342F or 𓈙 in 𓉗𓄤:
+        return False                                # 🇺🇲🔤 · 𓂀 · 😺🧷
+    if any(𓄽𓏤 <= 𓈙 <= 𓄽𓏥 for 𓄽𓏤, 𓄽𓏥 in 𓉗𓋆):
+        return True                                 # 🪦👅
+    𓊍 = unicodedata.category(𓋁)
+    return 𓊍[0] in "LM" or 𓊍 == "Nl"               # ∀🏳️🌐 🔤 → 🙊
+
+
+#  📂 🈲🔍   ·   🙈 🐈📜🏛️ : `.claude/agents/` = 1️⃣📄 ✅ ∀👅  (🪞 𓅗𓆊)
 𓉗𓊵 = {".py", ".md", ".sh", ".yml", ".yaml", ".json"}
+𓉗𓆊 = re.compile(r"^\.claude/agents/")
 
 
 def 𓉗𓆑():
-    #  🈲 🔍  ∀📂   (🙈 `.git` , `__pycache__` , LICENSE)
+    #  🈲 🔍  ∀📂   (🙈 `.git` , `__pycache__` , LICENSE , 🐈📜🏛️)
     𓅾 = []
     for 𓊨 in sorted(pathlib.Path(".").rglob("*")):
         if not 𓊨.is_file() or 𓊨.suffix not in 𓉗𓊵:
             continue
         if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
             continue
+        if 𓉗𓆊.match(𓊨.as_posix()):
+            continue
         try:
             𓆼 = 𓊨.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
         for 𓅲, 𓋍 in enumerate(𓆼.split("\n"), 1):
-            𓆛 = 𓉗.findall(𓋍)
+            𓆛 = [𓋁 for 𓋁 in 𓋍 if 𓉗𓏤(𓋁)]
             if 𓆛:
                 𓅾.append((str(𓊨), 𓅲, "🙊×%d" % len(𓆛)))
     return 𓅾
