@@ -30,6 +30,16 @@
   "inputNeededNotifEnabled": true,
   "includeCoAuthoredBy": false,
   "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/.claude/𓋴𓆓.py\""
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "hooks": [

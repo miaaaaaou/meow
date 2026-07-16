@@ -1789,6 +1789,53 @@ def 𓊪𓋲():
                 break                             # 🎮 🚫💥
 
 
+def 𓊪𓋴𓆓():
+    # 🪝 `PreToolUse` 🏷️📓 : 🙋 → `ask` (→👤) · 💀🩸🐚 → 📓 `stderr` + `exit`0️⃣ (📵) · 🤖/🐙 → 🤐
+    #   📚 https://code.claude.com/docs/en/hooks  ·  🚫🔓 : 🪝 🚫 🤖`allow` ‼️
+    def 𓇀(𓆼, 𓂭=None):
+        return subprocess.run(
+            [sys.executable, ".claude/𓋴𓆓.py"],
+            input=json.dumps({"hook_event_name": "PreToolUse",
+                              "tool_name": 𓆼, "tool_input": 𓂭 or {}}),
+            capture_output=True, text=True, timeout=30,
+        )
+
+    # 🙋 `AskUserQuestion` → `ask`  (→ 👤 🛡️)
+    𓊾 = 𓇀("AskUserQuestion", {"questions": []})
+    assert 𓊾.returncode == 0
+    𓂯 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+    assert 𓂯["permissionDecision"] == "ask"
+    assert "🙋" in 𓂯["permissionDecisionReason"] and "👤" in 𓂯["permissionDecisionReason"]
+    # 💀🩸🐚 → 📓 `stderr` + `exit`0️⃣ , 🈳 `stdout`  (📵 , 🚫⛔ , 🚫 `allow` ‼️)
+    for 𓂭 in ({"command": "rm -rf /"}, {"command": "git push --force origin meow"},
+              {"command": "git reset --hard HEAD~3"}, {"command": "echo x > 🐈.py"},
+              {"command": "dd if=/dev/zero of=🐈"}):
+        𓊾 = 𓇀("Bash", 𓂭)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "", 𓂭
+        assert "💀" in 𓊾.stderr, 𓂭
+    # 🐙🐱 `mcp__github*` + 🀫 (👀·✍️·🤖) → 🤐  (🈳 `stdout` → 🛡️ 🀄🌊)
+    for 𓆼, 𓂭 in (
+        ("mcp__github__merge_pull_request", {"pullNumber": 1}),
+        ("mcp__github__delete_file", {"path": "🐈.py"}),
+        ("mcp__github__create_pull_request", {"title": "🐈"}),
+        ("Read", {"file_path": "🐈.py"}),
+        ("Write", {"file_path": "🐈.py"}),
+        ("Edit", {"file_path": "🐈.py"}),
+        ("Bash", {"command": "ls -la"}),
+        ("Grep", {"pattern": "🐈"}),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "", (𓆼, 𓂭)
+    # 🔒 : 💀 → 🚫 `allow` ‼️  (🈳 `stdout` → 🚫 🗳️)
+    assert 𓇀("Bash", {"command": "rm -rf x"}).stdout == ""
+    # 📥💔 (🚫 `json`) → 🤐 + `exit` 0️⃣
+    𓊿 = subprocess.run(
+        [sys.executable, ".claude/𓋴𓆓.py"],
+        input="🙀🚫json", capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊿.returncode == 0 and 𓊿.stdout == ""
+
+
 𓐩 = [𓊪𓎘, 𓊪𓐍, 𓊪𓎉, 𓊪𓎗, 𓊪𓊵, 𓊪𓎘𓁉, 𓊪𓂷, 𓊪𓇬, 𓊪𓆛, 𓊪𓊙, 𓊪𓄊, 𓊪𓁐, 𓊪𓋴, 𓊪𓊮, 𓊪𓊰,
      𓊪𓃥, 𓊪𓃥𓎗, 𓊪𓊟, 𓊪𓃥𓎿, 𓊪𓁋,
      𓊪𓅱, 𓊪𓅱𓎗, 𓊪𓅱𓎗𓊵, 𓊪𓅲, 𓊪𓅱𓁋,
@@ -1803,7 +1850,7 @@ def 𓊪𓋲():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑]
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓋴𓆓, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:
