@@ -3,6 +3,7 @@
 #  ❌ : 🗣️🙈  ASCII 🔤  (𓎉 `__x__` / 📦 `import` 🤝)
 #  ➕ 🈲🗣️ (🇨🇳🇭🇰🇵🇱🇲🇻🇳🇴🇺🇬) → 🙊❌ 💥  ∀📂  (📜 🙊📜.md ; 🙈 LICENSE , `.git`)
 #  ➕ 🗣️🔤 (🇺🇲🇬🇧) → 😾 💥  ∀ 💬🐍 + 📜📄  (🐾5️⃣ #45 : 🔒 → 🗣️ ↩️ 🚫🔁)
+#  ➕ 📛 🚧 → 😾 💥  ∀ 📄 📛  (🚫🚫🚫 README : 📛 = 🀄 → 🚫🐈👅 ‼️ ; 🙈 LICENSE , 🎛️)
 import ast
 import builtins
 import io
@@ -151,6 +152,32 @@ def 𓅗𓆑():
     return 𓅾
 
 
+#  📛 🚧  —  📄 📛 → 𓂀 / 😺 / meow ☝️   ( 🚫🚫🚫 README 😾 ‼️ )
+#  🍂 : 🀄 CI 👀 📄 🀄 (💬🐍 + 📜📄) , 🚫 📛 → `README.md` 🐈👅 🀄 → CI ✅ 🕳️
+#  🙈 : LICENSE , `.gitignore` , 🎛️ (`.claude/settings` , `.github/workflows/`)
+𓉐𓁹 = frozenset({"LICENSE", ".gitignore", ".gitattributes", ".gitmodules"})
+𓉐𓆊 = re.compile(r"^(?:\.claude/settings|\.github/workflows/)")
+
+
+def 𓉐𓆑():
+    #  📛 🔍  ∀📄   →  [(📛 , 0 , 📛)]   ( 🀄 📛 = 😾 → 🚫🐈👅 ‼️ )
+    𓅾 = []
+    for 𓊨 in sorted(pathlib.Path(".").rglob("*")):
+        if not 𓊨.is_file():
+            continue
+        if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
+            continue
+        𓉐 = 𓊨.as_posix()
+        if 𓊨.name in 𓉐𓁹 or 𓉐𓆊.match(𓉐):
+            continue
+        𓉔 = 𓊨.stem
+        if 𓉔 in 𓊵𓅗:                       # `__init__` `__main__` = 🐍 🔑 📛
+            continue
+        if not 𓐍(𓉔) and not 𓂺(𓉔):       # 🚫 𓂀/😺 ∧ 🚫 🐈🗣️  →  😾
+            𓅾.append((𓉐, 0, "📛 " + 𓉔))
+    return 𓅾
+
+
 def 𓎉(𓅓):
     #  ❓  `__x__`
     return 𓅓.startswith("__") and 𓅓.endswith("__")
@@ -236,6 +263,11 @@ def 𓆑():
     print("👀 🗣️🔤 💬🐍+📜📄 —", f"😾 ×{len(𓊥)}" if 𓊥 else "✅")
     𓅾 += 𓊥
 
+    #  📛 🔍  ∀📄   ( 🚫🚫🚫 README 😾 : 📛 = 🀄 → 🚫🐈👅 ‼️ )
+    𓊧 = 𓉐𓆑()
+    print("👀 📛 ∀📄 —", f"😾 ×{len(𓊧)}" if 𓊧 else "✅")
+    𓅾 += 𓊧
+
     if 𓅾:
         print("\n🙀😾  🗣️🙈 / 🈲  —  🚫🐈👅 :")
         for 𓆓, 𓅲, 𓅓 in sorted(set(𓅾)):
@@ -243,7 +275,7 @@ def 𓆑():
         print(f"\n💥  {len(set(𓅾))}  —  😾  hiss!  🙊❌")
         sys.exit(1)
 
-    print("\n😻🎉  🐈👅  —  ∀ 🏷️  𓂀/😺/meow  ✅  ·  🚫🈲  ✅  ·  🚫🗣️🔤  ✅")
+    print("\n😻🎉  🐈👅  —  ∀ 🏷️  𓂀/😺/meow  ✅  ·  🚫🈲  ✅  ·  🚫🗣️🔤  ✅  ·  📛 ✅")
 
 
 if __name__ == "__main__":
