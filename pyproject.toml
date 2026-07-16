@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meow"
+version = "0.1.0"
+description = "🐈🎮🕹️🐭🏁 — 😺👅 🧱🗺️ 🕹️ ⌨️🐾"
+requires-python = ">=3.12"
+
+[[project.authors]]
+name = "𓃠"
+
+[project.scripts]
+meow = "𓃠𓐍𓅓.__main__:𓊪𓅱"
+
+[tool.setuptools]
+packages = ["𓃠𓐍𓅓"]
