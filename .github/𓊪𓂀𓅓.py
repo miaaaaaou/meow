@@ -167,7 +167,8 @@ def 𓅗𓆑():
 #  📛 🚧  —  📄 📛 → 𓂀 / 😺 / meow ☝️   ( 🚫🚫🚫 README 😾 ‼️ )
 #  🍂 : 🀄 CI 👀 📄 🀄 (💬🐍 + 📜📄) , 🚫 📛 → `README.md` 🐈👅 🀄 → CI ✅ 🕳️
 #  🙈 : LICENSE , `.gitignore` , 🎛️ (`.claude/settings` , `.github/workflows/`)
-𓉐𓁹 = frozenset({"LICENSE", ".gitignore", ".gitattributes", ".gitmodules"})
+𓉐𓁹 = frozenset({"LICENSE", ".gitignore", ".gitattributes", ".gitmodules",
+                 "pyproject.toml"})
 𓉐𓆊 = re.compile(r"^(?:\.claude/settings|\.github/workflows/)")
 
 

@@ -54,6 +54,22 @@ jobs:
         timeout-minutes: 3
         run: python3 -m 𓃠𓐍𓅓 🤖 ${{ matrix.mew }} 🌈
 
+  pip:
+    name: 📦🚚 🖥️meow 🐍3.13
+    runs-on: ubuntu-latest
+    env:
+      TERM: dumb
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: 📦 🚚  (pip install .)
+        run: python3 -m pip install .
+      - name: 🖥️ 🤖🎬  (meow 🤖 1)
+        timeout-minutes: 3
+        run: meow 🤖 1
+
   prrr:
     name: 🐍📏 + 𓂀🚫🗣️
     runs-on: ubuntu-latest

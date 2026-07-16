@@ -4,3 +4,9 @@ __pycache__/
 .claude/worktrees/
 # 💾 🏆 📜🔝  —  🎮 🏃 🗑️ → 🚫 🎣 ‼️  ( 🧪 🩹 → 🏖️ ☝️ )
 🏆📜*.json
+# 📦 🚚 build 🚮  ( `pip install .` → 🀄 → 🚫 🎣 )
+*.egg-info/
+build/
+dist/
+# 🔒 session ⏲️  (runtime 👻)
+.claude/scheduled_tasks.lock
