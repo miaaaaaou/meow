@@ -84,3 +84,5 @@ jobs:
         run: bash -n .claude/𓆑𓊪.sh
       - name: 𓂀 🚫🗣️  (🐈👅 guard)
         run: python3 .github/𓊪𓂀𓅓.py
+      - name: "⛙📨 🐈👅  (#76 : 🐈✍️ ❌ · 🙋✍️ ⚠️)"
+        run: python3 .github/𓊪𓂀𓅓.py 📨
