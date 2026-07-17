@@ -14,15 +14,15 @@ import sys
 import tokenize
 import unicodedata
 
-#  🐈🗣️  —  ASCII 🆗  (𓂺 👀)   ·   🔁 🀄  (🪞 `.claude/𓆓𓁐.py` : `meoooow` = `meow`)
+#  🐈🗣️  —  ASCII 🆗  (𓂺 👀)   ·   🔁 🀄  (🪞🔒 ≡ `𓃠𓊍` `.claude/𓆓𓁐.py` #70 ; `meoooow` = `meow`)
+#  ⏮️ 🌊↔️ ✂️ #70-🥈 : `yowl` `trill` `chirr` = 🗣️🇺🇲 🕳️ → 🚮
 𓊞 = {
     "meow", "meoow", "meooow", "meoooow", "mew", "mrr", "mrrr", "mrrrr",
     "prr", "prrr", "prrrr", "purr", "purrr", "nya", "nyan", "hiss", "hsss",
-    "miao", "miau", "mao", "mrow", "mrowr", "yowl", "trill", "chirr",
+    "miao", "miau", "mao", "mrow", "mrowr",
 }
 𓊞𓊍 = re.compile(
-    r"(?i)^(?:m+e+o+w+|m+e+w+|m+i+a+(?:[ou]+w*|w+)|m+r{2,}|p+u*r{2,}"
-    r"|h+i*s{2,}|n+y+a+n*|g*r{2,}|y+o+w+l+|t+r+i+l+|c+h+i+r+)$"
+    r"(?i)^(?:m+e+o+w+|m+e+w+|m+i+a+(?:[ou]+w*|w+)|m+r{2,}|p+u*r{2,}|h+i*s{2,}|n+y+a+n*|g*r{2,})$"
 )
 
 #  📁  —  🔍  (🏷️ 🀄)   ·   📦 📁 → 🐾 ∀ 🧱  (#48 ✂️)
@@ -47,23 +47,27 @@ def 𓊵𓎗(𓂏):
 𓊵𓅗 = frozenset({"__init__", "__main__"})
 
 #  🈲 ∀🏳️🌐 ¬🇺🇲🇬🇧  🚫🚫🚫  →  🙊❌   (⬜📜 ; 🪞 `.claude/𓆓𓁐.py` ; 📜 🙊📜.md)
-#  ✅ : ASCII U+0000-007F (😾🪜) · 𓂀 U+13000-1342F · 😺🧷 U+200D U+FE0E U+FE0F U+20E3
-#       · 😺🔣 ¬`L*` ¬`M*` ¬`Nl`  (② → — 0-9 … ✅)
-#  🙊 : ∀🔤 `L*`/`M*`/`Nl`  (🇰🇷🇯🇵🇨🇳🇬🇷🇷🇺🇵🇱🇳🇴 … ∀🏳️) + 🪦👅 🤪😹 :
+#  ✅ : ASCII U+0000-007F (😾🪜) · 𓂀 U+13000-1342F (0️⃣🏛️ ☝️ — ➕A 🚫 : 🖼️🦴🔲 + 🐍<3.12 `Cn`) · 😺🧷 U+200D U+FE0E U+FE0F U+20E3
+#       · 😺🔣 ¬`L*` ¬`M*` ¬`Nl` ¬`Nd`  (② ½ → — … ✅ ; 🔢 ⬜📜 `0-9` ☝️)
+#  🙊 : ∀🔤 `L*`/`M*`/`Nl`  (🇰🇷🇯🇵🇨🇳🇬🇷🇷🇺🇵🇱🇳🇴 … ∀🏳️) + 🌐🔢 `Nd` ¬ASCII (#70)
+#       + 🔤👯 `So` U+249C-24E9 · U+1F110-1F169 (#70 : ⭕🔤 🔲🔤 — 🎭🗣️) + 🪦👅 🤪😹 :
 #       U+10000-12FFF (U+12000-1254F , U+10900 …) · U+1D000-1D0FF · U+1D200-1D24F
 𓉗𓄤 = frozenset({0x200D, 0xFE0E, 0xFE0F, 0x20E3})
-𓉗𓋆 = ((0x10000, 0x12FFF), (0x1D000, 0x1D0FF), (0x1D200, 0x1D24F))
+𓉗𓋆 = (
+    (0x10000, 0x12FFF), (0x1D000, 0x1D0FF), (0x1D200, 0x1D24F),  # 🪦👅
+    (0x249C, 0x24E9), (0x1F110, 0x1F169),                        # 🔤👯 `So` (#70)
+)
 
 
-def 𓉗𓏤(𓋁):
-    #  ❓ 🈲🔣   (⬜📜 : ✅ → False)
+def 𓉗𓏤(𓋁: str) -> bool:
+    # ❓ 🈲🔣   (⬜📜 : ✅ → False)
     𓈙 = ord(𓋁)
     if 𓈙 <= 0x7F or 0x13000 <= 𓈙 <= 0x1342F or 𓈙 in 𓉗𓄤:
         return False                                # 🇺🇲🔤 · 𓂀 · 😺🧷
-    if any(𓄽𓏤 <= 𓈙 <= 𓄽𓏥 for 𓄽𓏤, 𓄽𓏥 in 𓉗𓋆):
-        return True                                 # 🪦👅
+    if any(𓄿 <= 𓈙 <= 𓃀 for 𓄿, 𓃀 in 𓉗𓋆):
+        return True                                 # 🪦👅 + 🔤👯
     𓊍 = unicodedata.category(𓋁)
-    return 𓊍[0] in "LM" or 𓊍 == "Nl"               # ∀🏳️🌐 🔤 → 🙊
+    return 𓊍[0] in "LM" or 𓊍 in ("Nl", "Nd")       # ∀🏳️🌐 🔤 + 🌐🔢 → 🙊
 
 
 #  📂 🈲🔍   ·   🙈 🐈📜🏛️ : `.claude/agents/` = 1️⃣📄 ✅ ∀👅  (🪞 𓅗𓆊)
