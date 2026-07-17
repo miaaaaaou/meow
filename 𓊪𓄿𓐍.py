@@ -875,8 +875,8 @@ def 𓊪𓋃𓂺():
 
 
 def 𓊪𓋊():
-    # 🌈  🎨 : ⚑ → ⎋ 🎨 , 🚫⚑ → 📺 ↔️ 🗿
-    𓊞 = "🐈🟩🧱\n🐭🐕🥛"
+    # 🌈  🎨 : ⚑ → ⎋ 🎨 , 🚫⚑ → 📺 ↔️ 🗿  ( 🌳 = 🧱 😺 🗿 : #71 → 🧱 🪦 ✂️ )
+    𓊞 = "🐈🟩🌳\n🐭🐕🥛"
     𓂭 = 𓅓.𓋊(𓊞, True)
     assert "\033[" in 𓂭               # 🎨 ⎋ 🈶
     assert "\033[0m" in 𓂭             # 🔚 🔄
@@ -1460,6 +1460,29 @@ def 𓊪𓎏𓊪𓏰():
     assert "🤔❓" in 𓂮.stdout and "👋😼" in 𓂮.stdout
 
 
+def 𓊪𓊪𓏰𓋠():
+    # 🕹️ 🎛️ 🐈👅 (#73) :  🥩 repr 🚿 ✂️ — None/tuple/list ∉ `stdout`  ·  🎛️ = 𓁑() 🗿 ☝️  (⚔️ 𓂀.md §45)
+    𓂺 = subprocess.run(
+        [sys.executable, "-m", "𓃠𓐍𓅓", "1"],
+        input="\x1b[C\n\x1b[B\n🙀\n",
+        capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂺.returncode == 0
+    assert "None" not in 𓂺.stdout                # 🐕None 🐦None ✂️  (🎚️1 : 🐕🐦 ∅)
+    assert "(" not in 𓂺.stdout                   # 🐈(x, y) tuple 🥩 ✂️
+    assert "[" not in 𓂺.stdout                   # 🐭[(x, y)] list 🥩 ✂️  (🚫🌈 → 🚫 ⎋[)
+    assert "🐭×" in 𓂺.stdout                     # 🔢 𓁑() 🗿 ✅  (🐭 = ×N , 🚫 📍)
+    assert "⏱️=" in 𓂺.stdout and "⚡" in 𓂺.stdout   # 𓏰 + ⚡ 🎛️ 🗿
+    # 🎚️3 : 🐕🐦 🈶 → 📍 tuple 🥩 ∉ 🎛️  ( 📍 → 🗺️ 𓁐() ☝️ )
+    𓂭 = subprocess.run(
+        [sys.executable, "-m", "𓃠𓐍𓅓", "3"],
+        input="\x1b[C\n🙀\n", capture_output=True, text=True, timeout=60,
+    )
+    assert 𓂭.returncode == 0
+    assert "None" not in 𓂭.stdout and "(" not in 𓂭.stdout
+    assert "🐕" in 𓂭.stdout and "🐦" in 𓂭.stdout   # 📍 ∈ 🗺️ ✏️  (🖼️ 👀)
+
+
 def 𓊪𓊆𓂺():
     # 🏁  📖 🎚️ 🌊 ← 🏁 🀄  (🔢 + 1️⃣…9️⃣)
     assert 𓅓.𓊆𓂺([]) == 1
@@ -1880,6 +1903,24 @@ def 𓊪𓆵𓅓():
             assert 𓅕 in 𓋁.𓁐() and "🧱" not in 𓋁.𓁐()
 
 
+def 𓊪𓆵𓋊():
+    # 🌈 🧱 🀫 (#71) :  ∀ 𓆵𓊘 😺 ∈ 𓋊𓊞 (🪞 🔒)  ·  🌈 🗺️ → 🧱 🎨 ✏️ (🚫 🩶🕳️)  ·  🧱 🪦🔑 ✂️
+    assert "🧱" not in 𓅓.𓋊𓊞                       # 🪦🔑 ✂️  (𓁐() 🚫 📤 🧱 : #63 →)
+    for 𓅕 in 𓅓.𓆵𓊘.values():
+        assert 𓅕 in 𓅓.𓋊𓊞, f"🙀 🌈🕳️ {𓅕}"          # 🪞 : 🀫😺 ⊆ 🌈 🔑  (#63 🤝)
+    𓅁 = 0
+    for 𓉏, 𓅕 in 𓅓.𓆵𓊘.items():
+        𓋁 = 𓅓.𓉔(random.Random(1), 𓊵𓈖=14, 𓆵𓉏=𓉏)
+        if not 𓋁.𓊵:
+            continue                                # 🧱 ∅ → ⏭️  (🎲 🍀)
+        𓅁 += 1
+        𓆳 = 𓅓.𓋊(𓋁.𓁐(), True)
+        assert f"\033[{𓅓.𓋊𓊞[𓅕]}m{𓅕}\033[0m" in 𓆳   # 🧱 🎨 ✅
+        assert 𓅕 not in 𓆳.replace(f"\033[{𓅓.𓋊𓊞[𓅕]}m{𓅕}\033[0m", "")   # ∀ 🧱 🎨  (🚫 🩶 🍂)
+        assert "\033[32m🟩\033[0m" in 𓆳             # 🌿 🎨 ↔️ 🗿  (🤝)
+    assert 𓅁 == 3                                   # ∀ 🀫 ×3 🔬 ✅
+
+
 def 𓊪𓆵𓊃():
     # ∅🗺️ 🎲 :  𓆵𓉏 ∅ → 🀫 ∈ 𓆵𓊗 ← 𓊃  ·  🟰 🎲 → 🟰 🀫  (🗿 🔁)
     for 𓊃 in range(30):
@@ -1967,10 +2008,10 @@ def 𓊪𓆵𓊾():
      𓊪𓋃𓁋, 𓊪𓋃𓈖, 𓊪𓋂, 𓊪𓋂𓊙, 𓊪𓋃𓁑, 𓊪𓋺𓁐, 𓊪𓎋𓉏, 𓊪𓋃𓂺,
      𓊪𓋊, 𓊪𓋋,
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
-     𓊪𓎏, 𓊪𓎏𓊪𓏰,
+     𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
      𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓋴𓆓, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑,
-     𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓉏, 𓊪𓆵𓊾]
+     𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓉏, 𓊪𓆵𓊾]
 
 if __name__ == "__main__":
     for 𓆑 in 𓐩:

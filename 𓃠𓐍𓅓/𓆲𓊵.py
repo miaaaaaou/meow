@@ -81,7 +81,8 @@ def 𓊪𓏰(𓊍: int = 1, 𓋉: bool = False, 𓋃𓁋: bool = False, 𓋦𓁋
     while not 𓉔𓏤.𓋾():
         print(𓋊(𓉔𓏤.𓁐(), 𓋉))
         𓋛 = "🚧" if 𓉔𓏤.𓋯 else "🎾"
-        print(f"⏱️={𓉔𓏤.𓏰}  🐈{𓉔𓏤.𓃠} 🐭{𓉔𓏤.𓁉𓂋} 🐕{𓉔𓏤.𓃥} 🐦{𓉔𓏤.𓅱}  ⚡{𓉔𓏤.𓊰}  🧶{𓋛}{𓉔𓏤.𓋮}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  😿×{𓉔𓏤.𓊟}")
+        # 🎛️ 🐈👅 ☝️ (#73) : 📍 → 𓁐() 🗺️ 👀 , 🔢 → 𓁑() 🗿  ( 🚫 🥩 repr : None/tuple/list ⛔ , ⚔️ 𓂀.md §45 )
+        print(f"⏱️={𓉔𓏤.𓏰}  ⚡{𓉔𓏤.𓊰}  🧶{𓋛}{𓉔𓏤.𓋮}  {𓋊(𓉔𓏤.𓁑(), 𓋉)}  😿×{𓉔𓏤.𓊟}")
         try:
             𓂺 = input("🐾❓ ")
         except (EOFError, KeyboardInterrupt):
