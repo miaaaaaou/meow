@@ -73,8 +73,9 @@ def 𓉗𓏤(𓋁: str) -> bool:
 
 
 #  📂 🈲🔍   ·   🙈 🐈📜🏛️ : `.claude/agents/` = 1️⃣📄 ✅ ∀👅  (🪞 𓅗𓆊)
+#  🙈 🐈🛖 : `.claude/worktrees/` = 👯🐈 🛖 (🈶 🐈📜 📄) → 🚫🔍  (🍂🛖 → 🙀❌ 🩹)
 𓉗𓊵 = {".py", ".md", ".sh", ".yml", ".yaml", ".json"}
-𓉗𓆊 = re.compile(r"^\.claude/agents/")
+𓉗𓆊 = re.compile(r"^\.claude/(?:agents|worktrees)/")
 
 
 def 𓉗𓆑():
@@ -110,7 +111,7 @@ def 𓉗𓆑():
 
 #  🙈 📂  —  🐈👅 🚫 : `.claude/agents/` (🐈📜 ☝️ ‼️) , 🎛️ (🀄 🗿) , LICENSE
 𓅗𓁹 = ("LICENSE",)
-𓅗𓆊 = re.compile(r"^(?:\.claude/agents/|\.claude/settings|\.github/workflows/)")
+𓅗𓆊 = re.compile(r"^(?:\.claude/agents/|\.claude/worktrees/|\.claude/settings|\.github/workflows/)")
 
 𓅗𓎜 = [
     re.compile(r"^#!.*$", re.M),                     # `#!` 🐍 🛤️
@@ -175,7 +176,7 @@ def 𓅗𓆑():
 #  🙈 : LICENSE , `.gitignore` , 🎛️ (`.claude/settings` , `.github/workflows/`)
 𓉐𓁹 = frozenset({"LICENSE", ".gitignore", ".gitattributes", ".gitmodules",
                  "pyproject.toml"})
-𓉐𓆊 = re.compile(r"^(?:\.claude/settings|\.github/workflows/)")
+𓉐𓆊 = re.compile(r"^(?:\.claude/worktrees/|\.claude/settings|\.github/workflows/)")
 
 
 def 𓉐𓆑():

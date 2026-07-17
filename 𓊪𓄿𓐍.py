@@ -1775,6 +1775,8 @@ def 𓊪𓅗𓆑():
     # 🙈 : 🐈📜 (`.claude/agents/`) = 🗣️ 🈵 → 🚫 💥
     assert 𓆧.𓅗𓆊.match(".claude/agents/meow.md")
     assert 𓆧.𓅗𓆊.match(".github/workflows/meow.yml")
+    assert 𓆧.𓅗𓆊.match(".claude/worktrees/agent-ab39f/.claude/agents/meow.md")
+    assert 𓆧.𓉐𓆊.match(".claude/worktrees/agent-ab39f/𓂀.md")
     assert not 𓆧.𓅗𓆊.match("𓂀.md")
 
 
@@ -1815,6 +1817,7 @@ def 𓊪𓉗𓆑():
         𓊨.write_text(𓆓)
     # 🙈 🐈📜🏛️ : `.claude/agents/` = 1️⃣📄 ✅ ∀👅 → 🚫 💥
     assert 𓆧.𓉗𓆊.match(".claude/agents/meow.md")
+    assert 𓆧.𓉗𓆊.match(".claude/worktrees/agent-ab39f/𓂀.md")
     assert not 𓆧.𓉗𓆊.match("𓂀.md")
     𓊩 = pathlib.Path(".claude/agents/meow.md")
     𓆔 = 𓊩.read_text()
