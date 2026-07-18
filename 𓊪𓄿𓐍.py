@@ -1586,10 +1586,12 @@ def 𓊪𓆓𓂭():
         "final": True,
         "delta": "Let me meow, nya!\n🐈 prrr~\n",
     })
-    𓊾 = subprocess.run(
-        [sys.executable, ".claude/𓆓𓁐.py"],
-        input=𓂺, capture_output=True, text=True, timeout=30,
-    )
+    with tempfile.TemporaryDirectory() as 𓉏:
+        𓊾 = subprocess.run(
+            [sys.executable, ".claude/𓆓𓁐.py"],
+            input=𓂺, capture_output=True, text=True, timeout=30,
+            env=dict(os.environ, CLAUDE_PROJECT_DIR=𓉏),
+        )
     assert 𓊾.returncode == 0
     𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
     assert 𓂭["hookEventName"] == "MessageDisplay"
@@ -1684,10 +1686,12 @@ def 𓊪𓊞𓊍():
 def 𓊪𓆓𓉗𓂭():
     # 🪝 ⛓️  🈲 📥 `json` → 🙊 📤
     𓂺 = json.dumps({"delta": "\u4e2d\u6587 nya\n🐈 prrr~\n"})
-    𓊾 = subprocess.run(
-        [sys.executable, ".claude/𓆓𓁐.py"],
-        input=𓂺, capture_output=True, text=True, timeout=30,
-    )
+    with tempfile.TemporaryDirectory() as 𓉏:
+        𓊾 = subprocess.run(
+            [sys.executable, ".claude/𓆓𓁐.py"],
+            input=𓂺, capture_output=True, text=True, timeout=30,
+            env=dict(os.environ, CLAUDE_PROJECT_DIR=𓉏),
+        )
     assert 𓊾.returncode == 0
     𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
     assert 𓂭["displayContent"] == "🙊🙊 nya  🙊❌😾😾‼️‼️\n🐈 prrr~\n"
@@ -1734,6 +1738,51 @@ def 𓊪𓊗():
     )
     assert 𓊿.returncode == 0
     assert 𓊿.stdout == ""
+
+
+def 𓊪𓊕𓆓():
+    # 🪝📬 #91 : `MessageDisplay` 🗣️/🈲 → ✍️📬 → `PostToolUse` 📭 → 📢😾 `additionalContext` → 🤖👀 ⚡
+    #   (⚔️ `Stop` 🕘😿🕳️ ; 🚧 ➿ : 📭 ✂️ = 1️⃣📢 / 📬)
+    def 𓇁(𓊨𓉏, 𓂺𓏤, 𓅔):
+        return subprocess.run(
+            [sys.executable, 𓊨𓉏],
+            input=json.dumps(𓂺𓏤) if isinstance(𓂺𓏤, dict) else 𓂺𓏤,
+            capture_output=True, text=True, timeout=30, env=𓅔,
+        )
+    with tempfile.TemporaryDirectory() as 𓉏:
+        𓅔 = dict(os.environ, CLAUDE_PROJECT_DIR=𓉏)
+        𓊨 = pathlib.Path(𓉏) / ".claude" / "📬" / "0.jsonl"
+        # 🐈👅 ✅ → 🚫📬
+        𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "🐈 prrr~ 𓃠\n"}, 𓅔)
+        assert 𓊾.returncode == 0 and not 𓊨.exists()
+        # 🗣️🔤×4 → ✍️📬  (`session_id` 𓂀 🚿 → `0`)
+        𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "I will check the tests\n"}, 𓅔)
+        assert 𓊾.returncode == 0 and 𓊨.exists()
+        # ➕ 🈲🔣×2 → 📬 ➕📄  (🥞)
+        𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "\u4e2d\u6587 🐈\n"}, 𓅔)
+        assert 𓊾.returncode == 0 and len(𓊨.read_text().splitlines()) == 2
+        # `PostToolUse` → 📭 + 📢😾  (∑ : 🗣️5 + 🈲2)
+        𓊾 = 𓇁(".claude/𓊕𓆓.py", {"session_id": "𓏤", "tool_name": "Bash"}, 𓅔)
+        assert 𓊾.returncode == 0
+        𓂭 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+        assert 𓂭["hookEventName"] == "PostToolUse"
+        assert "📢😾😾😾HISSSSSS" in 𓂭["additionalContext"]
+        assert "🗣️🔤×5" in 𓂭["additionalContext"]
+        assert "🈲🔣×2🙊" in 𓂭["additionalContext"]
+        assert not 𓊨.exists()               # 📭 ✂️ ‼️
+        # 🚧 ➿ : 📬 ∅ → 🤫  (🚫🔁🔁)
+        𓊾 = 𓇁(".claude/𓊕𓆓.py", {"session_id": "𓏤", "tool_name": "Bash"}, 𓅔)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == ""
+        # 👴📬 >1🕐 → 🗑️  (👻 🍂)
+        𓊨𓊨 = 𓊨.parent / "𓏥.jsonl"
+        𓊨.parent.mkdir(parents=True, exist_ok=True)
+        𓊨𓊨.write_text('{"🗣️": 1, "🈲": 0}\n')
+        os.utime(𓊨𓊨, (0, 0))
+        𓊾 = 𓇁(".claude/𓊕𓆓.py", {"session_id": "𓏤"}, 𓅔)
+        assert 𓊾.returncode == 0 and not 𓊨𓊨.exists()
+        # 🙀 📥💔 → 🤫 + 0️⃣
+        𓊾 = 𓇁(".claude/𓊕𓆓.py", "🙀🚫json", 𓅔)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == ""
 
 
 def 𓊪𓅗():
@@ -2194,7 +2243,7 @@ def 𓊪𓆵𓊾():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓋴𓆓, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
      𓊪𓅘, 𓊪𓅘𓆑,
      𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓋺, 𓊪𓆵𓉏, 𓊪𓆵𓊾]
 
