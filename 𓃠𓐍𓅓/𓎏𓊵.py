@@ -53,6 +53,6 @@ def 𓊆𓂺(𓊾: list[str]) -> int:
     for 𓅕 in 𓊾:
         if 𓅕 in 𓅔:
             return 𓅔[𓅕]
-        if 𓅕.isdigit():
+        if 𓅕.isdecimal():                     # 🩹 #90 : `isdigit` ⊋ `int` (`No` `²`/`③`/`⑦`/`₇` → 💥) → `isdecimal` = `Nd` ☝️ ≡ `int` ✅
             return 𓎘(int(𓅕) - 1, 𓊆𓈖) + 1
     return 1
