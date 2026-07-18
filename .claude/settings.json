@@ -60,6 +60,16 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/.claude/𓊕𓆓.py\""
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [

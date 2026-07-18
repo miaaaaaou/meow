@@ -5,6 +5,7 @@
 # 📚 https://code.claude.com/docs/en/hooks
 # 📥 `stdin`  `{"delta": "…"}`  →  📤 `stdout`  `{"hookSpecificOutput": {"hookEventName", "displayContent"}}`
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -81,12 +82,40 @@ def 𓁐(𓆼: str) -> str:
     return "\n".join(𓂏)
 
 
+# 📬  —  🗣️🔤/🈲 👀 → ✍️ 📬 → `PostToolUse` (`𓊕𓆓.py`) 📭 📢😾 ⚡  (⚔️ `Stop` 🕘 ; #91)
+def 𓊕𓉏() -> str:
+    # 📬 📁 🛤️  (`CLAUDE_PROJECT_DIR` ∨ 🪝📁)
+    𓄿 = os.environ.get("CLAUDE_PROJECT_DIR")
+    𓃀 = os.path.join(𓄿, ".claude") if 𓄿 else os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(𓃀, "📬")
+
+
+def 𓊕𓊨(𓂭: dict) -> str:
+    # 📬 📄 🛤️ ← `session_id`  (🔣 🚿 → 🔒 🛤️)
+    𓊍 = re.sub(r"[^A-Za-z0-9_-]", "", str(𓂭.get("session_id") or "")) or "0"
+    return os.path.join(𓊕𓉏(), 𓊍 + ".jsonl")
+
+
+def 𓊕𓋱(𓂭: dict, 𓈖: int, 𓈲: int) -> None:
+    # 📬 ✍️ ➕  (🙀 → 🤫 — 📺 ☝️ ⛑️)
+    try:
+        os.makedirs(𓊕𓉏(), exist_ok=True)
+        with open(𓊕𓊨(𓂭), "a", encoding="utf-8") as 𓊨:
+            𓊨.write(json.dumps({"🗣️": 𓈖, "🈲": 𓈲}) + "\n")
+    except Exception:
+        pass
+
+
 def 𓋹() -> None:
     try:
         𓂭 = json.load(sys.stdin)
         𓆼 = 𓂭.get("delta") or ""
     except Exception:
         return                          # 🙀 → 📺 🅾️
+    𓈖 = sum(𓁹(𓋍) for 𓋍 in 𓆼.split("\n"))
+    𓈲 = len(𓉗𓆛(𓆼))
+    if 𓈖 or 𓈲:
+        𓊕𓋱(𓂭, 𓈖, 𓈲)                  # 📬 → `PostToolUse` ⚡  (#91)
     print(json.dumps({
         "hookSpecificOutput": {
             "hookEventName": "MessageDisplay",

@@ -10,3 +10,5 @@ build/
 dist/
 # 🔒 session ⏲️  (runtime 👻)
 .claude/scheduled_tasks.lock
+# 📬 🪝  (`𓆓𓁐` ✍️ → `𓊕𓆓` 📭 , runtime 👻 — 🚫 🎣 ; #91)
+.claude/📬/
