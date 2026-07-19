@@ -22,21 +22,23 @@ import time
 
 
 def 𓊕𓄲(𓊨𓉏: str) -> tuple[int, int]:
-    # 📬 📖 → 📭 ✂️ → (∑🗣️🔤 , ∑🈲🔣)   (∅📬 → 0,0)
+    # 📬 📖 → 📭 ✂️ → 🖊️ 🔗↩️ → 🔢 @ ☝️ → (∑🗣️🔤 , ∑🈲🔣)   (∅📬 → 0,0)
+    #   🌊✂️🩹 (#92) : 🖊️ 🔗↩️ ⏮️ 🔢 → 🐈🗣️ `meow` 🌊🔪 → 🔗↩️ → 🚫👻😾
     try:
         with open(𓊨𓉏, encoding="utf-8") as 𓊨:
             𓆼 = 𓊨.read()
         os.unlink(𓊨𓉏)                  # 📭 ‼️  (🚧 ➿ : 1️⃣📢 / 📬)
     except Exception:
         return 0, 0
-    𓈖 = 𓈲 = 0
+    𓊾 = []
     for 𓋍 in 𓆼.splitlines():
         try:
-            𓂮 = json.loads(𓋍)
-            𓈖 += int(𓂮.get("🗣️") or 0)
-            𓈲 += int(𓂮.get("🈲") or 0)
+            𓊾.append(json.loads(𓋍).get("🖊️") or "")
         except Exception:
             continue                    # 💔📄 → ⏭️
+    𓋎 = "".join(𓊾)                     # 🔗↩️ 🌊✂️ → 🔢 🎯 (🚫👻)
+    𓈖 = sum(𓆦.𓁹(𓊍) for 𓊍 in 𓋎.split("\n"))
+    𓈲 = len(𓆦.𓉗𓆛(𓋎))
     return 𓈖, 𓈲
 
 
@@ -71,7 +73,7 @@ def 𓋹() -> None:
         "hookSpecificOutput": {
             "hookEventName": "PostToolUse",
             "additionalContext": (
-                "📢😾😾😾HISSSSSS‼️ " + " + ".join(𓊾) + " 🙀🚫🚫🚫 — 🐈👅‼️ : "
+                𓆦.𓅱(𓈖 + 𓈲).strip() + " " + " + ".join(𓊾) + " 🙀🚫🚫🚫 — 🐈👅‼️ : "
                 "🖼️😺 𓂀𓃠 🔢 `meow` `mrrr` `prrr` `hisss` `nya` ✅ → ⚡🔁✍️ meow!"
             ),
         }

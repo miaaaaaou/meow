@@ -96,12 +96,13 @@ def 𓊕𓊨(𓂭: dict) -> str:
     return os.path.join(𓊕𓉏(), 𓊍 + ".jsonl")
 
 
-def 𓊕𓋱(𓂭: dict, 𓈖: int, 𓈲: int) -> None:
-    # 📬 ✍️ ➕  (🙀 → 🤫 — 📺 ☝️ ⛑️)
+def 𓊕𓋱(𓂭: dict, 𓆼: str) -> None:
+    # 📬 ✍️ ➕ 🖊️ ↩️  (🔢 @ 📭 ☝️ : 🌊✂️ → 🖊️ 🔗↩️ → 🐈🗣️ `meow` 🚫🔪 → 🚫👻😾 ; #92 😵‍💫 🩹)
+    #   (🙀 → 🤫 — 📺 ☝️ ⛑️)
     try:
         os.makedirs(𓊕𓉏(), exist_ok=True)
         with open(𓊕𓊨(𓂭), "a", encoding="utf-8") as 𓊨:
-            𓊨.write(json.dumps({"🗣️": 𓈖, "🈲": 𓈲}) + "\n")
+            𓊨.write(json.dumps({"🖊️": 𓆼}) + "\n")
     except Exception:
         pass
 
@@ -112,10 +113,8 @@ def 𓋹() -> None:
         𓆼 = 𓂭.get("delta") or ""
     except Exception:
         return                          # 🙀 → 📺 🅾️
-    𓈖 = sum(𓁹(𓋍) for 𓋍 in 𓆼.split("\n"))
-    𓈲 = len(𓉗𓆛(𓆼))
-    if 𓈖 or 𓈲:
-        𓊕𓋱(𓂭, 𓈖, 𓈲)                  # 📬 → `PostToolUse` ⚡  (#91)
+    if 𓊖.search(𓆼) or 𓉗𓆛(𓆼):          # 🀫🔤 ∨ 🈲 → 📬 🖊️  (🔢 @ 📭 : 🌊✂️🔗↩️ → 🎯 ; #92 🩹)
+        𓊕𓋱(𓂭, 𓆼)                       # 📬 → `PostToolUse` ⚡  (#91)
     print(json.dumps({
         "hookSpecificOutput": {
             "hookEventName": "MessageDisplay",

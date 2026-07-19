@@ -1756,7 +1756,8 @@ def 𓊪𓊗():
 
 
 def 𓊪𓊕𓆓():
-    # 🪝📬 #91 : `MessageDisplay` 🗣️/🈲 → ✍️📬 → `PostToolUse` 📭 → 📢😾 `additionalContext` → 🤖👀 ⚡
+    # 🪝📬 #91/#92 : `MessageDisplay` 🖊️↩️ → ✍️📬 → `PostToolUse` 📭 🔗↩️ 🔢 → 📢😾 😾🪜 → 🤖👀 ⚡
+    #   🌊✂️🩹 (#92 😵‍💫) : 🐈🗣️ `meow` 🌊🔪 `me`+`ow` → 📬 🔗↩️ ⏮️ 🔢 → 🚫👻😾
     #   (⚔️ `Stop` 🕘😿🕳️ ; 🚧 ➿ : 📭 ✂️ = 1️⃣📢 / 📬)
     def 𓇁(𓊨𓉏, 𓂺𓏤, 𓅔):
         return subprocess.run(
@@ -1766,11 +1767,16 @@ def 𓊪𓊕𓆓():
         )
     with tempfile.TemporaryDirectory() as 𓉏:
         𓅔 = dict(os.environ, CLAUDE_PROJECT_DIR=𓉏)
-        𓊨 = pathlib.Path(𓉏) / ".claude" / "📬" / "0.jsonl"
-        # 🐈👅 ✅ → 🚫📬
-        𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "🐈 prrr~ 𓃠\n"}, 𓅔)
+        𓊨 = pathlib.Path(𓉏) / ".claude" / "📬" / "0.jsonl"   # `session_id` 𓂀 🚿 → `0`
+        # 🐈👅 ✅ (🚫🔤 🚫 🈲) → 🚫📬
+        𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "🐈🐾 𓃠\n"}, 𓅔)
         assert 𓊾.returncode == 0 and not 𓊨.exists()
-        # 🗣️🔤×4 → ✍️📬  (`session_id` 𓂀 🚿 → `0`)
+        # 🌊✂️🩹 : `meow` 🔪 `me`+`ow~` → 📬 ✍️ → 🔗↩️ `meow~` → 🔢 0 → 🤫  (🚫👻😾 ‼️)
+        𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "me"}, 𓅔)
+        𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "ow~ 🐈\n"}, 𓅔)
+        𓊾 = 𓇁(".claude/𓊕𓆓.py", {"session_id": "𓏤", "tool_name": "Bash"}, 𓅔)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "" and not 𓊨.exists()
+        # 🗣️🔤×5 → ✍️📬 🖊️  (🔤 → ✍️)
         𓊾 = 𓇁(".claude/𓆓𓁐.py", {"session_id": "𓏤", "delta": "I will check the tests\n"}, 𓅔)
         assert 𓊾.returncode == 0 and 𓊨.exists()
         # ➕ 🈲🔣×2 → 📬 ➕📄  (🥞)
@@ -1791,13 +1797,63 @@ def 𓊪𓊕𓆓():
         # 👴📬 >1🕐 → 🗑️  (👻 🍂)
         𓊨𓊨 = 𓊨.parent / "𓏥.jsonl"
         𓊨.parent.mkdir(parents=True, exist_ok=True)
-        𓊨𓊨.write_text('{"🗣️": 1, "🈲": 0}\n')
+        𓊨𓊨.write_text('{"🖊️": "x"}\n')
         os.utime(𓊨𓊨, (0, 0))
         𓊾 = 𓇁(".claude/𓊕𓆓.py", {"session_id": "𓏤"}, 𓅔)
         assert 𓊾.returncode == 0 and not 𓊨𓊨.exists()
         # 🙀 📥💔 → 🤫 + 0️⃣
         𓊾 = 𓇁(".claude/𓊕𓆓.py", "🙀🚫json", 𓅔)
         assert 𓊾.returncode == 0 and 𓊾.stdout == ""
+
+
+def 𓊪𓋴𓅱():
+    # 🪝 `PreToolUse` 🐈👅🛂 : `Bash` `# 💬` · 🐙 `title`/`body`/`message` → 🗣️🔤/🈲 → 📢😾 `additionalContext`
+    #   🛡️🥇 ‼️ : 🚫 `deny` 🚫🧱 (exit 0 ∀) · 🚫 `permissionDecision` (👴 🚦 𓋴𓆓 🗿)
+    def 𓇀(𓆼, 𓂭=None):
+        return subprocess.run(
+            [sys.executable, ".claude/𓋴𓅱.py"],
+            input=json.dumps({"tool_name": 𓆼, "tool_input": 𓂭 or {}}),
+            capture_output=True, text=True, timeout=30,
+        )
+    # 🐈👅 ✅ → 🤫  (🐈💬 · `gh` 🚫`#💬` 🙈 · 🐈 `body` · 🀫🔧)
+    for 𓆼, 𓂭 in (
+        ("Bash", {"command": "# meow prrr\ngh pr create"}),
+        ("Bash", {"command": "gh pr create --title 🐈"}),
+        ("mcp__github__add_issue_comment", {"body": "🐈 prrr~ 𓃠"}),
+        ("Read", {"file_path": "🐈.py"}),
+        ("Grep", {"pattern": "the"}),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "", (𓆼, 𓂭)
+    # 🗣️🔤 → WARN `additionalContext` , 🚫 `permissionDecision` , exit 0  (🚫🧱)
+    for 𓆼, 𓂭, 𓊰 in (
+        ("Bash", {"command": "ls  # check the tests"}, "🗣️🔤×3"),
+        ("mcp__github__issue_write", {"title": "fix the bug", "body": "🐈"}, "🗣️🔤×3"),
+        ("mcp__github__create_pull_request", {"title": "🐈", "body": "this is english"}, "🗣️🔤×3"),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0, (𓆼, 𓂭)
+        𓂯 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+        assert 𓂯["hookEventName"] == "PreToolUse"
+        assert "additionalContext" in 𓂯 and "permissionDecision" not in 𓂯, 𓆼   # 🚫🧱 ‼️
+        assert 𓊰 in 𓂯["additionalContext"] and "😾" in 𓂯["additionalContext"], 𓆼
+    # 🈲🔣 (🏳️🌐) `body` → 🙊 WARN  (🐍 chr() → 📄🏠 ⬜📜)
+    𓆍 = chr(0x4E2D) + chr(0x6587)
+    𓂯 = json.loads(𓇀("mcp__github__add_issue_comment",
+                      {"body": 𓆍 + " 🐈"}).stdout)["hookSpecificOutput"]
+    assert "🈲🔣×2🙊" in 𓂯["additionalContext"] and "permissionDecision" not in 𓂯
+    # 🐙 🪺 `body` (list) → 🌀🚶 👀
+    𓂯 = json.loads(𓇀("mcp__github__pull_request_review_write",
+                      {"comments": [{"body": "bad english here"}]}).stdout)["hookSpecificOutput"]
+    assert "🗣️🔤" in 𓂯["additionalContext"]
+    # 🚫🧱 🔒 : 💀🔧 (`rm`) 🚫 `body` → 🤫  (🚫⛔ ; 👴🚦 𓋴𓆓 🀄 ⊥)
+    assert 𓇀("Bash", {"command": "rm -rf x"}).stdout == ""
+    # 📥💔 (🚫 `json`) → 🤐 + exit 0
+    𓊿 = subprocess.run(
+        [sys.executable, ".claude/𓋴𓅱.py"],
+        input="🙀🚫json", capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊿.returncode == 0 and 𓊿.stdout == ""
 
 
 def 𓊪𓅗():
@@ -2295,7 +2351,7 @@ def 𓊪𓆵𓊾():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺, 𓊪𓊆𓂺𓅘,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
      𓊪𓅘, 𓊪𓅘𓆑,
      𓊪𓋝, 𓊪𓆵𓋝,
      𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓋺, 𓊪𓆵𓉏, 𓊪𓆵𓊾]
