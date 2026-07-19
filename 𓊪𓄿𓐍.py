@@ -1926,6 +1926,21 @@ def 𓊪𓅗():
     assert "LICENSE".isupper() and "YYYYMMDD".isupper()
 
 
+def 𓊪𓊓𓆊():
+    # ⏱️👻 🙈 🪞 (#91 🩹) :  🎣🙈 📂 (`.claude/📬/` 🪝📭 · `worktrees` · `*.lock`)
+    #   `rglob` 👀 👻 → 🀫🔍💥 🩹 → ∀3🚶 (𓉗𓆑 · 𓅗𓆑 · 𓉐𓆑) 🤝 🙈
+    𓅘 = chr(0x1F4EC)                                  # 📬
+    for 𓉏 in (".claude/" + 𓅘 + "/a4da84d9.jsonl",
+               ".claude/worktrees/agent-x/𓉔𓊵.py",
+               ".claude/scheduled_tasks.lock", "𓆓.lock",
+               ".claude/sub/deep.lock"):
+        assert 𓆧.𓊓𓆊.match(𓉏), 𓉏
+    # 🚫🙈 : 🐈📄 🀄 → 🚫 🎣
+    for 𓉏 in ("𓂀.md", ".claude/agents/meow.md", ".claude/𓆓𓁐.py",
+               "𓃠𓐍𓅓/𓉔𓊵.py", "𓊪locked.md"):
+        assert not 𓆧.𓊓𓆊.match(𓉏), 𓉏
+
+
 def 𓊪𓅗𓆑():
     # 🚧 🗣️🔤 🔫 :  🗣️ 💉 → 💥 1️⃣  ·  🐈👅 🈵 → 🟩 0️⃣  ·  🙈 🐈📜 → 🚫💥
     # 🐈👅 🈵 ↔️ → 🟩
@@ -2401,7 +2416,7 @@ def 𓊪𓆵𓊾():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺, 𓊪𓊆𓂺𓅘,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓋴𓅱𓎗, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓋴𓅱𓎗, 𓊪𓊓𓆊, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
      𓊪𓅘, 𓊪𓅘𓆑,
      𓊪𓋝, 𓊪𓆵𓋝,
      𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓋺, 𓊪𓆵𓉏, 𓊪𓆵𓊾]

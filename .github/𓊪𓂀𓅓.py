@@ -16,6 +16,10 @@ import sys
 import tokenize
 import unicodedata
 
+#  🙈 ⏱️👻  —  🎣🙈 📂 (🚚 🀄 , `rglob` 👀 👻 → 🀫🔍💥 🩹)  ∀3🚶 🤝
+#    `.claude/worktrees/` = 👯🐈🛖  ·  `.claude/📬/` = 🪝📭 (#91)  ·  `*.lock` = ⏲️🔒
+𓊓𓆊 = re.compile(r"^\.claude/(?:worktrees|📬)/|(?:.*/)?[^/]*\.lock$")
+
 #  🐈🗣️  —  ASCII 🆗  (𓂺 👀)   ·   🔁 🀄  (🪞🔒 ≡ `𓃠𓊍` `.claude/𓆓𓁐.py` #70 ; `meoooow` = `meow`)
 #  ⏮️ 🌊↔️ ✂️ #70-🥈 : `yowl` `trill` `chirr` = 🗣️🇺🇲 🕳️ → 🚮
 𓊞 = {
@@ -86,7 +90,7 @@ def 𓉗𓆑():
             continue
         if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
             continue
-        if 𓉗𓆊.match(𓊨.as_posix()):
+        if 𓉗𓆊.match(𓊨.as_posix()) or 𓊓𓆊.match(𓊨.as_posix()):
             continue
         try:
             𓆼 = 𓊨.read_text(encoding="utf-8")
@@ -164,7 +168,7 @@ def 𓅗𓆑():
         if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
             continue
         𓉐 = 𓊨.as_posix()
-        if 𓉐 in 𓅗𓁹 or 𓅗𓆊.match(𓉐):
+        if 𓉐 in 𓅗𓁹 or 𓅗𓆊.match(𓉐) or 𓊓𓆊.match(𓉐):
             continue
         for 𓅲, 𓅓 in 𓅗(𓊨):
             𓅾.append((𓉐, 𓅲, "😾 " + 𓅓))
@@ -188,7 +192,7 @@ def 𓉐𓆑():
         if ".git" in 𓊨.parts or "__pycache__" in 𓊨.parts:
             continue
         𓉐 = 𓊨.as_posix()
-        if 𓊨.name in 𓉐𓁹 or 𓉐𓆊.match(𓉐):
+        if 𓊨.name in 𓉐𓁹 or 𓉐𓆊.match(𓉐) or 𓊓𓆊.match(𓉐):
             continue
         𓉔 = 𓊨.stem
         if 𓉔 in 𓊵𓅗:                       # `__init__` `__main__` = 🐍 🔑 📛
