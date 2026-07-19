@@ -1906,6 +1906,54 @@ def 𓊪𓋴𓅱𓎗():
     assert 𓊿.returncode == 0 and 𓊿.stdout == ""
 
 
+def 𓊪𓋴𓅱𓎗𓊵():
+    # 🪝 `PreToolUse` 🐈👅🛂 — 👤📨 + `Monitor` (#119) :
+    #   `AskUserQuestion` (❓/🔘/📝) · 📳 (`Notif`/`PushNotification`) · ⏰ (`Schedule*`/`send_later`)
+    #   · `Monitor` `# 💬` ≡ `Bash` 🪞 · 🐈👅✅/🀫🔧/📥💔 → 🤐 · 🚫🧱 (🚫 `permissionDecision`) ∀
+    def 𓇀(𓆼, 𓂭):
+        return subprocess.run(
+            [sys.executable, ".claude/𓋴𓅱.py"],
+            input=json.dumps({"tool_name": 𓆼, "tool_input": 𓂭}),
+            capture_output=True, text=True, timeout=30,
+        )
+    # 🤫 : 🐈👅 ∀ (❓🪺🔘 · 📳 · ⏰ · `Monitor` 💬 · 🀫🔧 = `answers` ∅📛)
+    for 𓆼, 𓂭 in (
+        ("AskUserQuestion", {"questions": [{
+            "question": "🍽️❓", "header": "🍱",
+            "options": [{"label": "🐟", "description": "🐟🍣"},
+                        {"label": "🥩", "description": "🥩🍖"}]}]}),
+        ("PushNotification", {"message": "🐾✅ 🚛 ⛙", "title": "🐈"}),
+        ("mcp__x__PushNotification", {"message": "🐾✅ prrr"}),
+        ("ScheduleWakeup", {"reason": "🔁🔔 ⏰", "prompt": "🐾🏗️➡️"}),
+        ("mcp__cc__send_later", {"message": "🔁🔔", "delay_minutes": 60}),
+        ("Monitor", {"command": "ls 📂  # 🐈👀"}),
+        ("AskUserQuestion", {"questions": [{"question": "🐾", "header": "🐈",
+                                            "options": [{"label": "😺", "description": "prrr"}]}]}),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "", (𓆼, 𓂭)
+    # 🗣️🔤 → 📢😾 WARN , 🚫 `permissionDecision` , exit 0  (🚫🧱)
+    for 𓆼, 𓂭, 𓊰 in (
+        ("AskUserQuestion", {"questions": [{
+            "question": "pick your favorite food option now", "header": "food",
+            "options": [{"label": "fish", "description": "raw fish here"}]}]}, "🗣️🔤"),
+        ("PushNotification", {"message": "the build has finished now", "title": "done"}, "🗣️🔤"),
+        ("ScheduleWakeup", {"reason": "waiting for the next cycle", "prompt": "🔁"}, "🗣️🔤"),
+        ("mcp__cc__send_later", {"message": "check the pull request again please"}, "🗣️🔤"),
+        ("Monitor", {"command": "ls  # wait until build finished here"}, "🗣️🔤"),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0, (𓆼, 𓂭)
+        𓂯 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+        assert 𓂯["hookEventName"] == "PreToolUse"
+        assert "additionalContext" in 𓂯 and "permissionDecision" not in 𓂯, 𓆼   # 🚫🧱 ‼️
+        assert 𓊰 in 𓂯["additionalContext"] and "😾" in 𓂯["additionalContext"], 𓆼
+    # 🈲🔣 (CJK) @ 👤📨 → 📢  (❓ 📝 🈵🀫 = 🗣️🔤 ➕ 🈲)
+    𓆍 = chr(0x4E2D) + chr(0x6587)
+    𓂯 = json.loads(𓇀("PushNotification", {"message": "x " + 𓆍}).stdout)["hookSpecificOutput"]
+    assert "🈲🔣×2🙊" in 𓂯["additionalContext"] and "permissionDecision" not in 𓂯
+
+
 def 𓊪𓅗():
     # 🚧 🗣️🔤  (#45 🐾5️⃣ , 🔒) :  💬🐍 + 📜📄 → 🗣️ 👀
     #   🙈-🆓 : `…` · 🔗 · 📁 · U+ · ⏫🔤 · 🐍 🔑/🏦 · 🐈🗣️ (🔁 🀄) · `#!`
@@ -2416,7 +2464,7 @@ def 𓊪𓆵𓊾():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺, 𓊪𓊆𓂺𓅘,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓋴𓅱𓎗, 𓊪𓊓𓆊, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓋴𓅱𓎗, 𓊪𓋴𓅱𓎗𓊵, 𓊪𓊓𓆊, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
      𓊪𓅘, 𓊪𓅘𓆑,
      𓊪𓋝, 𓊪𓆵𓋝,
      𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓋺, 𓊪𓆵𓉏, 𓊪𓆵𓊾]

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # 🪝 `PreToolUse` — 🐈👅 🛂 : 🔧📥 🀫 → 🗣️🔤/🈲 👀 → 📢😾 WARN ☝️  (⚔️ `Stop` 🕘 : 🔧⏮️ 📢)
-#   🀫 : `Bash` `# 💬` (💬 ☝️ — 🚫 `gh` 🏦 : `gh pr create` 🚫👻) · 🐙 `mcp__github*` `title`/`body`/`message` 🀫📛
+#   🀫 : `Bash`/`Monitor` `# 💬` (💬 ☝️ — 🚫 `gh` 🏦 : `gh pr create` 🚫👻) · 🐙 `mcp__github*` `title`/`body`/`message` 🀫📛
 #        · `Write`/`Edit`/`MultiEdit` `content`/`new_string` (💾♾️ 🀄 : 🔨→⛙→`meow` ♾️ ; #115)
+#        · 👤📨 : `AskUserQuestion` (`question`/`header`/`label`/`description`) · 📳 (`Notif`/`PushNotification`) · ⏰ (`Schedule*`/`send_later` : `reason`/`message`/`prompt`) ; #119
 #   🐍🀫💥🛡️ ‼️ : `Write` 📜(`.md`) → 🈵 (🗣️🔤+🈲) · 🐍/🀫 → 🈲🔣 ☝️ (🔑/ASCII 📛 → 🚫🗣️🔤 → 🚫🀫💥)
 #   🆓🛂 : `.claude/agents/*.md` (🧬 = 🙋👑 📄) · `LICENSE` (👴 🚫∆) → 🚫👀
 #   🛡️🥇 ‼️ : 🚫 `deny` · 🚫🧱 (🀄🐛🪝 → ∀🔧🧱 = 🀫💥 ☠️) → `additionalContext` ☝️ , `exit` 0️⃣ ∀
@@ -25,21 +26,27 @@ import sys
 𓋴𓊫 = frozenset({"title", "body", "message"})   # 🐙 🀫📛 : 📜 ☝️  (🚫 `content`/`path` 🀫🐍)
 𓋴𓋆 = re.compile(r"(?m)(?:^|\s)#(.*)$")           # `# 💬` ✂️  (`Bash` 🀫 ☝️ — 🚫 🏦 : `#🔢`→🔢🚫👻)
 𓋴𓎉 = frozenset({"Write", "Edit", "MultiEdit"})   # 💾♾️ 🀄 (#115)
+# 👤📨 🀫📛 (#119) : ❓🔘 (`AskUserQuestion`) · 📳 (`message`/`title`/`body`/`subtitle`) · ⏰ (`reason`/`prompt`)
+𓋴𓊫𓁐 = frozenset({
+    "question", "header", "label", "description",
+    "message", "title", "body", "subtitle", "reason", "prompt",
+})
+𓋴𓃰 = re.compile(r"Notif|Schedule|send_later")   # 📳/⏰ 🔧📛 🔤⊂ 🛡️  (🤏🔧 ∅ → 🌀🚶 ∅ → 🤐)
 # 🆓🛂 : 🧬 DNA (`.claude/agents/*.md`) · `LICENSE`  (👤📄 — 🐈🚫🖐️ ; 🚫👀)
 𓋴𓁋𓁋 = re.compile(r"(?:^|/)\.claude/agents/[^/]*\.md$|(?:^|/)LICENSE$")
 
 
-def 𓋴𓅗(𓂏, 𓊾: list) -> None:
-    # 🌀🚶 : 🀫📛 (`title`/`body`/`message`) → 📜  (🐙 🪺 `body` ✅)
+def 𓋴𓅗(𓂏, 𓊾: list, 𓅆: frozenset = 𓋴𓊫) -> None:
+    # 🌀🚶 : 🀫📛 (𓅆 ⊂ `title`/`body`/`message`/❓/🔘/⏰…) → 📜  (🐙 🪺 `body` · ❓ 🪺 `options[].label` ✅)
     if isinstance(𓂏, dict):
         for 𓅕, 𓆿 in 𓂏.items():
-            if 𓅕 in 𓋴𓊫 and isinstance(𓆿, str):
+            if 𓅕 in 𓅆 and isinstance(𓆿, str):
                 𓊾.append(𓆿)
             else:
-                𓋴𓅗(𓆿, 𓊾)
+                𓋴𓅗(𓆿, 𓊾, 𓅆)
     elif isinstance(𓂏, list):
         for 𓆿 in 𓂏:
-            𓋴𓅗(𓆿, 𓊾)
+            𓋴𓅗(𓆿, 𓊾, 𓅆)
 
 
 def 𓋴𓊙(𓂭: dict, 𓊾𓏤: list, 𓊾𓎼: list) -> None:
@@ -62,15 +69,18 @@ def 𓋴𓊙(𓂭: dict, 𓊾𓏤: list, 𓊾𓎼: list) -> None:
 
 def 𓋴𓄲(𓆼: str, 𓂭: dict) -> tuple:
     # 🔧📥 → (🈵🀫[🗣️🔤+🈲] , 🐍🀫[🈲 ☝️])
-    #   `Bash` `# 💬` · 🐙 `title`/`body`/`message` · 💾♾️ `content`/`new_string` · 🀫🔧 → ∅
+    #   `Bash`/`Monitor` `# 💬` · 🐙 `title`/`body`/`message` · 💾♾️ `content`/`new_string`
+    #   · 👤📨 (`AskUserQuestion`·📳·⏰) 🀫📛 (𓋴𓊫𓁐) · 🀫🔧 → ∅
     𓂭 = 𓂭 or {}
     𓊾𓏤, 𓊾𓎼 = [], []
-    if 𓆼 == "Bash":
+    if 𓆼 in ("Bash", "Monitor"):
         𓊾𓏤 += 𓋴𓋆.findall(𓂭.get("command", "") or "")
     elif 𓆼.startswith("mcp__github"):
         𓋴𓅗(𓂭, 𓊾𓏤)
     elif 𓆼 in 𓋴𓎉:
         𓋴𓊙(𓂭, 𓊾𓏤, 𓊾𓎼)
+    elif 𓆼 == "AskUserQuestion" or 𓋴𓃰.search(𓆼):
+        𓋴𓅗(𓂭, 𓊾𓏤, 𓋴𓊫𓁐)   # 👤📨 : 🈵🀫 (🗣️🔤+🈲) — 👤👀 📜 = 🐈👅 ✅
     return 𓊾𓏤, 𓊾𓎼
 
 
