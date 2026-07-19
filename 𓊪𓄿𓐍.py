@@ -1856,6 +1856,56 @@ def 𓊪𓋴𓅱():
     assert 𓊿.returncode == 0 and 𓊿.stdout == ""
 
 
+def 𓊪𓋴𓅱𓎗():
+    # 🪝 `PreToolUse` 🐈👅🛂 — 💾♾️ `Write`/`Edit`/`MultiEdit` (#115) :
+    #   📜(`.md`) → 🈵 (🗣️🔤+🈲) · 🐍/🀫 → 🈲🔣 ☝️ (🔑/ASCII 📛 → 🚫🀫💥) · 🆓🛂 🧬+`LICENSE` · 🚫🧱 ∀
+    def 𓇀(𓆼, 𓂭):
+        return subprocess.run(
+            [sys.executable, ".claude/𓋴𓅱.py"],
+            input=json.dumps({"tool_name": 𓆼, "tool_input": 𓂭}),
+            capture_output=True, text=True, timeout=30,
+        )
+    # 🤫 : 🐈👅 📜 · 🐍 🔑/📛 (🚫🀫💥) · 🆓🛂 (🧬 · `LICENSE` · 🪺 `LICENSE`) · 🀫🔧
+    for 𓆼, 𓂭 in (
+        ("Write", {"file_path": "x.md", "content": "🐈 prrr 𓃠 meow"}),
+        ("Write", {"file_path": "𓉔𓊵.py",
+                   "content": "def 𓋹():\n    import os\n    return sorted([1])  # 🐾"}),
+        ("Edit", {"file_path": "𓉔.py", "old_string": "𓋹", "new_string": "𓋹 = None  # 🐈"}),
+        ("Write", {"file_path": ".claude/agents/meow.md", "content": "add the feature here now"}),
+        ("Write", {"file_path": "LICENSE", "content": "MIT License copyright holder"}),
+        ("Write", {"file_path": "sub/LICENSE", "content": "english license text here"}),
+        ("Read", {"file_path": "english.py"}),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0 and 𓊾.stdout == "", (𓆼, 𓂭)
+    # 🗣️🔤 📜(`.md`) → 📢😾 WARN , 🚫 `permissionDecision` , exit 0  (🚫🧱)
+    for 𓆼, 𓂭, 𓊰 in (
+        ("Write", {"file_path": "a.md", "content": "add the feature here"}, "🗣️🔤×4"),
+        ("Edit", {"file_path": "a.md", "old_string": "🐈",
+                  "new_string": "replace english words now"}, "🗣️🔤×4"),
+        ("MultiEdit", {"file_path": "a.md", "edits": [
+            {"old_string": "🐈", "new_string": "🐈 ok"},
+            {"old_string": "x", "new_string": "english leak here"}]}, "🗣️🔤×4"),
+    ):
+        𓊾 = 𓇀(𓆼, 𓂭)
+        assert 𓊾.returncode == 0, (𓆼, 𓂭)
+        𓂯 = json.loads(𓊾.stdout)["hookSpecificOutput"]
+        assert 𓂯["hookEventName"] == "PreToolUse"
+        assert "additionalContext" in 𓂯 and "permissionDecision" not in 𓂯, 𓆼   # 🚫🧱 ‼️
+        assert 𓊰 in 𓂯["additionalContext"] and "😾" in 𓂯["additionalContext"], 𓆼
+    # 🈲🔣 (CJK) @ 🐍 → 📢  (🐍 🀫 → 🈲 ☝️ , 🔑/📛 🚫🗣️🔤 → 🚫🀫💥)
+    𓆍 = chr(0x4E2D) + chr(0x6587)
+    𓂯 = json.loads(𓇀("Write", {"file_path": "𓉔𓊵.py",
+                                 "content": "x = 1  # " + 𓆍}).stdout)["hookSpecificOutput"]
+    assert "🈲🔣×2🙊" in 𓂯["additionalContext"] and "permissionDecision" not in 𓂯
+    # 📥💔 (🚫 `json`) → 🤐 + exit 0
+    𓊿 = subprocess.run(
+        [sys.executable, ".claude/𓋴𓅱.py"],
+        input="🙀🚫json", capture_output=True, text=True, timeout=30,
+    )
+    assert 𓊿.returncode == 0 and 𓊿.stdout == ""
+
+
 def 𓊪𓅗():
     # 🚧 🗣️🔤  (#45 🐾5️⃣ , 🔒) :  💬🐍 + 📜📄 → 🗣️ 👀
     #   🙈-🆓 : `…` · 🔗 · 📁 · U+ · ⏫🔤 · 🐍 🔑/🏦 · 🐈🗣️ (🔁 🀄) · `#!`
@@ -2351,7 +2401,7 @@ def 𓊪𓆵𓊾():
      𓊪𓎋, 𓊪𓎌, 𓊪𓎍, 𓊪𓎎, 𓊪𓋱, 𓊪𓋲,
      𓊪𓎏, 𓊪𓎏𓊪𓏰, 𓊪𓊪𓏰𓋠,
      𓊪𓊆, 𓊪𓊆𓄊, 𓊪𓊆𓂺, 𓊪𓊆𓂺𓅘,
-     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
+     𓊪𓆓, 𓊪𓆓𓅂, 𓊪𓆓𓂭, 𓊪𓆓𓉗, 𓊪𓆓𓉗𓋆, 𓊪𓆓𓉗𓏤, 𓊪𓆓𓉗𓂭, 𓊪𓊗, 𓊪𓊕𓆓, 𓊪𓋴𓆓, 𓊪𓋴𓅱, 𓊪𓋴𓅱𓎗, 𓊪𓅗, 𓊪𓅗𓆑, 𓊪𓉗𓆑, 𓊪𓊞𓊍,
      𓊪𓅘, 𓊪𓅘𓆑,
      𓊪𓋝, 𓊪𓆵𓋝,
      𓊪𓆵𓊆, 𓊪𓆵𓈎, 𓊪𓆵𓋴, 𓊪𓆵𓅓, 𓊪𓆵𓋊, 𓊪𓆵𓊃, 𓊪𓆵𓋱, 𓊪𓆵𓃰, 𓊪𓆵𓋺, 𓊪𓆵𓉏, 𓊪𓆵𓊾]
